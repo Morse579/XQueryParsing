@@ -12,31 +12,31 @@ ap:
 
 //relative path
 rp:
-	  tagName			 # RpTagName
-	| '*'         		 # RpChildren
-	| '.'     			 # RpCurrent
-	| '..'    			 # RpParent
-	| 'text()'  		 # RpText
-	| '@' attName 		 # RpAttName
-	| '(' rp ')'         # Rp
-	| rp '/' rp          # Rp
-	| rp '//' rp         # Rp
-	| rp '[' filter ']'  # Rp
-	| rp ',' rp          # Rp
+	  tagName				# RpTagName
+	| '*'					# RpChildren
+	| '.'					# RpCurrent
+	| '..'					# RpParent
+	| 'text()'				# RpText
+	| '@' attName			# RpAttName
+	| '(' rp ')'			# Rp
+	| rp '/' rp				# Rp
+	| rp '//' rp			# Rp
+	| rp '[' filter ']'		# Rp
+	| rp ',' rp				# Rp
 	;
 
 //path filter
 filter:
 	  rp
-	| rp '=' rp 				# FilterEq
-	| rp 'eq' rp 				# FilterEq
-	| rp '==' rp 				# FilterIs
-	| rp 'is' rp 				# FilterIs
-	| rp '=' StringConstant 	# FilterEqConst
-	| '(' filter ')' 			# FilterParentheses
-	| filter 'and' filter 		# FilterAnd
-	| filter 'or' filter 		# FilterOr
-	| 'not' filter 				# FilterNot
+	| rp '=' rp					# FilterEq
+	| rp 'eq' rp				# FilterEq
+	| rp '==' rp				# FilterIs
+	| rp 'is' rp				# FilterIs
+	| rp '=' StringConstant		# FilterEqConst
+	| '(' filter ')'			# FilterParentheses
+	| filter 'and' filter		# FilterAnd
+	| filter 'or' filter		# FilterOr
+	| 'not' filter				# FilterNot
 	;
 	
 /*TOKENS*/
