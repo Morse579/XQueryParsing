@@ -40,9 +40,9 @@ filter:
 	;
 	
 /*TOKENS*/
-fileName : (Letter | Digit | '_' | '.')*  
-tagName : (Letter | Digit | '_' | '.')*  
-attName : (Letter | Digit | '_' | '.')*  
+fileName : (Letter | Digit | '_' | '.')*;  
+tagName : (Letter | Digit | '_' | '.')*;  
+attName : (Letter | Digit | '_' | '.')*;  
 StringConstant : '"' [_A-Za-z0-9.!, ?:;]* '"';
 	
 Letter: [a-zA-Z];
