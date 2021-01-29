@@ -9,14 +9,15 @@ import org.w3c.dom.*;
 public class MyXPathVisitor extends XPathBaseVisitor<ArrayList<Node>> {
     ArrayList<Node> currentNodes = new ArrayList<>();
 
-
+    //
     @Override
     public ArrayList<Node> visitFileName(XPathParser.FileNameContext ctx) {
         //Visit the children of a node, and return a user-defined result of the operation.
         //https://www.antlr.org/api/Java/org/antlr/v4/runtime/tree/ParseTreeVisitor.html#visit(org.antlr.v4.runtime.tree.ParseTree)
         return visitChildren(ctx);
     }
-
+    
+    //ap doc(fileName)/rp
     @Override
     public ArrayList<Node> visitApRoot(XPathParser.ApRootContext ctx) {
         //use visitFileName() to jump from root to current level
@@ -30,6 +31,7 @@ public class MyXPathVisitor extends XPathBaseVisitor<ArrayList<Node>> {
     }
 
     //FIXME
+  //ap doc(fileName)//rp
     @Override
     public ArrayList<Node> visitApCurrent(XPathParser.ApCurrentContext ctx) {
         ArrayList<Node> result = new ArrayList<>();
@@ -56,6 +58,8 @@ public class MyXPathVisitor extends XPathBaseVisitor<ArrayList<Node>> {
         return new_result;
     }
 
+    //rp: ..
+    //a singleton list containing the parent of element node n
     @Override
     public ArrayList<Node> visitRpParent(XPathParser.RpParentContext ctx) {
         ArrayList<Node> res = new ArrayList<>();
@@ -85,6 +89,7 @@ public class MyXPathVisitor extends XPathBaseVisitor<ArrayList<Node>> {
         return res;
     }
 
+    //rp: @attName
     @Override
     public ArrayList<Node> visitRpAttName(XPathParser.RpAttNameContext ctx) {
         ArrayList<Node> res = new ArrayList<>();
@@ -102,6 +107,8 @@ public class MyXPathVisitor extends XPathBaseVisitor<ArrayList<Node>> {
     }
 
     //FIXME!
+    //rp: . 
+    //the singleton list with unique entry e
     @Override
     public ArrayList<Node> visitRpCurrent(XPathParser.RpCurrentContext ctx) {  // ----- (//)
         ArrayList<Node> res0 = new ArrayList<>();
@@ -128,6 +135,8 @@ public class MyXPathVisitor extends XPathBaseVisitor<ArrayList<Node>> {
         return result;
     }
 
+    //rp: text()
+    //the text node associated to element node n
     @Override
     public ArrayList<Node> visitRpText(XPathParser.RpTextContext ctx) {
         //to extract all text node under current nodes
@@ -147,6 +156,8 @@ public class MyXPathVisitor extends XPathBaseVisitor<ArrayList<Node>> {
 
     }
 
+    //rp: tagName
+    //all children of current node with tagName c
     @Override
     public ArrayList<Node> visitRpTagName(XPathParser.RpTagNameContext ctx) {
         ArrayList<Node> res = new ArrayList<>();
