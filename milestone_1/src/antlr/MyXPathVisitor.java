@@ -3,21 +3,12 @@ package antlr;
 import java.util.*;
 import java.io.*;
 
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Attr;
+import org.w3c.dom.*;
 
-/*
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import org.w3c.dom.Document;
-*/
 
 public class MyXPathVisitor extends XPathBaseVisitor<ArrayList<Node>> {
     ArrayList<Node> currentNodes = new ArrayList<>();
+
 
     @Override
     public ArrayList<Node> visitFileName(XPathParser.FileNameContext ctx) {
@@ -28,32 +19,38 @@ public class MyXPathVisitor extends XPathBaseVisitor<ArrayList<Node>> {
 
     @Override
     public ArrayList<Node> visitApRoot(XPathParser.ApRootContext ctx) {
-        ArrayList<Node> ans;
-        visit(ctx.fileName());//== call visitFileName()?
-        ans = visit(ctx.rp());//== call visitRpCurrent()?
+        //use visitFileName() to jump from root to current level
+        visit(ctx.fileName());
+
+        //then use visitRpCurrent() to jump to target relative path
+        ArrayList<Node> ans = visit(ctx.rp());
+
         currentNodes = ans;
         return ans;
     }
 
+    //FIXME
     @Override
     public ArrayList<Node> visitApCurrent(XPathParser.ApCurrentContext ctx) {
         ArrayList<Node> result = new ArrayList<>();
         Queue<Node> queue = new LinkedList<>();
-
-        visit(ctx.fileName());
         result.addAll(currentNodes);
         queue.addAll(currentNodes);
+
+        //jump from root to current level
+        visit(ctx.fileName());
+
         while (!queue.isEmpty()) {
-            Node cur = queue.poll();
-            NodeList cur_node_child = cur.getChildNodes();
-            for (int i = 0; i < cur_node_child.getLength(); i++) {
-                result.add(cur_node_child.item(i));
+            Node headNode = queue.poll();
+            NodeList headNode_children = headNode.getChildNodes();
+            for (int i = 0; i < headNode_children.getLength(); i++) {
+                result.add(headNode_children.item(i));
                 //inserts the specified element into this queue if it is possible to do so immediately
                 //without violating capacity restrictions
-                queue.offer(cur_node_child.item(i));
+                queue.add(headNode_children.item(i));
             }
         }
-        //unique(result);
+
         currentNodes = result;
         ArrayList<Node> new_result = visit(ctx.rp());
         return new_result;
@@ -61,62 +58,71 @@ public class MyXPathVisitor extends XPathBaseVisitor<ArrayList<Node>> {
 
     @Override
     public ArrayList<Node> visitRpParent(XPathParser.RpParentContext ctx) {
-        ArrayList<Node> ans = new ArrayList<>();
+        ArrayList<Node> res = new ArrayList<>();
+        ArrayList<Node> tmp = new ArrayList<>();
 
-        for (Node node : currentNodes) {
+        for (Node n : currentNodes) {
             Node parent = null;
-            if (node.getNodeType() == Node.ATTRIBUTE_NODE) {
-                parent = ((Attr) node).getOwnerElement();
+            //All nodes, except Attr, Document, DocumentFragment, Entity, and Notation may have a parent
+            if (n.getNodeType() == Node.ATTRIBUTE_NODE || n.getNodeType() == Node.DOCUMENT_FRAGMENT_NODE ||
+                    n.getNodeType() == Node.DOCUMENT_NODE || n.getNodeType() == Node.ENTITY_NODE ||
+                    n.getNodeType() == Node.NOTATION_NODE) {
+                //parent = the Element node this attribute is attached to == self or other Element nodes with this attr
+                parent = ((Attr) n).getOwnerElement();
             } else {
-                parent = node.getParentNode();
+                parent = n.getParentNode();
             }
-            if (!ans.contains(parent)) {
-                ans.add(parent);
+            tmp.add(parent);
+        }
+
+        for (Node n : tmp){
+            if (!res.contains(n)){
+                res.add(n);
             }
         }
-        currentNodes = ans;
-        return ans;
+
+        currentNodes = res;
+        return res;
     }
 
     @Override
     public ArrayList<Node> visitRpAttName(XPathParser.RpAttNameContext ctx) {
-        ArrayList<Node> result = new ArrayList<>();
-        for (Node node : currentNodes) {
-            Element element = (Element) node;
-
+        ArrayList<Node> res = new ArrayList<>();
+        for (Node n : currentNodes) {
+            Element element = (Element) n;
             if (element.hasAttributes()) {
-                NamedNodeMap map = element.getAttributes();
-                for (int i = 0; i < map.getLength(); i++) {
-                    result.add(map.item(i));
+                NamedNodeMap allAttrs = element.getAttributes();
+                for (int i = 0; i < allAttrs.getLength(); i++) {
+                    res.add(allAttrs.item(i));
                 }
             }
         }
-        currentNodes = new ArrayList<>(result);
-        return result;
+        currentNodes = res;
+        return res;
     }
 
+    //FIXME!
     @Override
     public ArrayList<Node> visitRpCurrent(XPathParser.RpCurrentContext ctx) {  // ----- (//)
-        //our RpCurrentContext class is different from the ref. Are we suppose to change it?
-        visit(ctx.rp(0));
-        ArrayList<Node> tempResult = new ArrayList<>();
+        ArrayList<Node> res0 = new ArrayList<>();
         Queue<Node> queue = new LinkedList<>();
-        tempResult.addAll(currentNodes);
+        res0.addAll(currentNodes);
         queue.addAll(currentNodes);
+
         while (!queue.isEmpty()) {
-            Node cur = queue.poll();
-            for (int i = 0; i < cur.getChildNodes().getLength(); i++) {
-                tempResult.add(cur.getChildNodes().item(i));
-                queue.offer(cur.getChildNodes().item(i));
+            Node working = queue.poll();
+            NodeList working_children = working.getChildNodes();
+            for (int i = 0; i < working_children.getLength(); i++) {
+                res0.add(working_children.item(i));
+                queue.add(working_children.item(i));
             }
         }
-        currentNodes = tempResult;
-        tempResult = visit(ctx.rp(1));
+        currentNodes = res0;
 
         ArrayList<Node> result = new ArrayList<>();
-        for (Node node : tempResult) {
-            if (!result.contains(node)) {
-                result.add(node);
+        for (Node n : res0) {
+            if (!result.contains(n)) {
+                result.add(n);
             }
         }
         return result;
@@ -124,20 +130,44 @@ public class MyXPathVisitor extends XPathBaseVisitor<ArrayList<Node>> {
 
     @Override
     public ArrayList<Node> visitRpText(XPathParser.RpTextContext ctx) {
-        ArrayList<Node> result = new ArrayList<>();
-        for (Node node : currentNodes) {
-            for (int i = 0; i < node.getChildNodes().getLength(); i++) {
-                Node cur = node.getChildNodes().item(i);
-                if (cur.getNodeType() == Node.TEXT_NODE && !cur.getNodeValue().isEmpty() && !cur.getNodeValue().equals("\n")) {
-                    result.add(cur);
+        //to extract all text node under current nodes
+        ArrayList<Node> res = new ArrayList<>();
+        for (Node n : currentNodes) {
+            NodeList n_childrens = n.getChildNodes();
+            for (int i = 0; i < n_childrens.getLength(); i++) {
+                Node working = n_childrens.item(i);
+                //to ensure the text nodes added in have valid content
+                if (working.getNodeType() == Node.TEXT_NODE && !working.getNodeValue().isEmpty() && !working.getNodeValue().equals("\n")) {
+                    res.add(working);
                 }
             }
         }
 
-        return result;
+        return res;
 
     }
 
+    @Override
+    public ArrayList<Node> visitRpTagName(XPathParser.RpTagNameContext ctx) {
+        ArrayList<Node> res = new ArrayList<>();
+        for(Node n : currentNodes){
+            NodeList n_childrens = n.getChildNodes();
+            //loop through all children of currentNodes to check if they have the tag
+            for(int i = 0; i < n_childrens.getLength(); i++) {
+                Node child = n_childrens.item(i);
+                if (child.getNodeType() == Node.ELEMENT_NODE) {
+                    Element child_to_ele = (Element) child;
+                    //child_to_ele.getTagName() returns a string
+                    //!!FIXME!need to extract ctx's tagname as a string
+                    if (child_to_ele.getTagName().equals(ctx.tagName())) {
+                        res.add(child);
+                    }
+                }
+            }
+        }
+        currentNodes = res;
+        return res;
+    }
 
 
 
