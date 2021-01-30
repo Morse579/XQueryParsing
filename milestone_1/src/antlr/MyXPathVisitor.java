@@ -1,5 +1,6 @@
 package antlr;
 
+import java.lang.reflect.Array;
 import java.util.*;
 import java.io.*;
 
@@ -10,12 +11,12 @@ public class MyXPathVisitor extends XPathBaseVisitor<ArrayList<Node>> {
     ArrayList<Node> currentNodes = new ArrayList<>();
 
     //
-    @Override
-    public ArrayList<Node> visitFileName(XPathParser.FileNameContext ctx) {
-        //Visit the children of a node, and return a user-defined result of the operation.
-        //https://www.antlr.org/api/Java/org/antlr/v4/runtime/tree/ParseTreeVisitor.html#visit(org.antlr.v4.runtime.tree.ParseTree)
-        return visitChildren(ctx);
-    }
+//    @Override
+//    public ArrayList<Node> visitFileName(XPathParser.FileNameContext ctx) {
+//        //Visit the children of a node, and return a user-defined result of the operation.
+//        //https://www.antlr.org/api/Java/org/antlr/v4/runtime/tree/ParseTreeVisitor.html#visit(org.antlr.v4.runtime.tree.ParseTree)
+//        return visitChildren(ctx);
+//    }
     
     //ap doc(fileName)/rp
     @Override
@@ -24,10 +25,10 @@ public class MyXPathVisitor extends XPathBaseVisitor<ArrayList<Node>> {
         visit(ctx.fileName());
 
         //then use visitRpCurrent() to jump to target relative path
-        ArrayList<Node> ans = visit(ctx.rp());
+        ArrayList<Node> res = visit(ctx.rp());
 
-        currentNodes = ans;
-        return ans;
+        currentNodes = res;
+        return res;
     }
 
     //FIXME
@@ -36,7 +37,6 @@ public class MyXPathVisitor extends XPathBaseVisitor<ArrayList<Node>> {
     public ArrayList<Node> visitApCurrent(XPathParser.ApCurrentContext ctx) {
         ArrayList<Node> result = new ArrayList<>();
         Queue<Node> queue = new LinkedList<>();
-        result.addAll(currentNodes);
         queue.addAll(currentNodes);
 
         //jump from root to current level
@@ -50,6 +50,7 @@ public class MyXPathVisitor extends XPathBaseVisitor<ArrayList<Node>> {
                 //inserts the specified element into this queue if it is possible to do so immediately
                 //without violating capacity restrictions
                 queue.add(headNode_children.item(i));
+                result.add(headNode_children.item(i));
             }
         }
 
@@ -63,28 +64,12 @@ public class MyXPathVisitor extends XPathBaseVisitor<ArrayList<Node>> {
     @Override
     public ArrayList<Node> visitRpParent(XPathParser.RpParentContext ctx) {
         ArrayList<Node> res = new ArrayList<>();
-        ArrayList<Node> tmp = new ArrayList<>();
-
-        for (Node n : currentNodes) {
-            Node parent = null;
-            //All nodes, except Attr, Document, DocumentFragment, Entity, and Notation may have a parent
-            if (n.getNodeType() == Node.ATTRIBUTE_NODE || n.getNodeType() == Node.DOCUMENT_FRAGMENT_NODE ||
-                    n.getNodeType() == Node.DOCUMENT_NODE || n.getNodeType() == Node.ENTITY_NODE ||
-                    n.getNodeType() == Node.NOTATION_NODE) {
-                //parent = the Element node this attribute is attached to == self or other Element nodes with this attr
-                parent = ((Attr) n).getOwnerElement();
-            } else {
-                parent = n.getParentNode();
-            }
-            tmp.add(parent);
-        }
-
-        for (Node n : tmp){
-            if (!res.contains(n)){
-                res.add(n);
+        for (Node n: currentNodes){
+            Node tempParent =  n.getParentNode();
+            if(tempParent != null && !res.contains(tempParent)){
+                res.add(tempParent);
             }
         }
-
         currentNodes = res;
         return res;
     }
@@ -93,10 +78,13 @@ public class MyXPathVisitor extends XPathBaseVisitor<ArrayList<Node>> {
     @Override
     public ArrayList<Node> visitRpAttName(XPathParser.RpAttNameContext ctx) {
         ArrayList<Node> res = new ArrayList<>();
+
         for (Node n : currentNodes) {
-            Element element = (Element) n;
-            if (element.hasAttributes()) {
-                NamedNodeMap allAttrs = element.getAttributes();
+            //NamedNodeMap getAttributes():
+            //A NamedNodeMap containing the attributes of this node (if it is an Element) or null otherwise.
+            Element n_to_ele = (Element) n;
+            if (n_to_ele.hasAttributes()) {
+                NamedNodeMap allAttrs = n_to_ele.getAttributes();
                 for (int i = 0; i < allAttrs.getLength(); i++) {
                     res.add(allAttrs.item(i));
                 }
@@ -106,11 +94,12 @@ public class MyXPathVisitor extends XPathBaseVisitor<ArrayList<Node>> {
         return res;
     }
 
-    //FIXME!
+    //TEST ME
     //rp: . 
     //the singleton list with unique entry e
     @Override
     public ArrayList<Node> visitRpCurrent(XPathParser.RpCurrentContext ctx) {  // ----- (//)
+        /*
         ArrayList<Node> res0 = new ArrayList<>();
         Queue<Node> queue = new LinkedList<>();
         res0.addAll(currentNodes);
@@ -133,6 +122,8 @@ public class MyXPathVisitor extends XPathBaseVisitor<ArrayList<Node>> {
             }
         }
         return result;
+        */
+        return currentNodes;
     }
 
     //rp: text()
@@ -143,15 +134,14 @@ public class MyXPathVisitor extends XPathBaseVisitor<ArrayList<Node>> {
         ArrayList<Node> res = new ArrayList<>();
         for (Node n : currentNodes) {
             NodeList n_childrens = n.getChildNodes();
-            for (int i = 0; i < n_childrens.getLength(); i++) {
-                Node working = n_childrens.item(i);
+            for (Node n_child : n_childrens) {
                 //to ensure the text nodes added in have valid content
-                if (working.getNodeType() == Node.TEXT_NODE && !working.getNodeValue().isEmpty() && !working.getNodeValue().equals("\n")) {
-                    res.add(working);
+                if (n_child.getNodeType() == Node.TEXT_NODE && !n_child.getTextContent() == null) {
+                    res.add(n_child);
                 }
             }
         }
-
+        currentNodes = res;
         return res;
 
     }
@@ -161,6 +151,7 @@ public class MyXPathVisitor extends XPathBaseVisitor<ArrayList<Node>> {
     @Override
     public ArrayList<Node> visitRpTagName(XPathParser.RpTagNameContext ctx) {
         ArrayList<Node> res = new ArrayList<>();
+
         for(Node n : currentNodes){
             NodeList n_childrens = n.getChildNodes();
             //loop through all children of currentNodes to check if they have the tag
@@ -168,9 +159,9 @@ public class MyXPathVisitor extends XPathBaseVisitor<ArrayList<Node>> {
                 Node child = n_childrens.item(i);
                 if (child.getNodeType() == Node.ELEMENT_NODE) {
                     Element child_to_ele = (Element) child;
-                    //child_to_ele.getTagName() returns a string
-                    //!!FIXME!need to extract ctx's tagname as a string
-                    if (child_to_ele.getTagName().equals(ctx.tagName())) {
+                    //ISSUE MIGHT OCCUR HERE
+                    //extract ctx's tagname as a string
+                    if (child_to_ele.getTagName().equals(ctx.getText())) {
                         res.add(child);
                     }
                 }
@@ -180,6 +171,65 @@ public class MyXPathVisitor extends XPathBaseVisitor<ArrayList<Node>> {
         return res;
     }
 
+    //all children of the currentNodes
+    @Override
+    public ArrayList<Node> visitRpChildren(XPathParser.RpChildrenContext ctx) {
+        //all children of the currentnodes
+        ArrayList<Node> res = new ArrayList<>();
+        for(Node n: currentNodes){
+            NodeList n_children = n.getChildNodes();
+            for(Node n_child : n_children){
+                if(n_child.getNodeType() == Node.ELEMENT_NODE || n_child.getNodeType() == Node.DOCUMENT_NODE){
+                    res.add(n_child);
+                }
+            }
+        }
+        currentNodes = res;
+        return res;
+    }
 
+    @Override
+    public ArrayList<Node> visitRpConcat (XPathParser.RpConcatContext ctx) {
+        ArrayList<Node> temp = new ArrayList<Node>(currentNodes);
+        //after visit currentNode will change?
+        ArrayList<Node> rp0 = visit(ctx.rp(0));
+        currentNodes = temp;//go back to original node
+        ArrayList<Node>  rp1 = visit(ctx.rp(1));
+        rp0.addAll(rp1);
+        currentNodes = rp0;
+        return rp0;
+    }
+
+    @Override
+    public ArrayList<Node> visitRpRoot (XPathParser.RpRootContext ctx) {
+        visit(ctx.rp(0));
+        ArrayList<Node> res = visit(ctx.rp(1));
+        currentNodes = res;
+        return res;
+    }
+    @Override
+    public ArrayList<Node> visitRpFilter (XPathParser.RpFilterContext ctx) {
+        visit(ctx.rp());
+        ArrayList<Node> temp = new ArrayList<>(currentNodes);
+        ArrayList<Node> res = new ArrayList<>();
+
+        for (Node n : temp) {
+            currentNodes = new ArrayList<>();
+            currentNodes.add(n);
+            ArrayList<Node> filter_res = visit(ctx.filter());
+            if (!filter_res.isEmpty()) {
+                res.add(n);
+            }
+        }
+
+        currentNodes = res;
+        return res;
+    }
+
+    @Override
+    public ArrayList<Node> visitRpPathNodes (XPathParser.RpPathNodesContext ctx) {
+        ArrayList<Node> res = visit(ctx.rp());
+        return res;
+    }
 
 }
