@@ -98,31 +98,7 @@ public class MyXPathVisitor extends XPathBaseVisitor<ArrayList<Node>> {
     //rp: . 
     //the singleton list with unique entry e
     @Override
-    public ArrayList<Node> visitRpCurrent(XPathParser.RpCurrentContext ctx) {  // ----- (//)
-        /*
-        ArrayList<Node> res0 = new ArrayList<>();
-        Queue<Node> queue = new LinkedList<>();
-        res0.addAll(currentNodes);
-        queue.addAll(currentNodes);
-
-        while (!queue.isEmpty()) {
-            Node working = queue.poll();
-            NodeList working_children = working.getChildNodes();
-            for (int i = 0; i < working_children.getLength(); i++) {
-                res0.add(working_children.item(i));
-                queue.add(working_children.item(i));
-            }
-        }
-        currentNodes = res0;
-
-        ArrayList<Node> result = new ArrayList<>();
-        for (Node n : res0) {
-            if (!result.contains(n)) {
-                result.add(n);
-            }
-        }
-        return result;
-        */
+    public ArrayList<Node> visitRpCurrent(XPathParser.RpCurrentContext ctx) {
         return currentNodes;
     }
 
@@ -233,7 +209,8 @@ public class MyXPathVisitor extends XPathBaseVisitor<ArrayList<Node>> {
     }
 
 //    public ArrayList<Node> visitFilterEqConst(XPathParser.FilterEqConstContext ctx) {
-//
+//        ArrayList<Node> rp0 =  visit(ctx.rp(0));
+//        String str1 =  visit(ctx.rp(1));
 //    }
 
 
@@ -248,7 +225,7 @@ public class MyXPathVisitor extends XPathBaseVisitor<ArrayList<Node>> {
     @Override
     public ArrayList<Node> visitFilterNot(XPathParser.FilterNotContext ctx) {
         ArrayList<Node> res = visit(ctx.filter());
-        if(res.size() != 0){
+        if(res.size() == 0){
             return currentNodes;
         }
         //else
