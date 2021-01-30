@@ -5,14 +5,14 @@ grammar XPath;
 }
 
 //absolute path	
-ap:
-	  'doc("' fileName '")' '/' rp 		#ApRoot
+ap
+    : 'doc("' fileName '")' '/' rp 		#ApRoot
 	| 'doc("' fileName '")' '//' rp 	#ApCurrent
 	;
 
 //relative path
-rp:
-	  tagName				# RpTagName
+rp
+    : tagName				# RpTagName
 	| '*'					# RpChildren
 	| '.'					# RpCurrent
 	| '..'					# RpParent
@@ -26,8 +26,8 @@ rp:
 	;
 
 //path filter
-filter:
-	  rp						# FilterRp
+filter
+    : rp						# FilterRp
 	| rp '=' rp					# FilterEq
 	| rp 'eq' rp				# FilterEq
 	| rp '==' rp				# FilterIs

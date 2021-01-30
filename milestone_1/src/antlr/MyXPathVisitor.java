@@ -217,7 +217,7 @@ public class MyXPathVisitor extends XPathBaseVisitor<ArrayList<Node>> {
             currentNodes = new ArrayList<>();
             currentNodes.add(n);
             ArrayList<Node> filter_res = visit(ctx.filter());
-            if (!filter_res.isEmpty()) {
+            if (filter_res.size() != 0) {
                 res.add(n);
             }
         }
@@ -231,5 +231,107 @@ public class MyXPathVisitor extends XPathBaseVisitor<ArrayList<Node>> {
         ArrayList<Node> res = visit(ctx.rp());
         return res;
     }
+
+//    public ArrayList<Node> visitFilterEqConst(XPathParser.FilterEqConstContext ctx) {
+//
+//    }
+
+
+
+    //Issue might occur here
+    @Override
+    public ArrayList<Node> visitFilterRp(XPathParser.FilterRpContext ctx) {
+        ArrayList<Node> res = visit(ctx.rp());
+        return res;
+    }
+
+    @Override
+    public ArrayList<Node> visitFilterNot(XPathParser.FilterNotContext ctx) {
+        ArrayList<Node> res = visit(ctx.filter());
+        if(res.size() != 0){
+            return currentNodes;
+        }
+        //else
+        return new ArrayList<>();
+    }
+
+    @Override
+    public ArrayList<Node> visitFilterOr(XPathParser.FilterOrContext ctx) {
+        ArrayList<Node> res0 =  visit(ctx.filter(0));
+        ArrayList<Node> res1 =  visit(ctx.filter(1));
+        res0.addAll(res1);
+
+        if(res0.size() != 0){
+            return res0;
+        }
+        return new ArrayList<>();
+    }
+
+    @Override
+    public  ArrayList<Node> visitFilterAnd(XPathParser.FilterAndContext ctx) {
+        ArrayList<Node> res0 =  visit(ctx.filter(0));
+        ArrayList<Node> res1 =  visit(ctx.filter(1));
+        ArrayList<Node> tmp = new ArrayList<Node>(res0);
+        ArrayList<Node> satisfy_both = new ArrayList<Node>();
+
+        for(Node n : tmp){
+            if(res0.contains(n) && res1.contains(n)){
+                satisfy_both.add(n);
+            }
+        }
+        return satisfy_both;
+    }
+
+    @Override
+    public  ArrayList<Node> visitFilterEq(XPathParser.FilterEqContext ctx) {
+        ArrayList<Node> tmp = new ArrayList<>(currentNodes);
+
+        ArrayList<Node> res0 = visit(ctx.rp(0));
+        currentNodes = tmp;//set currentNodes back
+
+        ArrayList<Node> res1 = visit(ctx.rp(1));
+        currentNodes = tmp;
+
+        for(Node i : res0){
+            for(Node j : res1){
+                //isEqualNode(): build in
+                if(i.isEqualNode(j)){
+                    //true
+                    return tmp;
+                }
+            }
+        }
+
+        return new ArrayList<>();
+    }
+
+    @Override
+    public  ArrayList<Node> visitFilterIs(XPathParser.FilterIsContext ctx) {
+        ArrayList<Node> tmp = new ArrayList<>(currentNodes);
+
+        ArrayList<Node> res0 = visit(ctx.rp(0));
+        currentNodes = tmp;//set currentNodes back
+
+        ArrayList<Node> res1 = visit(ctx.rp(1));
+        currentNodes = tmp;
+
+        for(Node i : res0){
+            for(Node j : res1){
+                //isSameNode(): build in
+                if(i.isSameNode(j)){
+                    //true
+                    return tmp;
+                }
+            }
+        }
+
+        return new ArrayList<>();
+    }
+
+    @Override
+    public ArrayList<Node> visitFilterCurrent(XPathParser.FilterCurrentContext ctx) {
+        return visit(ctx.filter());
+    }
+
 
 }
