@@ -11,14 +11,18 @@ import java.util.ArrayList;
 
 
 
+
+
+
 public class XPath {
     public static void main(String[] args) throws IOException {
     	//read test file XPathTest.txt
-    	List<String> lines = Files.readAllLines(Paths.get("../tests/XPathTest.txt"), StandardCharsets.UTF_8);
+    	List<String> lines = Files.readAllLines(Paths.get("./tests/XPathTest.txt"), StandardCharsets.UTF_8);
     	int idx = 0;
     	//test query line by line
     	for(String line : lines){
     		//XPath eval
+            System.out.println(line);
         	CharStream input_l = CharStreams.fromString(line);
         	XPathLexer lexer = new XPathLexer(input_l);
         	CommonTokenStream tokens = new CommonTokenStream(lexer);

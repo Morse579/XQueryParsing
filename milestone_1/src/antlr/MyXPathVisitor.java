@@ -17,6 +17,7 @@ public class MyXPathVisitor extends XPathBaseVisitor<ArrayList<Node>> {
 //    }
     
     //ap doc(fileName)/rp
+    //'doc("' fileName '")' '/' rp  #ApRoot
     @Override
     public ArrayList<Node> visitApRoot(XPathParser.ApRootContext ctx) {
         //use visitFileName() to jump from root to current level
@@ -30,7 +31,8 @@ public class MyXPathVisitor extends XPathBaseVisitor<ArrayList<Node>> {
     }
 
     //FIXME
-  //ap doc(fileName)//rp
+    // ap doc(fileName)//rp
+    //'doc("' fileName '")' '//' rp 	#ApCurrent
     @Override
     public ArrayList<Node> visitApCurrent(XPathParser.ApCurrentContext ctx) {
         ArrayList<Node> result = new ArrayList<>();
