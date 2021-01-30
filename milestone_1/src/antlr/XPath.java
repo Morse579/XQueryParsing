@@ -1,7 +1,6 @@
 package antlr;
 
 import java.nio.file.*;
-import java.io.File;
 import java.nio.charset.*;
 import java.io.IOException;
 import org.antlr.v4.runtime.*;
@@ -10,8 +9,6 @@ import org.w3c.dom.Node;
 import java.util.List;
 import java.util.ArrayList;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 
 
 public class XPath {
