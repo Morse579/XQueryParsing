@@ -2,7 +2,7 @@ package antlr;
 
 import java.nio.file.*;
 import java.nio.charset.*;
-import java.io.IOException;
+import java.io.*;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.w3c.dom.Node;
@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class XPath {
     public static void main(String[] args) throws IOException {
     	//read test file XPathTest.txt
-    	List<String> lines = Files.readAllLines(Paths.get("./tests/XPathTest.txt"), StandardCharsets.UTF_8);
+    	List<String> lines = Files.readAllLines(Paths.get("../tests/XPathTest.txt"), StandardCharsets.UTF_8);
     	int idx = 0;
     	//test query line by line
     	for(String line : lines){
@@ -31,8 +31,9 @@ public class XPath {
             System.out.println("Test " + idx + ": " + line);
             for (Node n : output_l) {
             	System.out.println(n.getNodeName());
+                System.out.println(n.getTextContent());
             }
-            System.out.println("output size "+ output_l.size()+"\n");
+            System.out.println("SUMMARY:\n output size: "+ output_l.size()+"\n");
     	} 	
     }
 }

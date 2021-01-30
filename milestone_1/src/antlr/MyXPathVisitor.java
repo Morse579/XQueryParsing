@@ -1,8 +1,6 @@
 package antlr;
 
-import java.lang.reflect.Array;
 import java.util.*;
-import java.io.*;
 
 import org.w3c.dom.*;
 
@@ -110,9 +108,10 @@ public class MyXPathVisitor extends XPathBaseVisitor<ArrayList<Node>> {
         ArrayList<Node> res = new ArrayList<>();
         for (Node n : currentNodes) {
             NodeList n_childrens = n.getChildNodes();
-            for (Node n_child : n_childrens) {
+            for (int i = 0; i < n_childrens.getLength(); i++) {
+                Node n_child = n_childrens.item(i);
                 //to ensure the text nodes added in have valid content
-                if (n_child.getNodeType() == Node.TEXT_NODE && !n_child.getTextContent() == null) {
+                if (n_child.getNodeType() == Node.TEXT_NODE && n_child.getTextContent() != null) {
                     res.add(n_child);
                 }
             }
@@ -154,7 +153,8 @@ public class MyXPathVisitor extends XPathBaseVisitor<ArrayList<Node>> {
         ArrayList<Node> res = new ArrayList<>();
         for(Node n: currentNodes){
             NodeList n_children = n.getChildNodes();
-            for(Node n_child : n_children){
+            for(int i = 0; i < n_children.getLength(); i++){
+                Node n_child = n_children.item(i);
                 if(n_child.getNodeType() == Node.ELEMENT_NODE || n_child.getNodeType() == Node.DOCUMENT_NODE){
                     res.add(n_child);
                 }
@@ -208,10 +208,28 @@ public class MyXPathVisitor extends XPathBaseVisitor<ArrayList<Node>> {
         return res;
     }
 
-//    public ArrayList<Node> visitFilterEqConst(XPathParser.FilterEqConstContext ctx) {
-//        ArrayList<Node> rp0 =  visit(ctx.rp(0));
-//        String str1 =  visit(ctx.rp(1));
-//    }
+    /* From Canvas Discussion Page:
+    rp1 eq rp2 is a condition (a filter).
+
+    It will return TRUE if you find one such pair, FALSE otherwise.
+
+    No node sets returned by the filter evaluation function,
+
+    Only the [[ ]]_R and [[ ]]_A evaluation functions return node lists (not sets, by the way).
+    */
+
+
+
+    public ArrayList<Node> visitFilterEqConst(XPathParser.FilterEqConstContext ctx) {
+        ArrayList<Node> rp0 =  visit(ctx.rp());
+        String str1 =  ctx.StringConstant().getText();
+        for(Node n: rp0){
+            if (n.getTextContent().equals(str1)){
+                return rp0;
+            }
+        }
+        return new ArrayList<>();
+    }
 
 
 
@@ -226,7 +244,7 @@ public class MyXPathVisitor extends XPathBaseVisitor<ArrayList<Node>> {
     public ArrayList<Node> visitFilterNot(XPathParser.FilterNotContext ctx) {
         ArrayList<Node> res = visit(ctx.filter());
         if(res.size() == 0){
-            return currentNodes;
+            return res;
         }
         //else
         return new ArrayList<>();
