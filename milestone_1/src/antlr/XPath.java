@@ -20,7 +20,6 @@ public class XPath {
     	//test query line by line
     	for(String line : lines){
     		//XPath eval
-            System.out.println(line);
         	CharStream input_l = CharStreams.fromString(line);
         	XPathLexer lexer = new XPathLexer(input_l);
         	CommonTokenStream tokens = new CommonTokenStream(lexer);
@@ -28,7 +27,6 @@ public class XPath {
             ParseTree tree = parser.ap();
             MyXPathVisitor visitor = new MyXPathVisitor();
             ArrayList<Node> output_l  = (ArrayList<Node>) visitor.visit(tree);
-            System.out.println("Test Case No." + idx + ": " + output_l.size() + " elements found.");
 
             //output the result
             idx++;
