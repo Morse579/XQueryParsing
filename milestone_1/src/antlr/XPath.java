@@ -24,12 +24,19 @@ public class XPath {
     		//XPath eval
             System.out.println(line);
         	CharStream input_l = CharStreams.fromString(line);
+            //System.out.println(input_l);
         	XPathLexer lexer = new XPathLexer(input_l);
         	CommonTokenStream tokens = new CommonTokenStream(lexer);
+            //System.out.println(tokens);
         	XPathParser parser = new XPathParser(tokens);
             ParseTree tree = parser.ap();
+            System.out.println(tree);
             MyXPathVisitor visitor = new MyXPathVisitor();
-            ArrayList<Node> output_l = visitor.visit(tree);
+            ArrayList<Node> output_l  = (ArrayList<Node>) visitor.visit(tree);
+            System.out.println("Test Case No." + idx + ": " + output_l.size() + " elements found.");
+
+
+
             //output the result
             idx++;
             System.out.println("Test " + idx + ": " + line);

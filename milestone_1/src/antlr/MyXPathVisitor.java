@@ -4,37 +4,74 @@ import java.util.*;
 
 import org.w3c.dom.*;
 
+import java.io.File;
+import java.io.IOException;
+import org.xml.sax.SAXException;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
 
 public class MyXPathVisitor extends XPathBaseVisitor<ArrayList<Node>> {
     ArrayList<Node> currentNodes = new ArrayList<>();
 
-    //
-//    @Override
-//    public ArrayList<Node> visitFileName(XPathParser.FileNameContext ctx) {
-//        //Visit the children of a node, and return a user-defined result of the operation.
-//        //https://www.antlr.org/api/Java/org/antlr/v4/runtime/tree/ParseTreeVisitor.html#visit(org.antlr.v4.runtime.tree.ParseTree)
-//        return visitChildren(ctx);
-//    }
-    
+
+    private Node getRoot(String fileName) {
+
+
+        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+        DocumentBuilder db = null;
+        try {
+            db = dbf.newDocumentBuilder();
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        }
+        Document doc = null;
+        try {
+            doc = db.parse(new File(fileName));
+        } catch (SAXException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return doc.getDocumentElement();
+    }
+
+
+
     //ap doc(fileName)/rp
     //'doc("' fileName '")' '/' rp  #ApRoot
     @Override
     public ArrayList<Node> visitApRoot(XPathParser.ApRootContext ctx) {
-        //use visitFileName() to jump from root to current level
-        visit(ctx.fileName());
-
-        //then use visitRpCurrent() to jump to target relative path
-        ArrayList<Node> res = visit(ctx.rp());
-
-        currentNodes = res;
-        return res;
+        System.out.println("visitApRoot() is called!");
+        Node root = getRoot(ctx.fileName().getText());
+        return visit(ctx.rp());
     }
+
+
+    private void getDesOrSelf(ArrayList<Node> res, Queue<Node>  queue) {
+        while (!queue.isEmpty()) {
+            Node n = queue.poll();
+            if (!n.hasChildNodes()) {
+                continue;
+            }
+            NodeList children = n.getChildNodes();
+            for (int i = 0; i < children.getLength(); i++) {
+                res.add(children.item(i));
+                queue.offer(children.item(i));
+            }
+        }
+    }
+
+
+
 
     //FIXME
     // ap doc(fileName)//rp
     //'doc("' fileName '")' '//' rp 	#ApCurrent
     @Override
     public ArrayList<Node> visitApCurrent(XPathParser.ApCurrentContext ctx) {
+        /*
         ArrayList<Node> result = new ArrayList<>();
         Queue<Node> queue = new LinkedList<>();
         queue.addAll(currentNodes);
@@ -57,6 +94,17 @@ public class MyXPathVisitor extends XPathBaseVisitor<ArrayList<Node>> {
         currentNodes = result;
         ArrayList<Node> new_result = visit(ctx.rp());
         return new_result;
+        */
+        System.out.println("visitApCurrent() is called!");
+        Node root = getRoot(ctx.fileName().getText());
+        currentNodes.add(root);
+        Queue<Node> queue = new LinkedList<>(currentNodes);
+        ArrayList<Node> res = new ArrayList<>(currentNodes);
+        getDesOrSelf(res, queue);
+        currentNodes = res;
+        return visit(ctx.rp());
+
+
     }
 
     //rp: ..
@@ -328,6 +376,12 @@ public class MyXPathVisitor extends XPathBaseVisitor<ArrayList<Node>> {
     @Override
     public ArrayList<Node> visitFilterCurrent(XPathParser.FilterCurrentContext ctx) {
         return visit(ctx.filter());
+    }
+
+    @Override
+    // filename : NAME ('.' NAME)?
+    public ArrayList<Node> visitFileName(XPathParser.FileNameContext ctx) {
+        return visitRpChildren(ctx);
     }
 
 
