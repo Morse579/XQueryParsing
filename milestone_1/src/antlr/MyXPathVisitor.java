@@ -25,12 +25,14 @@ public class MyXPathVisitor extends XPathBaseVisitor<ArrayList<Node>> {
 	@Override
 	public ArrayList<Node> visitApCurrent(XPathParser.ApCurrentContext ctx) {
 		// TODO Auto-generated method stub
+		System.out.println("call visitApCurrent");
 	    Node root = xlmParser(ctx.fileName().getText());
 	    currentNodes.add(root);
 	    Queue<Node> queue = new LinkedList<>(currentNodes);
 	    ArrayList<Node> res = new ArrayList<>(currentNodes);
 	    getDesOrSelf(res, queue);
 	    currentNodes = res;
+	    System.out.print("current node number: " + currentNodes.size());
 		return visit(ctx.rp());
 	}
 
@@ -95,9 +97,12 @@ public class MyXPathVisitor extends XPathBaseVisitor<ArrayList<Node>> {
 
 	@Override
 	public ArrayList<Node> visitRpText(XPathParser.RpTextContext ctx) {
+		System.out.println("call visitRpText");
 		//to extract all text node under current nodes
 		ArrayList<Node> res = new ArrayList<>();
+		//System.out.println("currentNode number: " + currentNodes.size());
 		for (Node n : currentNodes) {
+			//System.out.println("currentNode name: " + n.getNodeName() + " content: " + n.getTextContent());
 			NodeList n_children = n.getChildNodes();
 			if (n_children.getLength() == 0){
 				continue;
@@ -106,6 +111,8 @@ public class MyXPathVisitor extends XPathBaseVisitor<ArrayList<Node>> {
 				Node n_child = n_children.item(i);
 				//to ensure the text nodes added in have valid content
 				if (n_child.getNodeType() == Node.TEXT_NODE && n_child.getTextContent() != null) {
+					System.out.println("add text node to result: ");
+					System.out.println("Node name: " + n.getNodeName() + " content: " + n.getTextContent());
 					res.add(n_child);
 				}
 			}
@@ -173,6 +180,7 @@ public class MyXPathVisitor extends XPathBaseVisitor<ArrayList<Node>> {
 	@Override
 	public ArrayList<Node> visitRpFilter(XPathParser.RpFilterContext ctx) {
 		//visit(ctx.rp());
+		System.out.println("call Rpfilter");
 		ArrayList<Node> nodes = visit(ctx.rp());
 		ArrayList<Node> res = new ArrayList<>();
 
@@ -181,6 +189,7 @@ public class MyXPathVisitor extends XPathBaseVisitor<ArrayList<Node>> {
 			currentNodes.add(n);
 			ArrayList<Node> filter_res = visit(ctx.filter());
 			if (filter_res.size() != 0) {
+				System.out.print("node tag name: " + n.getNodeName() +" tag content: "+ n.getTextContent());
 				res.add(n);
 			}
 		}
@@ -197,10 +206,16 @@ public class MyXPathVisitor extends XPathBaseVisitor<ArrayList<Node>> {
 
 	@Override
 	public ArrayList<Node> visitFilterEqConst(XPathParser.FilterEqConstContext ctx) {
+		System.out.println("call FilterEq String constant");
 		ArrayList<Node> rp0 =  visit(ctx.rp());
 		String str1 =  ctx.StringConstant().getText();
+		str1 = str1.replace("\"","");
+		System.out.println("target string:" + str1 + "number of nodes to search: " + rp0.size());
+		//System.out.println("PUBLIUS equals PUBLIUS?: " + str1.equals("PUBLIUS"));
 		for(Node n: rp0){
+			System.out.println("this node's text content: " +  n.getTextContent());
 			if (n.getTextContent().equals(str1)){
+				currentNodes = rp0;
 				return rp0;
 			}
 		}
@@ -232,13 +247,34 @@ public class MyXPathVisitor extends XPathBaseVisitor<ArrayList<Node>> {
 
 	@Override
 	public ArrayList<Node> visitFilterAnd(XPathParser.FilterAndContext ctx) {
-		ArrayList<Node> res0 =  visit(ctx.filter(0));
+		ArrayList<Node> original = currentNodes;
+		System.out.println("FilterAnd is called");
+		System.out.println("carry out filter 0");
+		ArrayList<Node> res0 = visit(ctx.filter(0));
+		//test：
+		System.out.println("filter 0 gives nodes:");
+		for(Node i : res0){
+			System.out.println("currentNode name: " + i.getNodeName() + " content: " + i.getTextContent());
+		}
+
+		if(res0.size() == 0){
+			System.out.println("Doesn't even satisfy first filter. RETURN");
+			return res0;
+		}
+		currentNodes = original;
+		System.out.println("carry out filter 1");
 		ArrayList<Node> res1 =  visit(ctx.filter(1));
+		//test：
+		System.out.println("filter 1 gives nodes:");
+		for(Node j : res1){
+			System.out.println("currentNode name: " + j.getNodeName() + " content: " + j.getTextContent());
+		}
 		ArrayList<Node> tmp = new ArrayList<Node>(res0);
 		tmp.addAll(res1);
 		ArrayList<Node> satisfy_both = new ArrayList<Node>();
 
 		for(Node n : tmp){
+			//System.out.println("currentNode name: " + n.getNodeName() + " content: " + n.getTextContent());
 			if(res0.contains(n) && res1.contains(n)){
 				//keep duplicates?
 				//&& !satisfy_both.contains(n)
@@ -256,12 +292,15 @@ public class MyXPathVisitor extends XPathBaseVisitor<ArrayList<Node>> {
 
 	@Override
 	public ArrayList<Node> visitFilterEq(XPathParser.FilterEqContext ctx) {
+		System.out.println("call FilterEq");
 		ArrayList<Node> store = new ArrayList<>(currentNodes);//store original nodes
 
 		ArrayList<Node> res0 = visit(ctx.rp(0));
+		System.out.println("first filter gives " + res0.size() + " nodes");
 		currentNodes = store;//set currentNodes back
 
 		ArrayList<Node> res1 = visit(ctx.rp(1));
+		System.out.println("second filter gives " + res0.size() + " nodes");
 		currentNodes = store;
 
 		for(Node i : res0){
