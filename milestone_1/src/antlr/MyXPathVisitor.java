@@ -18,7 +18,7 @@ public class MyXPathVisitor extends XPathBaseVisitor<ArrayList<Node>> {
 	@Override
 	public ArrayList<Node> visitApRoot(XPathParser.ApRootContext ctx) {
 		// TODO FINISHED
-		xlmParser(ctx.fileName().getText());
+		Node temp = xlmParser(ctx.fileName().getText());
 		return visit(ctx.rp());
 	}
 
@@ -26,11 +26,11 @@ public class MyXPathVisitor extends XPathBaseVisitor<ArrayList<Node>> {
 	public ArrayList<Node> visitApCurrent(XPathParser.ApCurrentContext ctx) {
 		// TODO FINISHED
 	    Node root = xlmParser(ctx.fileName().getText());
-	    currentNodes.add(root);
-	    Queue<Node> queue = new LinkedList<>(currentNodes);
-	    ArrayList<Node> res = new ArrayList<>(currentNodes);
+	    this.currentNodes.add(root);
+	    Queue<Node> queue = new LinkedList<>(this.currentNodes);
+	    ArrayList<Node> res = new ArrayList<>(this.currentNodes);
 	    getDesOrSelf(res, queue);//TODO!
-	    currentNodes = res;
+	    this.currentNodes = res;
 		return visit(ctx.rp());
 	}
 
@@ -40,18 +40,27 @@ public class MyXPathVisitor extends XPathBaseVisitor<ArrayList<Node>> {
 		ArrayList<Node> temp = new ArrayList<Node>();
         for(Node n:this.currentNodes) {
             Node temp_node = n.getParentNode();
-            if(!temp.contains(temp_node)) {
+            if(temp_node != null && !temp.contains(temp_node)) {
                 temp.add(temp_node);//may cause error
             }
         }
-        this.currentNodes = temp;
+        this.currentNodes = temp;//change
         return temp;
 	}
 
 	@Override
 	public ArrayList<Node> visitRpAttName(XPathParser.RpAttNameContext ctx) {
-		// TODO Auto-generated method stub
-		return super.visitRpAttName(ctx);
+		// TODO FIXME
+		ArrayList<Node> temp = new ArrayList<>();
+		String target_name = ctx.attName().getText();
+		for (Node n : this.currentNodes) {
+			Element e = (Element) n;
+			String att = e.getAttribute(target_name);
+			if (att.length() > 0) {
+				temp.add(n);
+			}
+		}
+        return temp;
 	}
 
 	@Override
@@ -59,9 +68,9 @@ public class MyXPathVisitor extends XPathBaseVisitor<ArrayList<Node>> {
 		// TODO
         visit(ctx.rp(0));
         Queue<Node> queue = new LinkedList<>(this.currentNodes);
-        ArrayList<Node> res = new ArrayList<>(this.currentNodes);
-        getDesOrSelf(res, queue);
-        Set<Node> unique_curr = new HashSet<Node>(res);
+        ArrayList<Node> all_children = new ArrayList<>(this.currentNodes);
+        getDesOrSelf(all_children, queue);
+        Set<Node> unique_curr = new HashSet<Node>(all_children);
         this.currentNodes = new ArrayList<Node>(unique_curr);
         visit(ctx.rp(1));
         Set<Node> unique_curr2 = new HashSet<Node>(this.currentNodes);
@@ -75,12 +84,12 @@ public class MyXPathVisitor extends XPathBaseVisitor<ArrayList<Node>> {
 		ArrayList<Node> r = new ArrayList<Node>();
         for (Node node : this.currentNodes) {
         	for (Node n: getChildren(node)) {
-        		if(n.getNodeType() == Node.TEXT_NODE) {
+        		if(n.getNodeType() == Node.TEXT_NODE && n.getTextContent() != null) {
         			r.add(n);
         		}
         	}
         }
-        this.currentNodes = r;
+        this.currentNodes = r; //change
         return r;
 	}
 
@@ -91,23 +100,23 @@ public class MyXPathVisitor extends XPathBaseVisitor<ArrayList<Node>> {
         for (Node node : this.currentNodes) {
         	ArrayList<Node> children_temp = getChildren(node);
             for (Node n : children_temp) {
-                if (n.getNodeName().equals(ctx.getText()))//TODO!
+                if (n.getNodeName().equals(ctx.getText()) && n.getNodeType() == Node.ELEMENT_NODE)//TODO!
                     temp.add(n);
             }
         }
 
-        this.currentNodes = temp;
+        this.currentNodes = temp;//change
 		return temp;
 	}
 
 	@Override
 	public ArrayList<Node> visitRpChildren(XPathParser.RpChildrenContext ctx) {
-		// TODO
+		// TODO FIXME!!!
 		ArrayList<Node> temp = new ArrayList<Node>();
         for (Node node : this.currentNodes) {
             temp.addAll(getChildren(node));
         }
-        this.currentNodes = temp;
+        this.currentNodes = temp; //change
         return temp;
 	}
 
@@ -127,9 +136,9 @@ public class MyXPathVisitor extends XPathBaseVisitor<ArrayList<Node>> {
 		visit(ctx.rp(1));
 		ArrayList<Node> rp2 = this.currentNodes;//from rp2
 		rp1.addAll(rp2);
-
+		//FIXME!!!
         Set<Node> unique_curr = new HashSet<Node>(rp1);
-        this.currentNodes = new ArrayList<Node>(unique_curr);
+        this.currentNodes = new ArrayList<Node>(unique_curr); //change
 		return this.currentNodes;
 	}
 
@@ -143,7 +152,7 @@ public class MyXPathVisitor extends XPathBaseVisitor<ArrayList<Node>> {
         for(Node n: unique_curr) {
         	temp.add(n);
         }
-        this.currentNodes = temp;//may cause error
+        this.currentNodes = temp;//FIXME!!! change
 		return temp;
 	}
 
@@ -157,11 +166,12 @@ public class MyXPathVisitor extends XPathBaseVisitor<ArrayList<Node>> {
         for (Node n : temp) {
         	this.currentNodes = new ArrayList<>();
         	this.currentNodes.add(n);
-            if (!((ArrayList<Node>)visit(ctx.filter())).isEmpty()) {
+        	ArrayList<Node> filter_res = visit(ctx.filter());
+            if (filter_res.size() != 0) {
                 res.add(n);
             }
         }
-        this.currentNodes = res;
+        this.currentNodes = res;//change
         return res;
 	}
 
@@ -182,56 +192,63 @@ public class MyXPathVisitor extends XPathBaseVisitor<ArrayList<Node>> {
         //System.out.println("target string:" + temp_str);
         for(Node n: left){
             if (n.getTextContent().equals(temp_str)){
-                temp.add(n);
+            	this.currentNodes = left;
+            	return left;
             }
         }
-        this.currentNodes = temp;
         return temp;
 	}
 
 	@Override
 	public ArrayList<Node> visitFilterNot(XPathParser.FilterNotContext ctx) {
-		// TODO Auto-generated method stub
-        HashSet<Node> rp1 = new HashSet<Node>(this.currentNodes);
-        HashSet<Node> rp_negative = new HashSet<Node>(visit(ctx.filter()));
-        HashSet<Node> temp = new HashSet<Node>();
-        temp.addAll(rp1);
-        temp.removeAll(rp_negative);
-
-        ArrayList<Node> temp_f = new ArrayList<Node>(temp);
-		return temp_f;
+		// TODO check
+//        HashSet<Node> rp1 = new HashSet<Node>(this.currentNodes);
+//        HashSet<Node> rp_negative = new HashSet<Node>(visit(ctx.filter()));
+//        HashSet<Node> temp = new HashSet<Node>();
+//        temp.addAll(rp1);
+//        temp.removeAll(rp_negative);
+//        ArrayList<Node> temp_f = new ArrayList<Node>(temp);
+//        this.currentNodes = new ArrayList<Node>(rp1);
+//		return temp_f;
+		ArrayList<Node> res_filted = visit(ctx.filter());
+		if (res_filted.size() == 0){
+			return this.currentNodes;
+		}
+		return new ArrayList<Node>();
 	}
 
 	@Override
 	public ArrayList<Node> visitFilterOr(XPathParser.FilterOrContext ctx) {
-		// TODO Auto-generated method stub
-        ArrayList<Node> rp1 = (ArrayList<Node>) visit(ctx.filter(0));
-        ArrayList<Node> rp2 = (ArrayList<Node>) visit(ctx.filter(1));
+		// TODO FIXME!!!
+		ArrayList<Node> original = new ArrayList<Node>(this.currentNodes);
+        ArrayList<Node> rp1 = visit(ctx.filter(0));
+        this.currentNodes = original;
+        ArrayList<Node> rp2 = visit(ctx.filter(1));
         rp1.addAll(rp2);
         Set<Node> union = new HashSet<Node>(rp1);
         ArrayList<Node> temp = new ArrayList<Node>(union);
-        this.currentNodes = temp; //check
+        this.currentNodes = original; //check
 		return temp;
 	}
 
 	@Override
 	public ArrayList<Node> visitFilterAnd(XPathParser.FilterAndContext ctx) {
-		// TODO Auto-generated method stub
-		//FAULT
+		// TODO check
+		ArrayList<Node> original = this.currentNodes;
         ArrayList<Node> rp1 = visit(ctx.filter(0));
+        this.currentNodes = original;
         ArrayList<Node> rp2 = visit(ctx.filter(1));
-        // intersection
+        // intersection FIXME!!!
         rp1.retainAll((rp2));
         Set<Node> intersection = new HashSet<Node>(rp1);
         ArrayList<Node> temp = new ArrayList<Node>(intersection);
-        //this.currentNodes = temp;//check
+        this.currentNodes = temp;//check FIXME!!!
         return temp;
 	}
 
 	@Override
 	public ArrayList<Node> visitFilterRp(XPathParser.FilterRpContext ctx) {
-		// TODO Auto-generated method stub
-		//TODO check!!!
+		// TODO check!!!
         //ArrayList<Node> temp = new ArrayList<>(this.currentNodes);
         //ArrayList<Node> rt = visit(ctx.rp());
         //this.currentNodes = temp;
@@ -242,13 +259,52 @@ public class MyXPathVisitor extends XPathBaseVisitor<ArrayList<Node>> {
 	@Override
 	public ArrayList<Node> visitFilterEq(XPathParser.FilterEqContext ctx) {
 		// TODO Auto-generated method stub
-		return super.visitFilterEq(ctx);
+		//System.out.println("call FilterEq");
+		ArrayList<Node> store = new ArrayList<>(this.currentNodes);//store original nodes
+
+		ArrayList<Node> res0 = visit(ctx.rp(0));
+		//System.out.println("first filter gives " + res0.size() + " nodes");
+		this.currentNodes = store;//set currentNodes back
+
+		ArrayList<Node> res1 = visit(ctx.rp(1));
+		//System.out.println("second filter gives " + res0.size() + " nodes");
+		this.currentNodes = store;
+
+		for(Node i : res0){
+			for(Node j : res1){
+				//isEqualNode(): build in
+				if(i.isEqualNode(j)){
+					//true
+					return store;
+				}
+			}
+		}
+
+		return new ArrayList<>();
 	}
 
 	@Override
 	public ArrayList<Node> visitFilterIs(XPathParser.FilterIsContext ctx) {
 		// TODO Auto-generated method stub
-		return super.visitFilterIs(ctx);
+		ArrayList<Node> store = new ArrayList<>(this.currentNodes);
+
+		ArrayList<Node> res0 = visit(ctx.rp(0));
+		this.currentNodes = store;//set currentNodes back
+
+		ArrayList<Node> res1 = visit(ctx.rp(1));
+		this.currentNodes = store;
+
+		for(Node i : res0){
+			for(Node j : res1){
+				//isSameNode(): build in
+				if(i.isSameNode(j)){
+					//true
+					return store;
+				}
+			}
+		}
+
+		return new ArrayList<>();
 	}
 
 	@Override
@@ -261,13 +317,13 @@ public class MyXPathVisitor extends XPathBaseVisitor<ArrayList<Node>> {
 	
 	@Override
 	public ArrayList<Node> visitTagName(XPathParser.TagNameContext ctx) {
-		// TODO FINISHED
+		// TODO FINISHED check FIXME!!!
 		return visitChildren(ctx);
 	}
 
 	@Override
 	public ArrayList<Node> visitAttName(XPathParser.AttNameContext ctx) {
-		// TODO FINISHED
+		// TODO FINISHED check FIXME!!!
 		return visitChildren(ctx);
 	}
 
