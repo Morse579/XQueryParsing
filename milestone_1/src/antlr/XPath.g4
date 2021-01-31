@@ -41,10 +41,12 @@ filter
 	;
 	
 /*TOKENS*/
-fileName : (Letter | Digit | '_' | '.')*;  
+
+fileName: FILENAME;
+FILENAME: (Letter | Digit | '_' | '.')*; 
 tagName : (Letter | Digit | '_' | '.')*;  
 attName : (Letter | Digit | '_' | '.')*;
-Name: [a-zA-Z0-9_-]+;
+
 StringConstant : '"' [_A-Za-z0-9.!, ?:;]* '"';
 	
 Letter: [a-zA-Z];
