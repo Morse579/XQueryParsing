@@ -35,7 +35,7 @@ public class XPath {
             System.out.println("Test " + idx + ": " + line);
             for (Node n : output_l) {
             	System.out.println(n.getNodeName());
-                //System.out.println(n.getTextContent());
+                System.out.println(n.getTextContent());
             }
             System.out.println("SUMMARY:\n output size: "+ output_l.size()+"\n");
     	} 	
