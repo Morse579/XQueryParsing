@@ -21,14 +21,14 @@ public class XPathParser extends Parser {
 	public static final int
 		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, T__7=8, T__8=9, 
 		T__9=10, T__10=11, T__11=12, T__12=13, T__13=14, T__14=15, T__15=16, T__16=17, 
-		T__17=18, T__18=19, T__19=20, T__20=21, T__21=22, FILENAME=23, StringConstant=24, 
+		T__17=18, T__18=19, T__19=20, T__20=21, ID=22, FILENAME=23, StringConstant=24, 
 		Letter=25, Digit=26, WS=27;
 	public static final int
-		RULE_ap = 0, RULE_rp = 1, RULE_filter = 2, RULE_fileName = 3, RULE_tagName = 4, 
-		RULE_attName = 5;
+		RULE_ap = 0, RULE_rp = 1, RULE_filter = 2, RULE_tagName = 3, RULE_attName = 4, 
+		RULE_fileName = 5;
 	private static String[] makeRuleNames() {
 		return new String[] {
-			"ap", "rp", "filter", "fileName", "tagName", "attName"
+			"ap", "rp", "filter", "tagName", "attName", "fileName"
 		};
 	}
 	public static final String[] ruleNames = makeRuleNames();
@@ -37,14 +37,14 @@ public class XPathParser extends Parser {
 		return new String[] {
 			null, "'doc(\"'", "'\")'", "'/'", "'//'", "'*'", "'.'", "'..'", "'text()'", 
 			"'@'", "'('", "')'", "'['", "']'", "','", "'='", "'eq'", "'=='", "'is'", 
-			"'and'", "'or'", "'not'", "'_'"
+			"'and'", "'or'", "'not'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
 	private static String[] makeSymbolicNames() {
 		return new String[] {
 			null, null, null, null, null, null, null, null, null, null, null, null, 
-			null, null, null, null, null, null, null, null, null, null, null, "FILENAME", 
+			null, null, null, null, null, null, null, null, null, null, "ID", "FILENAME", 
 			"StringConstant", "Letter", "Digit", "WS"
 		};
 	}
@@ -445,8 +445,8 @@ public class XPathParser extends Parser {
 			{
 			setState(38);
 			_errHandler.sync(this);
-			switch ( getInterpreter().adaptivePredict(_input,1,_ctx) ) {
-			case 1:
+			switch (_input.LA(1)) {
+			case ID:
 				{
 				_localctx = new RpTagNameContext(_localctx);
 				_ctx = _localctx;
@@ -456,7 +456,7 @@ public class XPathParser extends Parser {
 				tagName();
 				}
 				break;
-			case 2:
+			case T__4:
 				{
 				_localctx = new RpChildrenContext(_localctx);
 				_ctx = _localctx;
@@ -465,7 +465,7 @@ public class XPathParser extends Parser {
 				match(T__4);
 				}
 				break;
-			case 3:
+			case T__5:
 				{
 				_localctx = new RpCurrentContext(_localctx);
 				_ctx = _localctx;
@@ -474,7 +474,7 @@ public class XPathParser extends Parser {
 				match(T__5);
 				}
 				break;
-			case 4:
+			case T__6:
 				{
 				_localctx = new RpParentContext(_localctx);
 				_ctx = _localctx;
@@ -483,7 +483,7 @@ public class XPathParser extends Parser {
 				match(T__6);
 				}
 				break;
-			case 5:
+			case T__7:
 				{
 				_localctx = new RpTextContext(_localctx);
 				_ctx = _localctx;
@@ -492,7 +492,7 @@ public class XPathParser extends Parser {
 				match(T__7);
 				}
 				break;
-			case 6:
+			case T__8:
 				{
 				_localctx = new RpAttNameContext(_localctx);
 				_ctx = _localctx;
@@ -503,7 +503,7 @@ public class XPathParser extends Parser {
 				attName();
 				}
 				break;
-			case 7:
+			case T__9:
 				{
 				_localctx = new RpPathNodesContext(_localctx);
 				_ctx = _localctx;
@@ -516,6 +516,8 @@ public class XPathParser extends Parser {
 				match(T__10);
 				}
 				break;
+			default:
+				throw new NoViableAltException(this);
 			}
 			_ctx.stop = _input.LT(-1);
 			setState(56);
@@ -950,6 +952,90 @@ public class XPathParser extends Parser {
 		return _localctx;
 	}
 
+	public static class TagNameContext extends ParserRuleContext {
+		public TerminalNode ID() { return getToken(XPathParser.ID, 0); }
+		public TagNameContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_tagName; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof XPathListener ) ((XPathListener)listener).enterTagName(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof XPathListener ) ((XPathListener)listener).exitTagName(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof XPathVisitor ) return ((XPathVisitor<? extends T>)visitor).visitTagName(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final TagNameContext tagName() throws RecognitionException {
+		TagNameContext _localctx = new TagNameContext(_ctx, getState());
+		enterRule(_localctx, 6, RULE_tagName);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(100);
+			match(ID);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class AttNameContext extends ParserRuleContext {
+		public TerminalNode ID() { return getToken(XPathParser.ID, 0); }
+		public AttNameContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_attName; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof XPathListener ) ((XPathListener)listener).enterAttName(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof XPathListener ) ((XPathListener)listener).exitAttName(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof XPathVisitor ) return ((XPathVisitor<? extends T>)visitor).visitAttName(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final AttNameContext attName() throws RecognitionException {
+		AttNameContext _localctx = new AttNameContext(_ctx, getState());
+		enterRule(_localctx, 8, RULE_attName);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(102);
+			match(ID);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
 	public static class FileNameContext extends ParserRuleContext {
 		public TerminalNode FILENAME() { return getToken(XPathParser.FILENAME, 0); }
 		public FileNameContext(ParserRuleContext parent, int invokingState) {
@@ -973,158 +1059,12 @@ public class XPathParser extends Parser {
 
 	public final FileNameContext fileName() throws RecognitionException {
 		FileNameContext _localctx = new FileNameContext(_ctx, getState());
-		enterRule(_localctx, 6, RULE_fileName);
+		enterRule(_localctx, 10, RULE_fileName);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(100);
+			setState(104);
 			match(FILENAME);
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	public static class TagNameContext extends ParserRuleContext {
-		public List<TerminalNode> Letter() { return getTokens(XPathParser.Letter); }
-		public TerminalNode Letter(int i) {
-			return getToken(XPathParser.Letter, i);
-		}
-		public List<TerminalNode> Digit() { return getTokens(XPathParser.Digit); }
-		public TerminalNode Digit(int i) {
-			return getToken(XPathParser.Digit, i);
-		}
-		public TagNameContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_tagName; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof XPathListener ) ((XPathListener)listener).enterTagName(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof XPathListener ) ((XPathListener)listener).exitTagName(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof XPathVisitor ) return ((XPathVisitor<? extends T>)visitor).visitTagName(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-
-	public final TagNameContext tagName() throws RecognitionException {
-		TagNameContext _localctx = new TagNameContext(_ctx, getState());
-		enterRule(_localctx, 8, RULE_tagName);
-		int _la;
-		try {
-			int _alt;
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(105);
-			_errHandler.sync(this);
-			_alt = getInterpreter().adaptivePredict(_input,7,_ctx);
-			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
-				if ( _alt==1 ) {
-					{
-					{
-					setState(102);
-					_la = _input.LA(1);
-					if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__5) | (1L << T__21) | (1L << Letter) | (1L << Digit))) != 0)) ) {
-					_errHandler.recoverInline(this);
-					}
-					else {
-						if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
-						_errHandler.reportMatch(this);
-						consume();
-					}
-					}
-					} 
-				}
-				setState(107);
-				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,7,_ctx);
-			}
-			}
-		}
-		catch (RecognitionException re) {
-			_localctx.exception = re;
-			_errHandler.reportError(this, re);
-			_errHandler.recover(this, re);
-		}
-		finally {
-			exitRule();
-		}
-		return _localctx;
-	}
-
-	public static class AttNameContext extends ParserRuleContext {
-		public List<TerminalNode> Letter() { return getTokens(XPathParser.Letter); }
-		public TerminalNode Letter(int i) {
-			return getToken(XPathParser.Letter, i);
-		}
-		public List<TerminalNode> Digit() { return getTokens(XPathParser.Digit); }
-		public TerminalNode Digit(int i) {
-			return getToken(XPathParser.Digit, i);
-		}
-		public AttNameContext(ParserRuleContext parent, int invokingState) {
-			super(parent, invokingState);
-		}
-		@Override public int getRuleIndex() { return RULE_attName; }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof XPathListener ) ((XPathListener)listener).enterAttName(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof XPathListener ) ((XPathListener)listener).exitAttName(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof XPathVisitor ) return ((XPathVisitor<? extends T>)visitor).visitAttName(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-
-	public final AttNameContext attName() throws RecognitionException {
-		AttNameContext _localctx = new AttNameContext(_ctx, getState());
-		enterRule(_localctx, 10, RULE_attName);
-		int _la;
-		try {
-			int _alt;
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(111);
-			_errHandler.sync(this);
-			_alt = getInterpreter().adaptivePredict(_input,8,_ctx);
-			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
-				if ( _alt==1 ) {
-					{
-					{
-					setState(108);
-					_la = _input.LA(1);
-					if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__5) | (1L << T__21) | (1L << Letter) | (1L << Digit))) != 0)) ) {
-					_errHandler.recoverInline(this);
-					}
-					else {
-						if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
-						_errHandler.reportMatch(this);
-						consume();
-					}
-					}
-					} 
-				}
-				setState(113);
-				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,8,_ctx);
-			}
 			}
 		}
 		catch (RecognitionException re) {
@@ -1171,20 +1111,19 @@ public class XPathParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\35u\4\2\t\2\4\3\t"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\35m\4\2\t\2\4\3\t"+
 		"\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2"+
 		"\3\2\3\2\3\2\5\2\33\n\2\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3"+
 		"\3\5\3)\n\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\7"+
 		"\39\n\3\f\3\16\3<\13\3\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4"+
 		"\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\5\4Z"+
-		"\n\4\3\4\3\4\3\4\3\4\3\4\3\4\7\4b\n\4\f\4\16\4e\13\4\3\5\3\5\3\6\7\6j"+
-		"\n\6\f\6\16\6m\13\6\3\7\7\7p\n\7\f\7\16\7s\13\7\3\7\2\4\4\6\b\2\4\6\b"+
-		"\n\f\2\3\5\2\b\b\30\30\33\34\2\u0084\2\32\3\2\2\2\4(\3\2\2\2\6Y\3\2\2"+
-		"\2\bf\3\2\2\2\nk\3\2\2\2\fq\3\2\2\2\16\17\7\3\2\2\17\20\5\b\5\2\20\21"+
+		"\n\4\3\4\3\4\3\4\3\4\3\4\3\4\7\4b\n\4\f\4\16\4e\13\4\3\5\3\5\3\6\3\6\3"+
+		"\7\3\7\3\7\2\4\4\6\b\2\4\6\b\n\f\2\2\2z\2\32\3\2\2\2\4(\3\2\2\2\6Y\3\2"+
+		"\2\2\bf\3\2\2\2\nh\3\2\2\2\fj\3\2\2\2\16\17\7\3\2\2\17\20\5\f\7\2\20\21"+
 		"\7\4\2\2\21\22\7\5\2\2\22\23\5\4\3\2\23\33\3\2\2\2\24\25\7\3\2\2\25\26"+
-		"\5\b\5\2\26\27\7\4\2\2\27\30\7\6\2\2\30\31\5\4\3\2\31\33\3\2\2\2\32\16"+
-		"\3\2\2\2\32\24\3\2\2\2\33\3\3\2\2\2\34\35\b\3\1\2\35)\5\n\6\2\36)\7\7"+
-		"\2\2\37)\7\b\2\2 )\7\t\2\2!)\7\n\2\2\"#\7\13\2\2#)\5\f\7\2$%\7\f\2\2%"+
+		"\5\f\7\2\26\27\7\4\2\2\27\30\7\6\2\2\30\31\5\4\3\2\31\33\3\2\2\2\32\16"+
+		"\3\2\2\2\32\24\3\2\2\2\33\3\3\2\2\2\34\35\b\3\1\2\35)\5\b\5\2\36)\7\7"+
+		"\2\2\37)\7\b\2\2 )\7\t\2\2!)\7\n\2\2\"#\7\13\2\2#)\5\n\6\2$%\7\f\2\2%"+
 		"&\5\4\3\2&\'\7\r\2\2\')\3\2\2\2(\34\3\2\2\2(\36\3\2\2\2(\37\3\2\2\2( "+
 		"\3\2\2\2(!\3\2\2\2(\"\3\2\2\2($\3\2\2\2):\3\2\2\2*+\f\6\2\2+,\7\5\2\2"+
 		",9\5\4\3\7-.\f\5\2\2./\7\6\2\2/9\5\4\3\6\60\61\f\3\2\2\61\62\7\20\2\2"+
@@ -1197,10 +1136,9 @@ public class XPathParser extends Parser {
 		"\4\2UV\7\r\2\2VZ\3\2\2\2WX\7\27\2\2XZ\5\6\4\3Y=\3\2\2\2Y?\3\2\2\2YC\3"+
 		"\2\2\2YG\3\2\2\2YK\3\2\2\2YO\3\2\2\2YS\3\2\2\2YW\3\2\2\2Zc\3\2\2\2[\\"+
 		"\f\5\2\2\\]\7\25\2\2]b\5\6\4\6^_\f\4\2\2_`\7\26\2\2`b\5\6\4\5a[\3\2\2"+
-		"\2a^\3\2\2\2be\3\2\2\2ca\3\2\2\2cd\3\2\2\2d\7\3\2\2\2ec\3\2\2\2fg\7\31"+
-		"\2\2g\t\3\2\2\2hj\t\2\2\2ih\3\2\2\2jm\3\2\2\2ki\3\2\2\2kl\3\2\2\2l\13"+
-		"\3\2\2\2mk\3\2\2\2np\t\2\2\2on\3\2\2\2ps\3\2\2\2qo\3\2\2\2qr\3\2\2\2r"+
-		"\r\3\2\2\2sq\3\2\2\2\13\32(8:Yackq";
+		"\2a^\3\2\2\2be\3\2\2\2ca\3\2\2\2cd\3\2\2\2d\7\3\2\2\2ec\3\2\2\2fg\7\30"+
+		"\2\2g\t\3\2\2\2hi\7\30\2\2i\13\3\2\2\2jk\7\31\2\2k\r\3\2\2\2\t\32(8:Y"+
+		"ac";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

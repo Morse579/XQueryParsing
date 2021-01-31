@@ -160,12 +160,6 @@ public interface XPathVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitFilterCurrent(XPathParser.FilterCurrentContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link XPathParser#fileName}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitFileName(XPathParser.FileNameContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link XPathParser#tagName}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -177,4 +171,10 @@ public interface XPathVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitAttName(XPathParser.AttNameContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link XPathParser#fileName}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFileName(XPathParser.FileNameContext ctx);
 }

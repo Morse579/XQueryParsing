@@ -42,10 +42,15 @@ filter
 	
 /*TOKENS*/
 
+tagName:  ID;
+attName:  ID;
+
+ID: [a-zA-Z0-9_-]+ ;
+
 fileName: FILENAME;
 FILENAME: (Letter | Digit | '_' | '.')*; 
-tagName : (Letter | Digit | '_' | '.')*;  
-attName : (Letter | Digit | '_' | '.')*;
+//tagName : (Letter | Digit | '_' | '.')*;  
+//attName : (Letter | Digit | '_' | '.')*;
 
 StringConstant : '"' [_A-Za-z0-9.!, ?:;]* '"';
 	

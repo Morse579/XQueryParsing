@@ -8,6 +8,9 @@ import java.io.*;
 
 import org.xml.sax.SAXException;
 
+import antlr.XPathParser.AttNameContext;
+import antlr.XPathParser.TagNameContext;
+
 
 public class MyXPathVisitor extends XPathBaseVisitor<ArrayList<Node>> {
 	ArrayList<Node> currentNodes = new ArrayList<Node>();
@@ -155,6 +158,20 @@ public class MyXPathVisitor extends XPathBaseVisitor<ArrayList<Node>> {
 		return super.visitFilterCurrent(ctx);
 	}
 	
+	
+	
+	@Override
+	public ArrayList<Node> visitTagName(XPathParser.TagNameContext ctx) {
+		// TODO Auto-generated method stub
+		return visitChildren(ctx);
+	}
+
+	@Override
+	public ArrayList<Node> visitAttName(XPathParser.AttNameContext ctx) {
+		// TODO Auto-generated method stub
+		return visitChildren(ctx);
+	}
+
 	private Node xlmParser(String input_f) {
 		System.out.println("ENTER");
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();

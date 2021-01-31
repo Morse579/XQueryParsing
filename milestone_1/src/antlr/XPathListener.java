@@ -262,16 +262,6 @@ public interface XPathListener extends ParseTreeListener {
 	 */
 	void exitFilterCurrent(XPathParser.FilterCurrentContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link XPathParser#fileName}.
-	 * @param ctx the parse tree
-	 */
-	void enterFileName(XPathParser.FileNameContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link XPathParser#fileName}.
-	 * @param ctx the parse tree
-	 */
-	void exitFileName(XPathParser.FileNameContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link XPathParser#tagName}.
 	 * @param ctx the parse tree
 	 */
@@ -291,4 +281,14 @@ public interface XPathListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitAttName(XPathParser.AttNameContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link XPathParser#fileName}.
+	 * @param ctx the parse tree
+	 */
+	void enterFileName(XPathParser.FileNameContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link XPathParser#fileName}.
+	 * @param ctx the parse tree
+	 */
+	void exitFileName(XPathParser.FileNameContext ctx);
 }
