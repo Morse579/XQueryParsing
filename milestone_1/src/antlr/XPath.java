@@ -49,7 +49,7 @@ public class XPath {
         //test query line by line
         for(String line : lines){
             //XPath eval
-            System.out.println(line);
+            //System.out.println(line);
             CharStream input_l = CharStreams.fromString(line);
             XPathLexer lexer = new XPathLexer(input_l);
             CommonTokenStream tokens = new CommonTokenStream(lexer);
