@@ -72,83 +72,71 @@ doc("j_caesar.xml")//PERSONA<PERSONA>JULIUS CAESAR</PERSONA>
 <PERSONA>LUCIUS</PERSONA>
 <PERSONA>DARDANIUS</PERSONA>
 -------------------------END OF TEST------------------------
+<TITLE>SCENE IV.  Another part of the field.</TITLE>
+<TITLE>SCENE II.  Camp near Sardis. Before BRUTUS's tent.</TITLE>
+<TITLE>SCENE II.  A public place.</TITLE>
+<TITLE>SCENE III.  Another part of the field.</TITLE>
+<TITLE>SCENE I.  The plains of Philippi.</TITLE>
+<TITLE>SCENE II.  The Forum.</TITLE>
 <TITLE>SCENE I.  A house in Rome.</TITLE>
-<TITLE>SCENE III.  A street near the Capitol.</TITLE>
-<TITLE>SCENE IV.  Another part of the field.</TITLE>
 <TITLE>SCENE III.  Brutus's tent.</TITLE>
-<TITLE>SCENE III.  A street.</TITLE>
-<TITLE>SCENE I.  Rome. Before the Capitol; the Senate sitting above.</TITLE>
-<TITLE>SCENE III.  Another part of the field.</TITLE>
-<TITLE>SCENE III.  The same. A street.</TITLE>
-<TITLE>SCENE II.  CAESAR's house.</TITLE>
-<TITLE>SCENE IV.  Another part of the same street, before the house of BRUTUS.</TITLE>
-<TITLE>SCENE V.  Another part of the field.</TITLE>
-<TITLE>SCENE II.  Camp near Sardis. Before BRUTUS's tent.</TITLE>
-<TITLE>SCENE I.  The plains of Philippi.</TITLE>
-<TITLE>SCENE I.  Rome. A street.</TITLE>
-<TITLE>SCENE II.  A public place.</TITLE>
-<TITLE>SCENE II.  The same. The field of battle.</TITLE>
-<TITLE>SCENE II.  The Forum.</TITLE>
 <TITLE>SCENE I.  Rome. BRUTUS's orchard.</TITLE>
-Test case No.1:
-doc("j_caesar.xml")//PERSONATest case No.2:
-doc("j_caesar.xml")//SCENE/TITLE<TITLE>SCENE I.  A house in Rome.</TITLE>
+<TITLE>SCENE V.  Another part of the field.</TITLE>
+<TITLE>SCENE IV.  Another part of the same street, before the house of BRUTUS.</TITLE>
+<TITLE>SCENE I.  Rome. Before the Capitol; the Senate sitting above.</TITLE>
+<TITLE>SCENE II.  The same. The field of battle.</TITLE>
+<TITLE>SCENE I.  Rome. A street.</TITLE>
+<TITLE>SCENE III.  A street.</TITLE>
+<TITLE>SCENE II.  CAESAR's house.</TITLE>
 <TITLE>SCENE III.  A street near the Capitol.</TITLE>
-<TITLE>SCENE IV.  Another part of the field.</TITLE>
-<TITLE>SCENE III.  Brutus's tent.</TITLE>
-<TITLE>SCENE III.  A street.</TITLE>
-<TITLE>SCENE I.  Rome. Before the Capitol; the Senate sitting above.</TITLE>
-<TITLE>SCENE III.  Another part of the field.</TITLE>
 <TITLE>SCENE III.  The same. A street.</TITLE>
-<TITLE>SCENE II.  CAESAR's house.</TITLE>
-<TITLE>SCENE IV.  Another part of the same street, before the house of BRUTUS.</TITLE>
-<TITLE>SCENE V.  Another part of the field.</TITLE>
+Test case No.1:
+doc("j_caesar.xml")//PERSONATest case No.2:
+doc("j_caesar.xml")//SCENE/TITLE<TITLE>SCENE IV.  Another part of the field.</TITLE>
 <TITLE>SCENE II.  Camp near Sardis. Before BRUTUS's tent.</TITLE>
+<TITLE>SCENE II.  A public place.</TITLE>
+<TITLE>SCENE III.  Another part of the field.</TITLE>
 <TITLE>SCENE I.  The plains of Philippi.</TITLE>
-<TITLE>SCENE I.  Rome. A street.</TITLE>
-<TITLE>SCENE II.  A public place.</TITLE>
-<TITLE>SCENE II.  The same. The field of battle.</TITLE>
 <TITLE>SCENE II.  The Forum.</TITLE>
+<TITLE>SCENE I.  A house in Rome.</TITLE>
+<TITLE>SCENE III.  Brutus's tent.</TITLE>
 <TITLE>SCENE I.  Rome. BRUTUS's orchard.</TITLE>
+<TITLE>SCENE V.  Another part of the field.</TITLE>
+<TITLE>SCENE IV.  Another part of the same street, before the house of BRUTUS.</TITLE>
+<TITLE>SCENE I.  Rome. Before the Capitol; the Senate sitting above.</TITLE>
+<TITLE>SCENE II.  The same. The field of battle.</TITLE>
+<TITLE>SCENE I.  Rome. A street.</TITLE>
+<TITLE>SCENE III.  A street.</TITLE>
+<TITLE>SCENE II.  CAESAR's house.</TITLE>
+<TITLE>SCENE III.  A street near the Capitol.</TITLE>
+<TITLE>SCENE III.  The same. A street.</TITLE>
 -------------------------END OF TEST------------------------
-<TITLE>ACT V</TITLE>
-<TITLE>ACT I</TITLE>
-<TITLE>ACT II</TITLE>
 <TITLE>ACT III</TITLE>
 <TITLE>ACT IV</TITLE>
+<TITLE>ACT II</TITLE>
+<TITLE>ACT I</TITLE>
+<TITLE>ACT V</TITLE>
 <TITLE>Dramatis Personae</TITLE>
 Test case No.1:
 doc("j_caesar.xml")//PERSONATest case No.2:
 doc("j_caesar.xml")//SCENE/TITLETest case No.3:
-doc("j_caesar.xml")//(ACT,PERSONAE)/TITLE<TITLE>ACT V</TITLE>
-<TITLE>ACT I</TITLE>
-<TITLE>ACT II</TITLE>
-<TITLE>ACT III</TITLE>
+doc("j_caesar.xml")//(ACT,PERSONAE)/TITLE<TITLE>ACT III</TITLE>
 <TITLE>ACT IV</TITLE>
+<TITLE>ACT II</TITLE>
+<TITLE>ACT I</TITLE>
+<TITLE>ACT V</TITLE>
 <TITLE>Dramatis Personae</TITLE>
 -------------------------END OF TEST------------------------
+<TITLE>SCENE I.  Rome. Before the Capitol; the Senate sitting above.</TITLE>
+<TITLE>SCENE II.  CAESAR's house.</TITLE>
 <TITLE>SCENE II.  A public place.</TITLE>
-<TITLE>SCENE II.  CAESAR's house.</TITLE>
-<TITLE>SCENE I.  Rome. Before the Capitol; the Senate sitting above.</TITLE>
 Test case No.1:
 doc("j_caesar.xml")//PERSONATest case No.2:
 doc("j_caesar.xml")//SCENE/TITLETest case No.3:
 doc("j_caesar.xml")//(ACT,PERSONAE)/TITLETest case No.4:
-doc("j_caesar.xml")//SCENE[SPEECH/SPEAKER/text() = "CAESAR"]/TITLE<TITLE>SCENE II.  A public place.</TITLE>
+doc("j_caesar.xml")//SCENE[SPEECH/SPEAKER/text() = "CAESAR"]/TITLE<TITLE>SCENE I.  Rome. Before the Capitol; the Senate sitting above.</TITLE>
 <TITLE>SCENE II.  CAESAR's house.</TITLE>
-<TITLE>SCENE I.  Rome. Before the Capitol; the Senate sitting above.</TITLE>
--------------------------END OF TEST------------------------
-<TITLE>ACT I</TITLE>
-<TITLE>ACT II</TITLE>
-<TITLE>ACT III</TITLE>
-Test case No.1:
-doc("j_caesar.xml")//PERSONATest case No.2:
-doc("j_caesar.xml")//SCENE/TITLETest case No.3:
-doc("j_caesar.xml")//(ACT,PERSONAE)/TITLETest case No.4:
-doc("j_caesar.xml")//SCENE[SPEECH/SPEAKER/text() = "CAESAR"]/TITLETest case No.5:
-doc("j_caesar.xml")//ACT[SCENE [SPEECH/SPEAKER/text() = "CAESAR" and SPEECH/SPEAKER/text() = "BRUTUS"]]/TITLE<TITLE>ACT I</TITLE>
-<TITLE>ACT II</TITLE>
-<TITLE>ACT III</TITLE>
+<TITLE>SCENE II.  A public place.</TITLE>
 -------------------------END OF TEST------------------------
 <TITLE>ACT II</TITLE>
 <TITLE>ACT III</TITLE>
@@ -158,41 +146,84 @@ doc("j_caesar.xml")//PERSONATest case No.2:
 doc("j_caesar.xml")//SCENE/TITLETest case No.3:
 doc("j_caesar.xml")//(ACT,PERSONAE)/TITLETest case No.4:
 doc("j_caesar.xml")//SCENE[SPEECH/SPEAKER/text() = "CAESAR"]/TITLETest case No.5:
-doc("j_caesar.xml")//ACT[SCENE [SPEECH/SPEAKER/text() = "CAESAR" and SPEECH/SPEAKER/text() = "BRUTUS"]]/TITLETest case No.6:
-doc("j_caesar.xml")//ACT[SCENE [SPEECH/SPEAKER/text() = "CAESAR"][SPEECH/SPEAKER/text() = "BRUTUS"]]/TITLE<TITLE>ACT II</TITLE>
+doc("j_caesar.xml")//ACT[SCENE [SPEECH/SPEAKER/text() = "CAESAR" and SPEECH/SPEAKER/text() = "BRUTUS"]]/TITLE<TITLE>ACT II</TITLE>
 <TITLE>ACT III</TITLE>
 <TITLE>ACT I</TITLE>
 -------------------------END OF TEST------------------------
+<TITLE>ACT I</TITLE>
 <TITLE>ACT V</TITLE>
 <TITLE>ACT IV</TITLE>
+<TITLE>ACT II</TITLE>
+<TITLE>ACT III</TITLE>
 Test case No.1:
 doc("j_caesar.xml")//PERSONATest case No.2:
 doc("j_caesar.xml")//SCENE/TITLETest case No.3:
 doc("j_caesar.xml")//(ACT,PERSONAE)/TITLETest case No.4:
 doc("j_caesar.xml")//SCENE[SPEECH/SPEAKER/text() = "CAESAR"]/TITLETest case No.5:
 doc("j_caesar.xml")//ACT[SCENE [SPEECH/SPEAKER/text() = "CAESAR" and SPEECH/SPEAKER/text() = "BRUTUS"]]/TITLETest case No.6:
-doc("j_caesar.xml")//ACT[SCENE [SPEECH/SPEAKER/text() = "CAESAR"][SPEECH/SPEAKER/text() = "BRUTUS"]]/TITLETest case No.7:
-doc("j_caesar.xml")//ACT[not .//SPEAKER/text() = "CAESAR"]/TITLE<TITLE>ACT V</TITLE>
-<TITLE>ACT IV</TITLE>
--------------------------END OF TEST------------------------
+doc("j_caesar.xml")//ACT[SCENE [SPEECH/SPEAKER/text() = "CAESAR" or SPEECH/SPEAKER/text() = "BRUTUS"]]/TITLE<TITLE>ACT I</TITLE>
 <TITLE>ACT V</TITLE>
+<TITLE>ACT IV</TITLE>
 <TITLE>ACT II</TITLE>
 <TITLE>ACT III</TITLE>
-<TITLE>ACT IV</TITLE>
-<TITLE>Dramatis Personae</TITLE>
+-------------------------END OF TEST------------------------
 <TITLE>ACT I</TITLE>
+<TITLE>ACT III</TITLE>
+<TITLE>ACT II</TITLE>
 Test case No.1:
 doc("j_caesar.xml")//PERSONATest case No.2:
 doc("j_caesar.xml")//SCENE/TITLETest case No.3:
 doc("j_caesar.xml")//(ACT,PERSONAE)/TITLETest case No.4:
 doc("j_caesar.xml")//SCENE[SPEECH/SPEAKER/text() = "CAESAR"]/TITLETest case No.5:
 doc("j_caesar.xml")//ACT[SCENE [SPEECH/SPEAKER/text() = "CAESAR" and SPEECH/SPEAKER/text() = "BRUTUS"]]/TITLETest case No.6:
-doc("j_caesar.xml")//ACT[SCENE [SPEECH/SPEAKER/text() = "CAESAR"][SPEECH/SPEAKER/text() = "BRUTUS"]]/TITLETest case No.7:
-doc("j_caesar.xml")//ACT[not .//SPEAKER/text() = "CAESAR"]/TITLETest case No.8:
-doc("j_caesar.xml")//(ACT,PERSONAE)/TITLE eq doc("j_caesar.xml")//(ACT,PERSONAE)/TITLE<TITLE>ACT V</TITLE>
+doc("j_caesar.xml")//ACT[SCENE [SPEECH/SPEAKER/text() = "CAESAR" or SPEECH/SPEAKER/text() = "BRUTUS"]]/TITLETest case No.7:
+doc("j_caesar.xml")//ACT[SCENE [SPEECH/SPEAKER/text() = "CAESAR"][SPEECH/SPEAKER/text() = "BRUTUS"]]/TITLE<TITLE>ACT I</TITLE>
+<TITLE>ACT III</TITLE>
 <TITLE>ACT II</TITLE>
+-------------------------END OF TEST------------------------
+<TITLE>ACT IV</TITLE>
+<TITLE>ACT V</TITLE>
+Test case No.1:
+doc("j_caesar.xml")//PERSONATest case No.2:
+doc("j_caesar.xml")//SCENE/TITLETest case No.3:
+doc("j_caesar.xml")//(ACT,PERSONAE)/TITLETest case No.4:
+doc("j_caesar.xml")//SCENE[SPEECH/SPEAKER/text() = "CAESAR"]/TITLETest case No.5:
+doc("j_caesar.xml")//ACT[SCENE [SPEECH/SPEAKER/text() = "CAESAR" and SPEECH/SPEAKER/text() = "BRUTUS"]]/TITLETest case No.6:
+doc("j_caesar.xml")//ACT[SCENE [SPEECH/SPEAKER/text() = "CAESAR" or SPEECH/SPEAKER/text() = "BRUTUS"]]/TITLETest case No.7:
+doc("j_caesar.xml")//ACT[SCENE [SPEECH/SPEAKER/text() = "CAESAR"][SPEECH/SPEAKER/text() = "BRUTUS"]]/TITLETest case No.8:
+doc("j_caesar.xml")//ACT[not .//SPEAKER/text() = "CAESAR"]/TITLE<TITLE>ACT IV</TITLE>
+<TITLE>ACT V</TITLE>
+-------------------------END OF TEST------------------------
+Test case No.1:
+doc("j_caesar.xml")//PERSONATest case No.2:
+doc("j_caesar.xml")//SCENE/TITLETest case No.3:
+doc("j_caesar.xml")//(ACT,PERSONAE)/TITLETest case No.4:
+doc("j_caesar.xml")//SCENE[SPEECH/SPEAKER/text() = "CAESAR"]/TITLETest case No.5:
+doc("j_caesar.xml")//ACT[SCENE [SPEECH/SPEAKER/text() = "CAESAR" and SPEECH/SPEAKER/text() = "BRUTUS"]]/TITLETest case No.6:
+doc("j_caesar.xml")//ACT[SCENE [SPEECH/SPEAKER/text() = "CAESAR" or SPEECH/SPEAKER/text() = "BRUTUS"]]/TITLETest case No.7:
+doc("j_caesar.xml")//ACT[SCENE [SPEECH/SPEAKER/text() = "CAESAR"][SPEECH/SPEAKER/text() = "BRUTUS"]]/TITLETest case No.8:
+doc("j_caesar.xml")//ACT[not .//SPEAKER/text() = "CAESAR"]/TITLETest case No.9:
+doc("j_caesar.xml")//ACT[not .//SPEAKER/text() = "BRUTUS"]/TITLE-------------------------END OF TEST------------------------
+<TITLE>ACT I</TITLE>
+<TITLE>ACT II</TITLE>
+<TITLE>ACT V</TITLE>
+<TITLE>Dramatis Personae</TITLE>
 <TITLE>ACT III</TITLE>
 <TITLE>ACT IV</TITLE>
+Test case No.1:
+doc("j_caesar.xml")//PERSONATest case No.2:
+doc("j_caesar.xml")//SCENE/TITLETest case No.3:
+doc("j_caesar.xml")//(ACT,PERSONAE)/TITLETest case No.4:
+doc("j_caesar.xml")//SCENE[SPEECH/SPEAKER/text() = "CAESAR"]/TITLETest case No.5:
+doc("j_caesar.xml")//ACT[SCENE [SPEECH/SPEAKER/text() = "CAESAR" and SPEECH/SPEAKER/text() = "BRUTUS"]]/TITLETest case No.6:
+doc("j_caesar.xml")//ACT[SCENE [SPEECH/SPEAKER/text() = "CAESAR" or SPEECH/SPEAKER/text() = "BRUTUS"]]/TITLETest case No.7:
+doc("j_caesar.xml")//ACT[SCENE [SPEECH/SPEAKER/text() = "CAESAR"][SPEECH/SPEAKER/text() = "BRUTUS"]]/TITLETest case No.8:
+doc("j_caesar.xml")//ACT[not .//SPEAKER/text() = "CAESAR"]/TITLETest case No.9:
+doc("j_caesar.xml")//ACT[not .//SPEAKER/text() = "BRUTUS"]/TITLETest case No.10:
+doc("j_caesar.xml")//(ACT,PERSONAE)/TITLE eq doc("j_caesar.xml")//(ACT,PERSONAE)/TITLE<TITLE>ACT I</TITLE>
+<TITLE>ACT II</TITLE>
+<TITLE>ACT V</TITLE>
 <TITLE>Dramatis Personae</TITLE>
-<TITLE>ACT I</TITLE>
+<TITLE>ACT III</TITLE>
+<TITLE>ACT IV</TITLE>
 -------------------------END OF TEST------------------------
