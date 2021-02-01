@@ -18,7 +18,7 @@ public class MyXPathVisitor extends XPathBaseVisitor<ArrayList<Node>> {
 	@Override
 	public ArrayList<Node> visitApRoot(XPathParser.ApRootContext ctx) {
 		// TODO FINISHED
-		Node temp = xlmParser(ctx.fileName().getText());
+		xlmParser(ctx.fileName().getText());
 		return visit(ctx.rp());
 	}
 
@@ -29,7 +29,7 @@ public class MyXPathVisitor extends XPathBaseVisitor<ArrayList<Node>> {
 	    this.currentNodes.add(root);
 	    Queue<Node> queue = new LinkedList<>(this.currentNodes);
 	    ArrayList<Node> res = new ArrayList<>(this.currentNodes);
-	    getDesOrSelf(res, queue);//TODO!
+		getDescendent(res, queue);//TODO!
 	    this.currentNodes = res;
 		return visit(ctx.rp());
 	}
@@ -50,7 +50,7 @@ public class MyXPathVisitor extends XPathBaseVisitor<ArrayList<Node>> {
 
 	@Override
 	public ArrayList<Node> visitRpAttName(XPathParser.RpAttNameContext ctx) {
-		// TODO FIXME
+		// TODO FINISHED
 		ArrayList<Node> temp = new ArrayList<>();
 		String target_name = ctx.attName().getText();
 		for (Node n : this.currentNodes) {
@@ -69,7 +69,7 @@ public class MyXPathVisitor extends XPathBaseVisitor<ArrayList<Node>> {
         visit(ctx.rp(0));
         Queue<Node> queue = new LinkedList<>(this.currentNodes);
         ArrayList<Node> all_children = new ArrayList<>(this.currentNodes);
-        getDesOrSelf(all_children, queue);
+        getDescendent(all_children, queue);
         Set<Node> unique_curr = new HashSet<Node>(all_children);
         this.currentNodes = new ArrayList<Node>(unique_curr);
         visit(ctx.rp(1));
@@ -80,11 +80,12 @@ public class MyXPathVisitor extends XPathBaseVisitor<ArrayList<Node>> {
 
 	@Override
 	public ArrayList<Node> visitRpText(XPathParser.RpTextContext ctx) {
-		// TODO
+		// TODO FINISHED
 		ArrayList<Node> r = new ArrayList<Node>();
         for (Node node : this.currentNodes) {
         	for (Node n: getChildren(node)) {
         		if(n.getNodeType() == Node.TEXT_NODE && n.getTextContent() != null) {
+        			//if null is kept, output will have a lot of \n
         			r.add(n);
         		}
         	}
@@ -112,12 +113,33 @@ public class MyXPathVisitor extends XPathBaseVisitor<ArrayList<Node>> {
 	@Override
 	public ArrayList<Node> visitRpChildren(XPathParser.RpChildrenContext ctx) {
 		// TODO FIXME!!!
+		//try to run with:
+		//doc("j_caesar.xml")//PGROUP/*
+		/*
 		ArrayList<Node> temp = new ArrayList<Node>();
         for (Node node : this.currentNodes) {
             temp.addAll(getChildren(node));
         }
         this.currentNodes = temp; //change
         return temp;
+		 */
+
+
+		//all next level children of the currentNodes
+		ArrayList<Node> res = new ArrayList<>();
+		for(Node n: currentNodes){
+			NodeList n_children = n.getChildNodes();
+			for(int i = 0; i < n_children.getLength(); i++){
+				Node n_child = n_children.item(i);
+				if(n_child.getNodeType() == Node.ELEMENT_NODE){
+					res.add(n_child);
+				}
+			}
+		}
+		currentNodes = res;
+		return res;
+
+
 	}
 
 	@Override
@@ -199,15 +221,6 @@ public class MyXPathVisitor extends XPathBaseVisitor<ArrayList<Node>> {
 
 	@Override
 	public ArrayList<Node> visitFilterNot(XPathParser.FilterNotContext ctx) {
-		// TODO check
-//        HashSet<Node> rp1 = new HashSet<Node>(this.currentNodes);
-//        HashSet<Node> rp_negative = new HashSet<Node>(visit(ctx.filter()));
-//        HashSet<Node> temp = new HashSet<Node>();
-//        temp.addAll(rp1);
-//        temp.removeAll(rp_negative);
-//        ArrayList<Node> temp_f = new ArrayList<Node>(temp);
-//        this.currentNodes = new ArrayList<Node>(rp1);
-//		return temp_f;
 		ArrayList<Node> res_filted = visit(ctx.filter());
 		if (res_filted.size() == 0){
 			return this.currentNodes;
@@ -349,6 +362,7 @@ public class MyXPathVisitor extends XPathBaseVisitor<ArrayList<Node>> {
 	}
 
 	private ArrayList<Node> getChildren(Node curr){
+		//only retrieve children of next level
 		ArrayList<Node> children = new ArrayList<Node>();
         NodeList temp = curr.getChildNodes();
         for (int i = 0; i < temp.getLength(); i++) {
@@ -357,8 +371,8 @@ public class MyXPathVisitor extends XPathBaseVisitor<ArrayList<Node>> {
         return children;
 	}
 	
-	//TODO!
-    private void getDesOrSelf(ArrayList<Node> res, Queue<Node> queue) {
+
+    private void getDescendent(ArrayList<Node> res, Queue<Node> queue) {
         while (!queue.isEmpty()) {
             Node n = queue.poll();
             if (!n.hasChildNodes()) {

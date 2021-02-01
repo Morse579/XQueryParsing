@@ -30,7 +30,7 @@ public class XPath {
         String filename = "";
         if (0 < args.length) {
             filename = args[0];
-            System.out.print("FILENAME INPUT: " + filename);
+            //System.out.print("FILENAME INPUT: " + filename);
             //File file = new File(filename);
         }
         List<String> lines = Files.readAllLines(Paths.get(filename), StandardCharsets.UTF_8);
@@ -60,13 +60,17 @@ public class XPath {
             //System.out.println("Test Case No." + idx + ": " + output_l.size() + " elements found.");
             idx++;
 
-            //output the result to terminal
+            /*output the result to terminal while testing
             System.out.println("Test " + idx + ": " + line);
             for (Node n : output_l) {
                 System.out.println(n.getNodeName());
                 System.out.println(n.getTextContent());
             }
+            */
             System.out.println("SUMMARY:\n output list size: "+ output_l.size()+"\n");
+
+
+
 
             //outout to a file in xml format
             /*write input info:
@@ -77,6 +81,7 @@ public class XPath {
 
             for (Node n : output_l) {
                 String curOutput = convertNodeToString(n);
+                System.out.print(curOutput);
                 fileOutputStream.write(curOutput.getBytes());
             }
             //fileOutputStream.write(("-------------------------END OF TEST------------------------\n").getBytes());
