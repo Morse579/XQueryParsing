@@ -67,7 +67,7 @@ public class XPath {
                 System.out.println(n.getTextContent());
             }
             */
-            System.out.println("SUMMARY:\n output list size: "+ output_l.size()+"\n");
+            //System.out.println("SUMMARY:\n output list size: "+ output_l.size()+"\n");
 
 
 

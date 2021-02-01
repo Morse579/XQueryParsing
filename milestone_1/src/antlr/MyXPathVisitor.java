@@ -159,10 +159,10 @@ public class MyXPathVisitor extends XPathBaseVisitor<ArrayList<Node>> {
         visit(ctx.rp(0));
         visit(ctx.rp(1));
         Set<Node> unique_curr = new HashSet<Node>(this.currentNodes);
-        ArrayList<Node> temp = new ArrayList<>();
-        for(Node n: unique_curr) {
+        ArrayList<Node> temp = new ArrayList<>(unique_curr);
+        /*for(Node n: unique_curr) {
         	temp.add(n);
-        }
+        }*/
         //this.currentNodes = temp;//FIXME!!! change
 		return temp;
 	}
