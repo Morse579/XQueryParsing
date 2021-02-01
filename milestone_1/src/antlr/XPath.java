@@ -25,7 +25,7 @@ import javax.xml.transform.stream.StreamResult;
 
 public class XPath {
     public static void main(String[] args) throws IOException {
-        System.out.println("ACCEPT INPUT FILE:");
+        //System.out.println("ACCEPT INPUT FILE:");
         //read test file from arg input
         String filename = "";
         if (0 < args.length) {
@@ -58,27 +58,28 @@ public class XPath {
             MyXPathVisitor visitor = new MyXPathVisitor();
             ArrayList<Node> output_l  = (ArrayList<Node>) visitor.visit(tree);
             //System.out.println("Test Case No." + idx + ": " + output_l.size() + " elements found.");
-
-            //output the result
             idx++;
+
+            //output the result to terminal
             System.out.println("Test " + idx + ": " + line);
             for (Node n : output_l) {
                 System.out.println(n.getNodeName());
                 System.out.println(n.getTextContent());
-                String curOutput = convertNodeToString(n);
-                fileOutputStream.write(curOutput.getBytes());
             }
             System.out.println("SUMMARY:\n output list size: "+ output_l.size()+"\n");
 
             //outout to a file in xml format
+            /*write input info:
             sb.append("Test case No.").append(idx).append(":\n");
             sb.append(line);
             fileOutputStream.write(sb.toString().getBytes());
+            */
+
             for (Node n : output_l) {
                 String curOutput = convertNodeToString(n);
                 fileOutputStream.write(curOutput.getBytes());
             }
-            fileOutputStream.write(("-------------------------END OF TEST------------------------\n").getBytes());
+            //fileOutputStream.write(("-------------------------END OF TEST------------------------\n").getBytes());
         }
     }
 
