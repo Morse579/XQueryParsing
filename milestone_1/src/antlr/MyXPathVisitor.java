@@ -137,8 +137,7 @@ public class MyXPathVisitor extends XPathBaseVisitor<ArrayList<Node>> {
 		ArrayList<Node> rp2 = this.currentNodes;//from rp2
 		rp1.addAll(rp2);
 		//FIXME!!!
-        Set<Node> unique_curr = new HashSet<Node>(rp1);
-        this.currentNodes = new ArrayList<Node>(unique_curr); //change
+        this.currentNodes = rp1; //change
 		return this.currentNodes;
 	}
 
@@ -152,13 +151,12 @@ public class MyXPathVisitor extends XPathBaseVisitor<ArrayList<Node>> {
         for(Node n: unique_curr) {
         	temp.add(n);
         }
-        this.currentNodes = temp;//FIXME!!! change
+        //this.currentNodes = temp;//FIXME!!! change
 		return temp;
 	}
 
 	@Override
 	public ArrayList<Node> visitRpFilter(XPathParser.RpFilterContext ctx) {
-		// TODO
 		//TODO!!!check
         visit(ctx.rp());
         ArrayList<Node> temp = new ArrayList<>(this.currentNodes);
@@ -227,7 +225,7 @@ public class MyXPathVisitor extends XPathBaseVisitor<ArrayList<Node>> {
         rp1.addAll(rp2);
         Set<Node> union = new HashSet<Node>(rp1);
         ArrayList<Node> temp = new ArrayList<Node>(union);
-        this.currentNodes = original; //check
+        //this.currentNodes = original; //check
 		return temp;
 	}
 
@@ -242,7 +240,7 @@ public class MyXPathVisitor extends XPathBaseVisitor<ArrayList<Node>> {
         rp1.retainAll((rp2));
         Set<Node> intersection = new HashSet<Node>(rp1);
         ArrayList<Node> temp = new ArrayList<Node>(intersection);
-        this.currentNodes = temp;//check FIXME!!!
+        //this.currentNodes = temp;//check FIXME!!!
         return temp;
 	}
 
