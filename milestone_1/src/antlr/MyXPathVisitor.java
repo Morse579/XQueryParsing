@@ -112,18 +112,7 @@ public class MyXPathVisitor extends XPathBaseVisitor<ArrayList<Node>> {
 
 	@Override
 	public ArrayList<Node> visitRpChildren(XPathParser.RpChildrenContext ctx) {
-		// TODO FIXME!!!
-		//try to run with:
-		//doc("j_caesar.xml")//PGROUP/*
-		/*
-		ArrayList<Node> temp = new ArrayList<Node>();
-        for (Node node : this.currentNodes) {
-            temp.addAll(getChildren(node));
-        }
-        this.currentNodes = temp; //change
-        return temp;
-		 */
-
+		// TODO FIXed
 
 		//all next level children of the currentNodes
 		ArrayList<Node> res = new ArrayList<>();
@@ -132,6 +121,7 @@ public class MyXPathVisitor extends XPathBaseVisitor<ArrayList<Node>> {
 			for(int i = 0; i < n_children.getLength(); i++){
 				Node n_child = n_children.item(i);
 				if(n_child.getNodeType() == Node.ELEMENT_NODE){
+					//System.out.println("child content: " + n_child.getTextContent());
 					res.add(n_child);
 				}
 			}
