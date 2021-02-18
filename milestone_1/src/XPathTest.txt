@@ -1,1 +1,1 @@
-doc("j_caesar.xml")//SCENE[SPEECH/SPEAKER/text() = "CAESAR"]/TITLE
+doc("j_caesar.xml")/PLAY/ACT[not(SCENE=ACT)]/TITLE/.

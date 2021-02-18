@@ -1,3 +1,5 @@
-<TITLE>SCENE I.  Rome. Before the Capitol; the Senate sitting above.</TITLE>
-<TITLE>SCENE II.  CAESAR's house.</TITLE>
-<TITLE>SCENE II.  A public place.</TITLE>
+<TITLE>ACT II</TITLE>
+<TITLE>ACT IV</TITLE>
+<TITLE>ACT III</TITLE>
+<TITLE>ACT I</TITLE>
+<TITLE>ACT V</TITLE>

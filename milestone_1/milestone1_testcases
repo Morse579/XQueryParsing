@@ -1,0 +1,26 @@
+1.
+doc("j_caesar.xml")//(ACT,PERSONAE)/TITLE/text()/../../TITLE[not((./ACT)and(./ACT))]/.././PERSONA/./..
+
+2.
+doc("j_caesar.xml")/PLAY/ACT[not(SCENE=ACT)]/TITLE/.
+
+3.
+doc("j_caesar.xml")/PLAY/(ACT,PERSONAE)/PGROUP[not(PERSONA)or(GRPDESCR)]/../.
+
+4.
+doc("j_caesar.xml")//(ACT/SCENE/SPEECH)/(SPEAKER)/../.[not (./../TITLE==./LINE) and (./../*/SPEAKER==./SPEAKER)]/../TITLE
+
+5.
+
+
+to solve:
+doc("j_caesar.xml")/PLAY/TITLE
+
+
+
+in folder src, compile:
+javac antlr/*.java
+
+run:
+java antlr/XPath XPathTest.txt
+

@@ -3,6 +3,8 @@ package antlr;
 import java.util.*;
 
 import org.w3c.dom.*;
+
+import javax.sound.midi.SysexMessage;
 import javax.xml.parsers.*;
 import java.io.*;
 
@@ -17,21 +19,35 @@ public class MyXPathVisitor extends XPathBaseVisitor<ArrayList<Node>> {
 
 	@Override
 	public ArrayList<Node> visitApRoot(XPathParser.ApRootContext ctx) {
-		// TODO FINISHED
+		System.out.println("call visitApRoot");
+////		ArrayList<Node> temp = new ArrayList<Node>();
 		xlmParser(ctx.fileName().getText());
-		return visit(ctx.rp());
+////		this.currentNodes.add(root);
+////		System.out.println("1: length of currentNodes: " + currentNodes.size());
+////		temp.add(root);
+////		visit(ctx.rp());
+////		System.out.println("2: length of currentNodes: " + currentNodes.size());
+////		return this.currentNodes;
+//		return visit(ctx.rp());
+
+		return visitChildren(ctx);
+
 	}
 
 	@Override
 	public ArrayList<Node> visitApCurrent(XPathParser.ApCurrentContext ctx) {
-		// TODO FINISHED
-	    Node root = xlmParser(ctx.fileName().getText());
-	    this.currentNodes.add(root);
+		System.out.println("call visitApCurrent");
+	    ArrayList<Node> root = xlmParser(ctx.fileName().getText());
+	    for(Node n: root) {
+			this.currentNodes.add(n);
+		}
 	    Queue<Node> queue = new LinkedList<>(this.currentNodes);
 	    ArrayList<Node> res = new ArrayList<>(this.currentNodes);
 		getDescendent(res, queue);//TODO!
 	    this.currentNodes = res;
-		return visit(ctx.rp());
+		visit(ctx.rp());
+		System.out.println("length of currentNodes: " + currentNodes.size());
+		return this.currentNodes;
 	}
 
 	@Override
@@ -96,13 +112,15 @@ public class MyXPathVisitor extends XPathBaseVisitor<ArrayList<Node>> {
 
 	@Override
 	public ArrayList<Node> visitRpTagName(XPathParser.RpTagNameContext ctx) {
-		// TODO
+		System.out.println("call visitRpTagName");
         ArrayList<Node> temp = new ArrayList<Node>();
         for (Node node : this.currentNodes) {
         	ArrayList<Node> children_temp = getChildren(node);
             for (Node n : children_temp) {
-                if (n.getNodeName().equals(ctx.getText()) && n.getNodeType() == Node.ELEMENT_NODE)//TODO!
-                    temp.add(n);
+                if (n.getNodeName().equals(ctx.getText()) ) {
+					//&& n.getNodeType() == Node.ELEMENT_NODE
+					temp.add(n);
+				}
             }
         }
 
@@ -160,10 +178,7 @@ public class MyXPathVisitor extends XPathBaseVisitor<ArrayList<Node>> {
         visit(ctx.rp(1));
         Set<Node> unique_curr = new HashSet<Node>(this.currentNodes);
         ArrayList<Node> temp = new ArrayList<>(unique_curr);
-        /*for(Node n: unique_curr) {
-        	temp.add(n);
-        }*/
-        //this.currentNodes = temp;//FIXME!!! change
+
 		return temp;
 	}
 
@@ -328,7 +343,8 @@ public class MyXPathVisitor extends XPathBaseVisitor<ArrayList<Node>> {
 		return visitChildren(ctx);
 	}
 
-	private Node xlmParser(String input_f) {
+	private ArrayList<Node> xlmParser(String input_f) {
+		ArrayList<Node> temp = new ArrayList<>();
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder builder = null;
 		try {
@@ -339,17 +355,23 @@ public class MyXPathVisitor extends XPathBaseVisitor<ArrayList<Node>> {
 		//Build Document
 		Document document = null;
 		try {
-			document = builder.parse(input_f);
+			document = builder.parse(new File(input_f));
 		} catch (SAXException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		 
+
+//		return document.getDocumentElement();
 		document.getDocumentElement().normalize();
-		Element root = document.getDocumentElement();
-		return root;
+		temp.add(document);
+		currentNodes = temp;
+		System.out.println("1: length of currentNodes: " + currentNodes.size());
+		return temp;
+
 	}
+
+
 
 	private ArrayList<Node> getChildren(Node curr){
 		//only retrieve children of next level
