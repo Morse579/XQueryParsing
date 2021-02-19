@@ -56,7 +56,7 @@ public class XQuery {
             //XPath eval
             //System.out.println(line);
             CharStream input_l = CharStreams.fromString(line);
-            XPathLexer lexer = new XPathLexer(input_l);
+            XQueryLexer lexer = new XQueryLexer(input_l);
             CommonTokenStream tokens = new CommonTokenStream(lexer);
             XQueryParser parser = new XQueryParser(tokens);
             ParseTree tree = parser.ap();

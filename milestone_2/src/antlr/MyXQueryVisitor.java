@@ -10,12 +10,13 @@ import java.io.*;
 
 import org.xml.sax.SAXException;
 
-import antlr.XPathParser.AttNameContext;
-import antlr.XPathParser.TagNameContext;
+import antlr.XQueryParser.AttNameContext;
+import antlr.XQueryParser.TagNameContext;
 
 
 public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 	ArrayList<Node> currentNodes = new ArrayList<Node>();
+	Map<String, ArrayList<Node>> xqMap = new HashMap<>();
 
 	@Override
 	public ArrayList<Node> visitApRoot(XQueryParser.ApRootContext ctx) {
@@ -324,7 +325,6 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 
 	@Override
 	public ArrayList<Node> visitFilterCurrent(XQueryParser.FilterCurrentContext ctx) {
-		// TODO FINISHED	
 		return visit(ctx.filter());
 	}
 	
@@ -396,5 +396,257 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
             }
         }
     }
+
+	@Override
+	public ArrayList<Node> visitXqVar(XQueryParser.XqVarContext ctx) {
+		return xqMap.get(ctx.getText());
+	}
+
+	@Override
+	public ArrayList<Node> visitXqStrConst(XQueryParser.XqStrConstContext ctx) {
+		//TODO!
+		ArrayList<Node> temp = new ArrayList<Node>();
+		return temp;
+	}
+
+	@Override
+	public ArrayList<Node> visitXqAp(XQueryParser.XqApContext ctx) {
+		return visit(ctx.ap());
+	}
+
+	@Override public ArrayList<Node> visitXqParenthesis(XQueryParser.XqParenthesisContext ctx) {
+		return visit(ctx.xq());
+	}
+
+	@Override public ArrayList<Node> visitXqConcat(XQueryParser.XqConcatContext ctx) {
+		HashMap<String, ArrayList<Node>> originCopy = new HashMap<>(xqMap);
+		ArrayList<Node> temp = new ArrayList<Node>();
+		ArrayList<Node> ans = new ArrayList<Node>();
+		ArrayList<Node> left = (ArrayList<Node>) visit(ctx.xq(0));
+		temp.addAll(left);
+		xqMap = originCopy;
+		ArrayList<Node> right = (ArrayList<Node>) visit(ctx.xq(1));
+		temp.addAll(right);
+		xqMap = originCopy;
+
+		for(Node n: temp){
+			if(!ans.contains(n)){
+				ans.add(n);
+			}
+		}
+		return ans;
+	}
+
+	@Override
+	public ArrayList<Node> visitXqDescend(XQueryParser.XqDescendContext ctx) {
+		currentNodes = visit(ctx.xq());
+		return visit(ctx.rp());
+	}
+
+	@Override
+	public ArrayList<Node> visitXqFromCurr(XQueryParser.XqFromCurrContext ctx) {
+		currentNodes = visit(ctx.xq());
+		ArrayList<Node> res = new ArrayList<>(currentNodes);
+		Queue<Node> queue = new LinkedList<>(currentNodes);
+		getDescendent(res, queue);
+		currentNodes = res;
+		visit(ctx.rp());
+		return currentNodes;
+	}
+
+	public Node makeElem(String tagName, List<Node> list){
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder builder = null;
+		try {
+			builder = factory.newDocumentBuilder();
+		} catch (ParserConfigurationException e) {
+			e.printStackTrace();
+		}
+		Document doc = builder.newDocument();
+
+		Node newElem = doc.createElement(tagName);
+		for (Node node : list) {
+			Node newNode = doc.importNode(node, true);
+			newElem.appendChild(newNode);
+		}
+		return newElem;
+	}
+
+	@Override
+	public ArrayList<Node> visitXqNew(XQueryParser.XqNewContext ctx) {
+		ArrayList<Node> temp = visit(ctx.xq());
+		String tagName = ctx.tagName(0).getText();
+		ArrayList<Node> ans = new ArrayList<>();
+		ans.add(makeElem(tagName, temp));
+		return ans;
+	}
+
+	@Override
+	public ArrayList<Node> visitXqFLWR(XQueryParser.XqFLWRContext ctx) {
+		//TODO!
+		ArrayList<Node> temp = new ArrayList<Node>();
+		return temp;
+	}
+
+	@Override
+	public ArrayList<Node> visitXqLet(XQueryParser.XqLetContext ctx) {
+		HashMap<String, ArrayList<Node>> temp = new HashMap<>(xqMap);
+		visit(ctx.letClause());
+		ArrayList<Node> res = visit(ctx.xq());
+		xqMap = temp;
+		return res;
+	}
+
+	@Override
+	public ArrayList<Node> visitForClause(XQueryParser.ForClauseContext ctx) {
+		//TODO
+		return visitChildren(ctx);
+	}
+
+	@Override
+	public ArrayList<Node> visitLetClause(XQueryParser.LetClauseContext ctx) {
+		//TODO
+		//fix style
+		for (int i = 0; i < ctx.var().size(); i++) {
+			xqMap.put(ctx.var(i).getText(), visit(ctx.xq(i)));
+		}
+		return currentNodes;
+	}
+
+	@Override
+	public ArrayList<Node> visitWhereClause(XQueryParser.WhereClauseContext ctx) {
+		return visit(ctx.cond());
+	}
+
+	@Override
+	public ArrayList<Node> visitReturnClause(XQueryParser.ReturnClauseContext ctx) {
+		return visit(ctx.xq());
+	}
+
+
+
+	//Cond:
+
+	@Override
+	public ArrayList<Node> visitXqCondEq(XQueryParser.XqCondEqContext ctx) {
+		ArrayList<Node> originNodesCopy = new ArrayList<>(currentNodes);
+		Map<String, ArrayList<Node>> originMapCopy = new HashMap<>(xqMap);
+		ArrayList<Node> res0 = visit(ctx.xq(0));
+		currentNodes = originNodesCopy;
+		xqMap = originMapCopy;
+		ArrayList<Node> res1 = visit(ctx.xq(1));
+		currentNodes = originNodesCopy;
+		xqMap = originMapCopy;
+
+		for(Node i : res0){
+			for(Node j : res1){
+				//isEqualNode(): build in
+				if(i.isEqualNode(j)){
+					//true
+					return originNodesCopy;
+				}
+			}
+		}
+
+		return new ArrayList<>();
+	}
+
+	@Override
+	public ArrayList<Node> visitXqCondIs(XQueryParser.XqCondIsContext ctx) {
+		ArrayList<Node> originNodesCopy = new ArrayList<>(currentNodes);
+
+		ArrayList<Node> res0 = visit(ctx.xq(0));
+		currentNodes = originNodesCopy;
+		ArrayList<Node> res1 = visit(ctx.xq(1));
+		currentNodes = originNodesCopy;
+
+		for(Node i : res0){
+			for(Node j : res1){
+				//isSameNode(): build in
+				if(i.isSameNode(j)){
+					//true
+					return originNodesCopy;
+				}
+			}
+		}
+
+		return new ArrayList<>();
+
+	}
+
+	@Override
+	public ArrayList<Node> visitXqCondEmpty(XQueryParser.XqCondEmptyContext ctx) {
+		ArrayList<Node> originNodesCopy = new ArrayList<>(currentNodes);
+		ArrayList<Node> res = visit(ctx.xq());
+		currentNodes = originNodesCopy;
+
+		if(res.size() == 0){
+			return currentNodes;
+		}
+		return new ArrayList<>();
+	}
+
+	@Override
+	public ArrayList<Node> visitXqCondSatisfy(XQueryParser.XqCondSatisfyContext ctx) {
+		for (int i = 0; i < ctx.var().size(); i++) {
+			ArrayList<Node> nodes = visit(ctx.xq(i));
+			xqMap.put(ctx.var(i).getText(), nodes);
+		}
+		return visit(ctx.cond());
+	}
+
+	@Override
+	public ArrayList<Node> visitXqCondXqParenthesis(XQueryParser.XqCondXqParenthesisContext ctx) {
+		return visit(ctx.cond());
+	}
+
+	@Override
+	public ArrayList<Node> visitXqCondAnd(XQueryParser.XqCondAndContext ctx) {
+		//TODO: CHECK ME
+		//CURRENTLY FOLLOWING THE SAME FORMAT AS FILTER AND
+		ArrayList<Node> originNodesCopy = currentNodes;
+		ArrayList<Node> res0 = visit(ctx.cond(0));
+		currentNodes = originNodesCopy;
+		ArrayList<Node> res1 = visit(ctx.cond(1));
+
+		res0.retainAll(res1);
+		Set<Node> intersection = new HashSet<Node>(res1);
+		ArrayList<Node> res = new ArrayList<Node>(intersection);
+		return res;
+	}
+
+	@Override
+	public ArrayList<Node> visitXqCondOr(XQueryParser.XqCondOrContext ctx) {
+		ArrayList<Node> originNodesCopy = new ArrayList<Node>(this.currentNodes);
+		ArrayList<Node> rp1 = visit(ctx.cond(0));
+		currentNodes = originNodesCopy;
+		ArrayList<Node> rp2 = visit(ctx.cond(1));
+		rp1.addAll(rp2);
+		Set<Node> union = new HashSet<Node>(rp1);
+		ArrayList<Node> res = new ArrayList<Node>(union);
+		return res;
+	}
+
+	@Override
+	public ArrayList<Node> visitXqCondNot(XQueryParser.XqCondNotContext ctx) {
+		ArrayList<Node> res = visit(ctx.cond());
+		if(res.size() == 0){
+			return currentNodes;
+		}
+		return new ArrayList<>();
+	}
+
+
+
+	@Override public ArrayList<Node> visitVar(XQueryParser.VarContext ctx) {
+		return xqMap.get(ctx.getText());
+	}
+
+
+
+
+
+
+
 
 }
