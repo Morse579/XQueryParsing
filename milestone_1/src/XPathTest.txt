@@ -1,1 +1,1 @@
-doc("j_caesar.xml")/PLAY/ACT[not(SCENE=ACT)]/TITLE/.
+doc("j_caesar.xml")//ACT[./TITLE]/*/SPEECH/../*/.././TITLE

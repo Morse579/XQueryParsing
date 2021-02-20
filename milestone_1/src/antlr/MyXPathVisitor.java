@@ -19,7 +19,7 @@ public class MyXPathVisitor extends XPathBaseVisitor<ArrayList<Node>> {
 
 	@Override
 	public ArrayList<Node> visitApRoot(XPathParser.ApRootContext ctx) {
-		System.out.println("call visitApRoot");
+		//System.out.println("call visitApRoot");
 ////		ArrayList<Node> temp = new ArrayList<Node>();
 		xlmParser(ctx.fileName().getText());
 ////		this.currentNodes.add(root);
@@ -36,31 +36,37 @@ public class MyXPathVisitor extends XPathBaseVisitor<ArrayList<Node>> {
 
 	@Override
 	public ArrayList<Node> visitApCurrent(XPathParser.ApCurrentContext ctx) {
-		System.out.println("call visitApCurrent");
+		//System.out.println("call visitApCurrent");
 	    ArrayList<Node> root = xlmParser(ctx.fileName().getText());
-	    for(Node n: root) {
-			this.currentNodes.add(n);
-		}
+	    //System.out.println("length of roots: " + root.size());
+//	    for(Node n: root) {
+//			this.currentNodes.add(n);
+//		}
+		currentNodes = root;
+
 	    Queue<Node> queue = new LinkedList<>(this.currentNodes);
 	    ArrayList<Node> res = new ArrayList<>(this.currentNodes);
 		getDescendent(res, queue);//TODO!
 	    this.currentNodes = res;
 		visit(ctx.rp());
-		System.out.println("length of currentNodes: " + currentNodes.size());
+		//System.out.println("length of currentNodes: " + currentNodes.size());
 		return this.currentNodes;
 	}
 
 	@Override
 	public ArrayList<Node> visitRpParent(XPathParser.RpParentContext ctx) {
-		// TODO
+		// CHECKED!
 		ArrayList<Node> temp = new ArrayList<Node>();
-        for(Node n:this.currentNodes) {
+
+        for(Node n: currentNodes) {
             Node temp_node = n.getParentNode();
             if(temp_node != null && !temp.contains(temp_node)) {
+            	//System.out.println("add a parent node");
                 temp.add(temp_node);//may cause error
             }
         }
-        this.currentNodes = temp;//change
+
+        currentNodes = temp;//change
         return temp;
 	}
 
@@ -112,7 +118,7 @@ public class MyXPathVisitor extends XPathBaseVisitor<ArrayList<Node>> {
 
 	@Override
 	public ArrayList<Node> visitRpTagName(XPathParser.RpTagNameContext ctx) {
-		System.out.println("call visitRpTagName");
+		//System.out.println("call visitRpTagName");
         ArrayList<Node> temp = new ArrayList<Node>();
         for (Node node : this.currentNodes) {
         	ArrayList<Node> children_temp = getChildren(node);
@@ -158,7 +164,7 @@ public class MyXPathVisitor extends XPathBaseVisitor<ArrayList<Node>> {
 
 	@Override
 	public ArrayList<Node> visitRpConcat(XPathParser.RpConcatContext ctx) {
-		// TODO
+		//System.out.println("call RpConcat");
 		ArrayList<Node> storeOrigin = this.currentNodes;
 		visit(ctx.rp(0));
 		ArrayList<Node> rp1 = this.currentNodes;//from rp1
@@ -184,14 +190,15 @@ public class MyXPathVisitor extends XPathBaseVisitor<ArrayList<Node>> {
 
 	@Override
 	public ArrayList<Node> visitRpFilter(XPathParser.RpFilterContext ctx) {
-		//TODO!!!check
+		//System.out.println("call visitRpFilter");
         visit(ctx.rp());
-        ArrayList<Node> temp = new ArrayList<>(this.currentNodes);
+        ArrayList<Node> temp = new ArrayList<>(currentNodes);
         ArrayList<Node> res = new ArrayList<>();
         for (Node n : temp) {
-        	this.currentNodes = new ArrayList<>();
-        	this.currentNodes.add(n);
+        	currentNodes = new ArrayList<>();
+        	currentNodes.add(n);
         	ArrayList<Node> filter_res = visit(ctx.filter());
+			//System.out.println("number of nodes after the filter: " + filter_res.size());
             if (filter_res.size() != 0) {
                 res.add(n);
             }
@@ -203,6 +210,7 @@ public class MyXPathVisitor extends XPathBaseVisitor<ArrayList<Node>> {
 	@Override
 	public ArrayList<Node> visitRpPathNodes(XPathParser.RpPathNodesContext ctx) {
 		//FINISHED
+		//System.out.println("call visitRpPathNodes");
 		ArrayList<Node> temp = visit(ctx.rp());
 		return temp;
 	}
@@ -226,9 +234,16 @@ public class MyXPathVisitor extends XPathBaseVisitor<ArrayList<Node>> {
 
 	@Override
 	public ArrayList<Node> visitFilterNot(XPathParser.FilterNotContext ctx) {
+		//fixed!
+		//original issue: we forget to set currentNodes back
+		//System.out.println("FilterNOT: call visitFilterNot");
+		ArrayList<Node> original = new ArrayList<Node>(currentNodes);
 		ArrayList<Node> res_filted = visit(ctx.filter());
+		currentNodes = original;
+
 		if (res_filted.size() == 0){
-			return this.currentNodes;
+			//System.out.println("FilterNOT: all current nodes satisfy 'not filter'");
+			return currentNodes;
 		}
 		return new ArrayList<Node>();
 	}
@@ -366,7 +381,7 @@ public class MyXPathVisitor extends XPathBaseVisitor<ArrayList<Node>> {
 		document.getDocumentElement().normalize();
 		temp.add(document);
 		currentNodes = temp;
-		System.out.println("1: length of currentNodes: " + currentNodes.size());
+		//System.out.println("1: length of currentNodes: " + currentNodes.size());
 		return temp;
 
 	}
