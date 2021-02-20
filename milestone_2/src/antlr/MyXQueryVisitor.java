@@ -514,23 +514,31 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 	@Override
 	public ArrayList<Node> visitXqFLWR(XQueryParser.XqFLWRContext ctx) {
 		//TODO! check
-		ArrayList<Node> temp = new ArrayList<Node>();
+		ArrayList<Node> res = new ArrayList<Node>();
 		Map<String, ArrayList<Node>> original = new HashMap<>(this.xqMap);
 		//check forClause
 		if(ctx.forClause()==null) {
-			return temp;
+			return res;
 		}
-		//check letClause
-		if(ctx.letClause()!=null) {
-			visit(ctx.letClause());
+
+		ArrayList<HashMap<String, ArrayList<Node>>> allPairs = visit(ctx.forClause());
+		HashMap<String, ArrayList<Node>> temp = new HashMap<>(xqMap);
+		for (HashMap<String, ArrayList<Node>> pair : allPairs) {
+			xqMap.putAll(pair);
+			//check letClause
+			if (ctx.letClause() != null) {
+				visit(ctx.letClause());
+			}
+			//check whereClause
+			if (ctx.whereClause() != null) {
+				ArrayList<Node> visitWhere = visit(ctx.whereClause());
+			}
+			//check returnClause
+			res.addAll(visit(ctx.returnClause()));
+			xqMap = temp;
 		}
-		//check whereClause
-		if(ctx.whereClause()!=null) {
-			visit(ctx.whereClause());
-		}
-		//check returnClause
-        temp.addAll(visit(ctx.returnClause()));
-		return temp;
+		xqMap = temp;
+		return res;
 	}
 
 	@Override
