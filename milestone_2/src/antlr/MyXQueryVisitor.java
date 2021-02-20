@@ -740,8 +740,10 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 	//'not' cond
 	@Override
 	public ArrayList<Node> visitXqCondNot(XQueryParser.XqCondNotContext ctx) {
+		ArrayList<Node> original = new ArrayList<Node>(currentNodes);
 		ArrayList<Node> res = visit(ctx.cond());
 		if(res.size() == 0){
+			currentNodes = original;
 			return currentNodes;
 		}
 		return new ArrayList<>();
