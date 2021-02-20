@@ -17,6 +17,7 @@ import antlr.XQueryParser.TagNameContext;
 public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 	ArrayList<Node> currentNodes = new ArrayList<Node>();
 	Map<String, ArrayList<Node>> xqMap = new HashMap<>();
+	Stack<HashMap<String, ArrayList<Node>>> contextStack = new Stack<>();
 	//TODO!!! check
 	//Document document = null;
 
@@ -511,8 +512,49 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 		return ans;
 	}
 
+	private void helperFLWR(XQueryParser.XqFLWRContext ctx, int k, ArrayList<Node> result){
+		if (k == ctx.forClause().var().size()){
+			HashMap<String, ArrayList<Node>> original = new HashMap<>(xqMap);
+			if (ctx.letClause() != null) {
+				visit(ctx.letClause());
+			}
+			if (ctx.whereClause() != null) {
+				if(visit(ctx.whereClause()).size()==0){
+					return;
+				}
+			}
+			ArrayList<Node> c = visit(ctx.returnClause());
+			if (c != null) {
+				result.addAll(visit(ctx.returnClause()));
+			}
+			xqMap = original;
+		}
+		else {
+			String var = ctx.forClause().var(k).getText();
+			ArrayList<Node> nodes = visit(ctx.forClause().xq(k));
+			for (Node n : nodes){
+				xqMap.remove(var);
+				ArrayList<Node> nList = new ArrayList<>();
+				nList.add(n);
+				xqMap.put(var, nList);
+				helperFLWR(ctx, k + 1, result);
+			}
+
+
+		}
+	}
+
 	@Override
 	public ArrayList<Node> visitXqFLWR(XQueryParser.XqFLWRContext ctx) {
+		ArrayList<Node> result = new ArrayList<>();
+		HashMap<String, ArrayList<Node>> contextMapOld = new HashMap<>(xqMap);
+		contextStack.push(contextMapOld);
+
+		helperFLWR(ctx, 0, result);
+
+		xqMap = contextStack.pop();
+		return result;
+		/*
 		//TODO! check
 		ArrayList<Node> res = new ArrayList<Node>();
 		Map<String, ArrayList<Node>> original = new HashMap<>(this.xqMap);
@@ -539,6 +581,7 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 		}
 		xqMap = temp;
 		return res;
+		*/
 	}
 
 	@Override
@@ -550,8 +593,39 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 		return res;
 	}
 
+
+	private ArrayList<Node> getItems (int v, XQueryParser.ForClauseContext ctx) {
+		ArrayList<Node> res = new ArrayList<>();
+		ArrayList<Node> tempList = visit(ctx.xq(v));
+		if(ctx.xq().size() == 1) {
+			for(Node n: tempList) {
+				ArrayList<Node> tempList2 = new ArrayList<>();
+				tempList2.add(n);
+				xqMap.put(ctx.var(v).getText(), tempList2);
+				res.add(n);
+			}
+			return res;
+		}
+		else {
+			for(Node n: tempList) {
+				HashMap<String, ArrayList<Node>> contextMapOld = new HashMap<>(xqMap);
+				contextStack.push(contextMapOld);
+				ArrayList<Node> tempList2 = new ArrayList<>();
+				tempList2.add(n);
+				xqMap.put(ctx.var(v).getText(), tempList2);
+				res.addAll(getItems(v + 1, ctx));
+				xqMap = contextStack.pop();
+			}
+			return res;
+		}
+	}
+
 	@Override
-	public ArrayList<HashMap<String, ArrayList<Node>>> visitForClause(XQueryParser.ForClauseContext ctx) {
+	public ArrayList<Node> visitForClause(XQueryParser.ForClauseContext ctx) {
+		ArrayList<Node> result = new ArrayList<>();
+		result.addAll(getItems(0, ctx));
+		return result;
+		/*
 		//for every FOR loop, we store the var and the corresponding xq
 		int for_index = 0;
 
@@ -617,6 +691,7 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 		xqMap = original;
 
 		return res;
+		*/
 
 	}
 
