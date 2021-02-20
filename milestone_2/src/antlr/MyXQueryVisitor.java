@@ -18,7 +18,7 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 	ArrayList<Node> currentNodes = new ArrayList<Node>();
 	Map<String, ArrayList<Node>> xqMap = new HashMap<>();
 	//TODO!!! check
-	Document document = null;
+	//Document document = null;
 
 	@Override
 	public ArrayList<Node> visitApRoot(XQueryParser.ApRootContext ctx) {
@@ -354,7 +354,7 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 			e.printStackTrace();
 		}
 		//Build Document
-		//Document document = null;
+		Document document = null;
 		try {
 			document = builder.parse(new File(input_f));
 		} catch (SAXException e) {
@@ -484,9 +484,18 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 	}
 	
 	//makeText
-	//TODO!!!
+	//TODO!!! check
 	public Node makeText(String stringConst){
-		Node textNode = document.createTextNode(stringConst);
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder builder = null;
+		try {
+			builder = factory.newDocumentBuilder();
+		} catch (ParserConfigurationException e) {
+			e.printStackTrace();
+		}
+		//Build Document
+		Document doc = builder.newDocument();;
+		Node textNode = doc.createTextNode(stringConst);
 		return textNode;
 	}
 	
@@ -502,9 +511,23 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 
 	@Override
 	public ArrayList<Node> visitXqFLWR(XQueryParser.XqFLWRContext ctx) {
-		//TODO!
+		//TODO! check
 		ArrayList<Node> temp = new ArrayList<Node>();
-		
+		Map<String, ArrayList<Node>> original = new HashMap<>(this.xqMap);
+		//check forClause
+		if(ctx.forClause()==null) {
+			return temp;
+		}
+		//check letClause
+		if(ctx.letClause()!=null) {
+			visit(ctx.letClause());
+		}
+		//check whereClause
+		if(ctx.whereClause()!=null) {
+			visit(ctx.whereClause());
+		}
+		//check returnClause
+        temp.addAll(visit(ctx.returnClause()));
 		return temp;
 	}
 
@@ -519,7 +542,9 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 
 	@Override
 	public ArrayList<Node> visitForClause(XQueryParser.ForClauseContext ctx) {
-		//TODO
+		//TODO check
+		ArrayList<Node> temp = new ArrayList<Node>();
+		
 		return visitChildren(ctx);
 	}
 

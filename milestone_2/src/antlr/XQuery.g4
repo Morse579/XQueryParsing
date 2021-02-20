@@ -93,7 +93,7 @@ attName:  ID;
 ID: [a-zA-Z0-9_-]+ ;
 
 fileName: FILENAME;
-FILENAME: (Letter | Digit | '_' | '.')*; 
+FILENAME: [a-zA-Z0-9_.]+;
 //tagName : (Letter | Digit | '_' | '.')*;  
 //attName : (Letter | Digit | '_' | '.')*;
 

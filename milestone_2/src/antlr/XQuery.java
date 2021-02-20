@@ -44,13 +44,14 @@ public class XQuery {
          */
 
         //open a file to write output in xml format
-        File outputFile = new File("XPathOutput.txt");
+        File outputFile = new File("XQueryOutput.txt");
         if (!outputFile.exists()) outputFile.createNewFile(); // create output file
 
-        FileOutputStream fileOutputStream = new FileOutputStream(outputFile);
+        @SuppressWarnings("resource")
+		FileOutputStream fileOutputStream = new FileOutputStream(outputFile);
         StringBuffer sb = new StringBuffer();
 
-        int idx = 0;
+        //int idx = 0;
         //test query line by line
         for(String line : lines){
             //XPath eval
@@ -59,7 +60,7 @@ public class XQuery {
             XQueryLexer lexer = new XQueryLexer(input_l);
             CommonTokenStream tokens = new CommonTokenStream(lexer);
             XQueryParser parser = new XQueryParser(tokens);
-            ParseTree tree = parser.ap();
+            ParseTree tree = parser.xq();
             MyXQueryVisitor visitor = new MyXQueryVisitor();
             ArrayList<Node> output_l  = (ArrayList<Node>) visitor.visit(tree);
             //System.out.println("Test Case No." + idx + ": " + output_l.size() + " elements found.");
