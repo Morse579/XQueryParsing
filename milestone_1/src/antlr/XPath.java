@@ -56,7 +56,7 @@ public class XPath {
             XPathParser parser = new XPathParser(tokens);
             ParseTree tree = parser.ap();
             MyXPathVisitor visitor = new MyXPathVisitor();
-            ArrayList<Node> output_l  = (ArrayList<Node>) visitor.visit(tree);
+            ArrayList<Node> output_l = visitor.visit(tree);
             //System.out.println("Test Case No." + idx + ": " + output_l.size() + " elements found.");
             idx++;
 
