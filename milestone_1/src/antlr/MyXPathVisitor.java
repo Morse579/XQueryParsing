@@ -38,10 +38,6 @@ public class MyXPathVisitor extends XPathBaseVisitor<ArrayList<Node>> {
 	public ArrayList<Node> visitApCurrent(XPathParser.ApCurrentContext ctx) {
 		//System.out.println("call visitApCurrent");
 	    ArrayList<Node> root = xlmParser(ctx.fileName().getText());
-	    //System.out.println("length of roots: " + root.size());
-//	    for(Node n: root) {
-//			this.currentNodes.add(n);
-//		}
 		currentNodes = root;
 
 	    Queue<Node> queue = new LinkedList<>(this.currentNodes);

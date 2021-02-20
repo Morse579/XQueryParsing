@@ -22,49 +22,42 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 
 	@Override
 	public ArrayList<Node> visitApRoot(XQueryParser.ApRootContext ctx) {
-		System.out.println("call visitApRoot");
-////		ArrayList<Node> temp = new ArrayList<Node>();
+		//System.out.println("call visitApRoot");
 		xlmParser(ctx.fileName().getText());
-////		this.currentNodes.add(root);
-////		System.out.println("1: length of currentNodes: " + currentNodes.size());
-////		temp.add(root);
-////		visit(ctx.rp());
-////		System.out.println("2: length of currentNodes: " + currentNodes.size());
-////		return this.currentNodes;
-//		return visit(ctx.rp());
-
 		return visitChildren(ctx);
 
 	}
 
 	@Override
 	public ArrayList<Node> visitApCurrent(XQueryParser.ApCurrentContext ctx) {
-		System.out.println("call visitApCurrent");
-	    ArrayList<Node> root = xlmParser(ctx.fileName().getText());
-	    for(Node n: root) {
-			this.currentNodes.add(n);
-		}
-	    Queue<Node> queue = new LinkedList<>(this.currentNodes);
-	    ArrayList<Node> res = new ArrayList<>(this.currentNodes);
+		//System.out.println("call visitApCurrent");
+		ArrayList<Node> root = xlmParser(ctx.fileName().getText());
+		currentNodes = root;
+
+		Queue<Node> queue = new LinkedList<>(this.currentNodes);
+		ArrayList<Node> res = new ArrayList<>(this.currentNodes);
 		getDescendent(res, queue);//TODO!
-	    this.currentNodes = res;
+		this.currentNodes = res;
 		visit(ctx.rp());
-		System.out.println("length of currentNodes: " + currentNodes.size());
+		//System.out.println("length of currentNodes: " + currentNodes.size());
 		return this.currentNodes;
 	}
 
 	@Override
 	public ArrayList<Node> visitRpParent(XQueryParser.RpParentContext ctx) {
-		// TODO
+		// CHECKED!
 		ArrayList<Node> temp = new ArrayList<Node>();
-        for(Node n:this.currentNodes) {
-            Node temp_node = n.getParentNode();
-            if(temp_node != null && !temp.contains(temp_node)) {
-                temp.add(temp_node);//may cause error
-            }
-        }
-        this.currentNodes = temp;//change
-        return temp;
+
+		for(Node n: currentNodes) {
+			Node temp_node = n.getParentNode();
+			if(temp_node != null && !temp.contains(temp_node)) {
+				//System.out.println("add a parent node");
+				temp.add(temp_node);//may cause error
+			}
+		}
+
+		currentNodes = temp;//change
+		return temp;
 	}
 
 	@Override
@@ -115,7 +108,7 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 
 	@Override
 	public ArrayList<Node> visitRpTagName(XQueryParser.RpTagNameContext ctx) {
-		System.out.println("call visitRpTagName");
+		//System.out.println("call visitRpTagName");
         ArrayList<Node> temp = new ArrayList<Node>();
         for (Node node : this.currentNodes) {
         	ArrayList<Node> children_temp = getChildren(node);
@@ -187,19 +180,21 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 
 	@Override
 	public ArrayList<Node> visitRpFilter(XQueryParser.RpFilterContext ctx) {
-        visit(ctx.rp());
-        ArrayList<Node> temp = new ArrayList<>(this.currentNodes);
-        ArrayList<Node> res = new ArrayList<>();
-        for (Node n : temp) {
-        	this.currentNodes = new ArrayList<>();
-        	this.currentNodes.add(n);
-        	ArrayList<Node> filter_res = visit(ctx.filter());
-            if (filter_res.size() != 0) {
-                res.add(n);
-            }
-        }
-        this.currentNodes = res;//change
-        return res;
+		//System.out.println("call visitRpFilter");
+		visit(ctx.rp());
+		ArrayList<Node> temp = new ArrayList<>(currentNodes);
+		ArrayList<Node> res = new ArrayList<>();
+		for (Node n : temp) {
+			currentNodes = new ArrayList<>();
+			currentNodes.add(n);
+			ArrayList<Node> filter_res = visit(ctx.filter());
+			//System.out.println("number of nodes after the filter: " + filter_res.size());
+			if (filter_res.size() != 0) {
+				res.add(n);
+			}
+		}
+		this.currentNodes = res;//change
+		return res;
 	}
 
 	@Override
@@ -228,9 +223,16 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 
 	@Override
 	public ArrayList<Node> visitFilterNot(XQueryParser.FilterNotContext ctx) {
+		//fixed!
+		//original issue: we forget to set currentNodes back
+		//System.out.println("FilterNOT: call visitFilterNot");
+		ArrayList<Node> original = new ArrayList<Node>(currentNodes);
 		ArrayList<Node> res_filted = visit(ctx.filter());
+		currentNodes = original;
+
 		if (res_filted.size() == 0){
-			return this.currentNodes;
+			//System.out.println("FilterNOT: all current nodes satisfy 'not filter'");
+			return currentNodes;
 		}
 		return new ArrayList<Node>();
 	}
@@ -367,7 +369,7 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 		document.getDocumentElement().normalize();
 		temp.add(document);
 		currentNodes = temp;
-		System.out.println("1: length of currentNodes: " + currentNodes.size());
+		//System.out.println("1: length of currentNodes: " + currentNodes.size());
 		return temp;
 
 	}
@@ -407,9 +409,9 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 		return xqMap.get(ctx.getText());
 	}
 
+	//TODO!!! CHECK
 	@Override
 	public ArrayList<Node> visitXqStrConst(XQueryParser.XqStrConstContext ctx) {
-		//TODO!!! CHECK
 		String s  = ctx.StringConstant().getText(); //need to check the input string
 		Node nodeT = makeText(s); //calling helper function
 		ArrayList<Node> temp = new ArrayList<Node>();
@@ -542,10 +544,72 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 
 	@Override
 	public ArrayList<Node> visitForClause(XQueryParser.ForClauseContext ctx) {
-		//TODO check
-		ArrayList<Node> temp = new ArrayList<Node>();
-		
-		return visitChildren(ctx);
+		//for every FOR loop, we store the var and the corresponding xq
+		int for_index = 0;
+
+		HashMap<String, ArrayList<Node>> original = new HashMap<>(textMap);
+		ArrayList<HashMap<String, Node>> allPairs = new ArrayList<>();
+		ArrayList<HashMap<String, ArrayList<Node>>> res = new ArrayList<>();
+
+		//A double entry queue storing maps, each map stores a var:node pair
+		Deque<HashMap<String, Node>> deque = new Deque<HashMap<String, Node>><>();
+		//dealing with the var0 and xq0
+		String var0 = ctx.var(0).getText();
+		ArrayList<Node> list_0 = (ArrayList<Node>) visit(ctx.xq(0));
+		for (Node n : list_0) {
+			HashMap<String, Node> map = new HashMap<>();
+			map.put(var0, n);
+			deque.offer(map);
+		}
+		for_index++;
+		//for every var in the first for-loop
+		//there may be var2 under the first for-loop
+		while (for_index < ctx.xq().size()) {
+			for (int i = 0; i < deque.size(); ++i) {
+				//var_n
+				HashMap<String, Node> currMap = deque.poll();
+				String currVar = ctx.var(idx).getText();
+
+				//just run for once
+				for (String var : currMap.keySet()) {
+					ArrayList<Node> objs = new ArrayList<>();
+					objs.add(currMap.get(var));
+					xqMap.put(var, objs);
+				}
+				//	for var_n+1 in ...:
+				//dealing with next xq
+				ArrayList<Node> list_i = (ArrayList<Node>) visit(ctx.xq(for_index));
+
+				for (Node n : list_i) {
+					HashMap<String, Node> map = new HashMap<>(currMap);
+					map.put(currVar, n);
+					deque.offer(map);
+				}
+			}
+			for_index++;
+
+		}
+
+		while (!deque.isEmpty()) {
+			allPairs.add(deque.poll());
+		}
+
+		for (HashMap<String, Node> map : allPairs) {
+			HashMap<String, ArrayList<Node>> temp = new HashMap<>();
+			//run once, convert each map to var,ArrayList<Node> format
+			for (String var : map.keySet()) {
+				ArrayList<Node> nodeList = new ArrayList<>();
+				nodeList.add(map.get(var));
+				temp.put(var, nodeList);
+			}
+			res.add(temp);
+		}
+
+		//reset
+		xqMap = original;
+
+		return res;
+
 	}
 
 	@Override
