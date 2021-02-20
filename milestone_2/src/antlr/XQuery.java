@@ -64,7 +64,7 @@ public class XQuery {
             MyXQueryVisitor visitor = new MyXQueryVisitor();
             ArrayList<Node> output_l  = (ArrayList<Node>) visitor.visit(tree);
             //System.out.println("Test Case No." + idx + ": " + output_l.size() + " elements found.");
-            idx++;
+            //idx++;
 
             /*output the result to terminal while testing
             System.out.println("Test " + idx + ": " + line);

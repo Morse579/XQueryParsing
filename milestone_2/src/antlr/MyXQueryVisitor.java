@@ -543,16 +543,16 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 	}
 
 	@Override
-	public ArrayList<Node> visitForClause(XQueryParser.ForClauseContext ctx) {
+	public ArrayList<HashMap<String, ArrayList<Node>>> visitForClause(XQueryParser.ForClauseContext ctx) {
 		//for every FOR loop, we store the var and the corresponding xq
 		int for_index = 0;
 
-		HashMap<String, ArrayList<Node>> original = new HashMap<>(textMap);
+		HashMap<String, ArrayList<Node>> original = new HashMap<>(xqMap);
 		ArrayList<HashMap<String, Node>> allPairs = new ArrayList<>();
 		ArrayList<HashMap<String, ArrayList<Node>>> res = new ArrayList<>();
 
 		//A double entry queue storing maps, each map stores a var:node pair
-		Deque<HashMap<String, Node>> deque = new Deque<HashMap<String, Node>><>();
+		Deque<HashMap<String, Node>> deque = new LinkedList<>();;
 		//dealing with the var0 and xq0
 		String var0 = ctx.var(0).getText();
 		ArrayList<Node> list_0 = (ArrayList<Node>) visit(ctx.xq(0));
@@ -568,7 +568,7 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 			for (int i = 0; i < deque.size(); ++i) {
 				//var_n
 				HashMap<String, Node> currMap = deque.poll();
-				String currVar = ctx.var(idx).getText();
+				String currVar = ctx.var(for_index).getText();
 
 				//just run for once
 				for (String var : currMap.keySet()) {
