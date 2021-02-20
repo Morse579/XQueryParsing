@@ -17,6 +17,8 @@ import antlr.XQueryParser.TagNameContext;
 public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 	ArrayList<Node> currentNodes = new ArrayList<Node>();
 	Map<String, ArrayList<Node>> xqMap = new HashMap<>();
+	//TODO!!! check
+	Document document = null;
 
 	@Override
 	public ArrayList<Node> visitApRoot(XQueryParser.ApRootContext ctx) {
@@ -352,7 +354,7 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 			e.printStackTrace();
 		}
 		//Build Document
-		Document document = null;
+		//Document document = null;
 		try {
 			document = builder.parse(new File(input_f));
 		} catch (SAXException e) {
@@ -396,6 +398,9 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
             }
         }
     }
+    
+    
+    //XQ START
 
 	@Override
 	public ArrayList<Node> visitXqVar(XQueryParser.XqVarContext ctx) {
@@ -404,8 +409,11 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 
 	@Override
 	public ArrayList<Node> visitXqStrConst(XQueryParser.XqStrConstContext ctx) {
-		//TODO!
+		//TODO!!! CHECK
+		String s  = ctx.StringConstant().getText(); //need to check the input string
+		Node nodeT = makeText(s); //calling helper function
 		ArrayList<Node> temp = new ArrayList<Node>();
+		temp.add(nodeT);
 		return temp;
 	}
 
@@ -453,7 +461,10 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 		visit(ctx.rp());
 		return currentNodes;
 	}
-
+	
+	
+	//HELPER FUNCTIONS 
+	//makeElem
 	public Node makeElem(String tagName, List<Node> list){
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder builder = null;
@@ -471,6 +482,14 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 		}
 		return newElem;
 	}
+	
+	//makeText
+	//TODO!!!
+	public Node makeText(String stringConst){
+		Node textNode = document.createTextNode(stringConst);
+		return textNode;
+	}
+	
 
 	@Override
 	public ArrayList<Node> visitXqNew(XQueryParser.XqNewContext ctx) {
@@ -485,6 +504,7 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 	public ArrayList<Node> visitXqFLWR(XQueryParser.XqFLWRContext ctx) {
 		//TODO!
 		ArrayList<Node> temp = new ArrayList<Node>();
+		
 		return temp;
 	}
 
@@ -525,7 +545,7 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 
 
 
-	//Cond:
+	//XQ Cond START
 
 	@Override
 	public ArrayList<Node> visitXqCondEq(XQueryParser.XqCondEqContext ctx) {
@@ -615,18 +635,20 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 		return res;
 	}
 
+	//
 	@Override
 	public ArrayList<Node> visitXqCondOr(XQueryParser.XqCondOrContext ctx) {
 		ArrayList<Node> originNodesCopy = new ArrayList<Node>(this.currentNodes);
-		ArrayList<Node> rp1 = visit(ctx.cond(0));
+		ArrayList<Node> cond1 = visit(ctx.cond(0));
 		currentNodes = originNodesCopy;
-		ArrayList<Node> rp2 = visit(ctx.cond(1));
-		rp1.addAll(rp2);
-		Set<Node> union = new HashSet<Node>(rp1);
+		ArrayList<Node> cond2 = visit(ctx.cond(1));
+		cond1.addAll(cond2);
+		Set<Node> union = new HashSet<Node>(cond1);
 		ArrayList<Node> res = new ArrayList<Node>(union);
 		return res;
 	}
 
+	//'not' cond
 	@Override
 	public ArrayList<Node> visitXqCondNot(XQueryParser.XqCondNotContext ctx) {
 		ArrayList<Node> res = visit(ctx.cond());
