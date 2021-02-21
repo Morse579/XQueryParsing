@@ -102,7 +102,7 @@ StringConstant : '"' [_A-Za-z0-9.!, ?:;]* '"';
 Letter: [a-zA-Z];
 Digit: [0-9];
 
-WS: [ \n\t\r]+ -> skip;
+WS: [ \t\n]+ -> skip;
 	
 	
 

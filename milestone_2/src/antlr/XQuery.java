@@ -38,7 +38,7 @@ public class XQuery {
             //System.out.print("FILENAME INPUT: " + filename);
             //File file = new File(filename);
         }
-        List<String> lines = Files.readAllLines(Paths.get(filename), StandardCharsets.UTF_8);
+        String line = Files.readString(Paths.get(filename), StandardCharsets.UTF_8);
         /* dev: input == XPathTest.txt
     	List<String> lines = Files.readAllLines(Paths.get("XPathTest.txt"), StandardCharsets.UTF_8);
          */
@@ -53,17 +53,18 @@ public class XQuery {
 
         //int idx = 0;
         //test query line by line
-        for(String line : lines){
+//        for(String line : lines){
+
             //XPath eval
             //System.out.println(line);
-            CharStream input_l = CharStreams.fromString(line);
-            XQueryLexer lexer = new XQueryLexer(input_l);
-            CommonTokenStream tokens = new CommonTokenStream(lexer);
-            XQueryParser parser = new XQueryParser(tokens);
-            ParseTree tree = parser.xq();
-            MyXQueryVisitor visitor = new MyXQueryVisitor();
-            ArrayList<Node> output_l  = (ArrayList<Node>) visitor.visit(tree);
-            //System.out.println("Test Case No." + idx + ": " + output_l.size() + " elements found.");
+        CharStream input_l = CharStreams.fromString(line);
+        XQueryLexer lexer = new XQueryLexer(input_l);
+        CommonTokenStream tokens = new CommonTokenStream(lexer);
+        XQueryParser parser = new XQueryParser(tokens);
+        ParseTree tree = parser.xq();
+        MyXQueryVisitor visitor = new MyXQueryVisitor();
+        ArrayList<Node> output_l  = (ArrayList<Node>) visitor.visit(tree);
+        //System.out.println("outputsize: " + output_l.size());
             //idx++;
 
             /*output the result to terminal while testing
@@ -74,10 +75,6 @@ public class XQuery {
             }
             */
             //System.out.println("SUMMARY:\n output list size: "+ output_l.size()+"\n");
-
-
-
-
             //outout to a file in xml format
             /*write input info:
             sb.append("Test case No.").append(idx).append(":\n");
@@ -85,13 +82,13 @@ public class XQuery {
             fileOutputStream.write(sb.toString().getBytes());
             */
 
-            for (Node n : output_l) {
-                String curOutput = convertNodeToString(n);
+        for (Node n : output_l) {
+            String curOutput = convertNodeToString(n);
 //                System.out.print(curOutput);
-                fileOutputStream.write(curOutput.getBytes());
-            }
-            //fileOutputStream.write(("-------------------------END OF TEST------------------------\n").getBytes());
+            fileOutputStream.write(curOutput.getBytes());
         }
+            //fileOutputStream.write(("-------------------------END OF TEST------------------------\n").getBytes());
+//        }
     }
 
 
