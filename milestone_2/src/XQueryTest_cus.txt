@@ -1,5 +1,7 @@
 <result>{
-for $a1 in doc("j_caesar.xml")//ACT
-  where not $a1/TITLE/text() = "ACT I"
-return <act>{$a1/TITLE/text()}</act>
+for $allActs in doc("j_caesar.xml")//ACT
+where
+some $t in $allActs satisfies
+$t/TITLE/text() = "ACT IV"
+return <act>{$allActs/TITLE/text()}</act>
 }</result>

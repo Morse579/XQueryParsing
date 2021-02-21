@@ -1,8 +1,5 @@
 <result>{
 for $allActs in doc("j_caesar.xml")//ACT
-
 where
-some $a in doc("j_caesar.xml")//ACT satisfies $a/TITLE/text() = "ACT IV",
-
 return <act>{$allActs/TITLE/text()}</act>
 }</result>

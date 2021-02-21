@@ -84,7 +84,7 @@ public class XQuery {
 
         for (Node n : output_l) {
             String curOutput = convertNodeToString(n);
-//                System.out.print(curOutput);
+            System.out.print(curOutput);
             fileOutputStream.write(curOutput.getBytes());
         }
             //fileOutputStream.write(("-------------------------END OF TEST------------------------\n").getBytes());

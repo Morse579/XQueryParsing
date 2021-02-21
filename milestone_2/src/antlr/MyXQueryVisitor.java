@@ -585,39 +585,6 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 		return res;
 	}
 
-	/*
-	private ArrayList<Node> getItems (int counter, XQueryParser.ForClauseContext ctx) {
-		System.out.println("call getItems, counter is: " + counter);
-		ArrayList<Node> res = new ArrayList<>();
-		ArrayList<Node> allNodes = visit(ctx.xq(counter));	//all nodes resulting from visiting the xq
-		if(ctx.xq().size() == 1) {
-			System.out.println("xq.size == 1");
-			for(Node n: allNodes) {
-				ArrayList<Node> toArrList = new ArrayList<>();
-				toArrList.add(n);
-				xqMap.put(ctx.var(counter).getText(), toArrList);
-				res.add(n);
-			}
-			return res;
-		}
-		else {
-			System.out.println("xq.size > 1");
-			System.out.println("ctx.var(counter) is: " + ctx.var(counter).getText());
-			for(Node n: allNodes) {
-				HashMap<String, ArrayList<Node>> original = new HashMap<>(xqMap);
-				xqStack.push(original);
-				ArrayList<Node> toArrList = new ArrayList<>();
-				toArrList.add(n);
-				System.out.println("ctx.var(counter) add a node");
-				xqMap.put(ctx.var(counter).getText(), toArrList);
-				res.addAll(getItems(counter + 1, ctx));
-				xqMap = xqStack.pop();
-			}
-			return res;
-		}
-	}
-	*/
-
 	@Override
 	public ArrayList<Node> visitForClause(XQueryParser.ForClauseContext ctx) {
 		//get all var:node pair in this for loop level
@@ -678,19 +645,26 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 
 	@Override
 	public ArrayList<Node> visitXqCondIs(XQueryParser.XqCondIsContext ctx) {
+		System.out.println("call XqCondIs");
 		ArrayList<Node> originNodesCopy = new ArrayList<>(currentNodes);
+		Map<String, ArrayList<Node>> originMapCopy = new HashMap<>(xqMap);
+		ArrayList<Node>res = new ArrayList<>();
 
 		ArrayList<Node> res0 = visit(ctx.xq(0));
 		currentNodes = originNodesCopy;
+		xqMap = originMapCopy;
+
 		ArrayList<Node> res1 = visit(ctx.xq(1));
 		currentNodes = originNodesCopy;
+		xqMap = originMapCopy;
 
 		for(Node i : res0){
 			for(Node j : res1){
 				//isSameNode(): build in
-				if(i.isSameNode(j)){
-					//true
-					return originNodesCopy;
+				if(i == j){
+					System.out.println("is same node");
+					res.add(i);
+					return res;
 				}
 			}
 		}
@@ -714,8 +688,9 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 	@Override
 	public ArrayList<Node> visitXqCondSatisfy(XQueryParser.XqCondSatisfyContext ctx) {
 		for (int i = 0; i < ctx.var().size(); i++) {
+			String var = ctx.var(i).getText();
 			ArrayList<Node> nodes = visit(ctx.xq(i));
-			xqMap.put(ctx.var(i).getText(), nodes);
+			xqMap.put(var, nodes);
 		}
 		return visit(ctx.cond());
 	}
