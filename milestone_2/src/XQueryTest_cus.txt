@@ -1,3 +1,5 @@
-<result>{for $a in doc("j_caesar.xml")//ACT
-return <title>{$a/TITLE/text()}</title>}
-</result>
+<result>{
+for $a1 in doc("j_caesar.xml")//ACT
+  where not $a1/TITLE/text() = "ACT I"
+return <act>{$a1/TITLE/text()}</act>
+}</result>

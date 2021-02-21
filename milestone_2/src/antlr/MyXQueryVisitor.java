@@ -516,6 +516,8 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 
 	@Override
 	public ArrayList<Node> visitXqNew(XQueryParser.XqNewContext ctx) {
+		//create a new node such as <result></result>
+
 		//System.out.println("call XqNew");
 		ArrayList<Node> res = new ArrayList<>();
 		ArrayList<Node> xqRes = visit(ctx.xq());
@@ -527,9 +529,21 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 	}
 
 	private void helperFLWR(XQueryParser.XqFLWRContext ctx, int counter, ArrayList<Node> res){
+		//handle for loop via recursion
 		//System.out.println("call helperFLWR");
-		if (counter == ctx.forClause().var().size()){
-			//if it's the last for loop
+		if (counter != ctx.forClause().var().size()){
+			String var = ctx.forClause().var(counter).getText();
+			ArrayList<Node> nodes = visit(ctx.forClause().xq(counter));
+			for (Node n : nodes){
+				ArrayList<Node> node_list = new ArrayList<>();
+				node_list.add(n);
+				xqMap.put(var, node_list);
+				helperFLWR(ctx, counter + 1, res);
+				xqMap.remove(var);
+			}
+		}
+		else {
+			//case: it's the last for loop
 			HashMap<String, ArrayList<Node>> original = new HashMap<>(xqMap);
 			if (ctx.letClause() != null) {
 				visit(ctx.letClause());
@@ -547,19 +561,6 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 			}
 			//reset
 			xqMap = original;
-		}
-		else {
-			String var = ctx.forClause().var(counter).getText();
-			ArrayList<Node> nodes = visit(ctx.forClause().xq(counter));
-			for (Node n : nodes){
-				ArrayList<Node> node_list = new ArrayList<>();
-				node_list.add(n);
-				xqMap.put(var, node_list);
-				helperFLWR(ctx, counter + 1, res);
-				xqMap.remove(var);
-			}
-
-
 		}
 	}
 
@@ -584,11 +585,13 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 		return res;
 	}
 
-
+	/*
 	private ArrayList<Node> getItems (int counter, XQueryParser.ForClauseContext ctx) {
+		System.out.println("call getItems, counter is: " + counter);
 		ArrayList<Node> res = new ArrayList<>();
 		ArrayList<Node> allNodes = visit(ctx.xq(counter));	//all nodes resulting from visiting the xq
 		if(ctx.xq().size() == 1) {
+			System.out.println("xq.size == 1");
 			for(Node n: allNodes) {
 				ArrayList<Node> toArrList = new ArrayList<>();
 				toArrList.add(n);
@@ -598,11 +601,14 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 			return res;
 		}
 		else {
+			System.out.println("xq.size > 1");
+			System.out.println("ctx.var(counter) is: " + ctx.var(counter).getText());
 			for(Node n: allNodes) {
 				HashMap<String, ArrayList<Node>> original = new HashMap<>(xqMap);
 				xqStack.push(original);
 				ArrayList<Node> toArrList = new ArrayList<>();
 				toArrList.add(n);
+				System.out.println("ctx.var(counter) add a node");
 				xqMap.put(ctx.var(counter).getText(), toArrList);
 				res.addAll(getItems(counter + 1, ctx));
 				xqMap = xqStack.pop();
@@ -610,14 +616,14 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 			return res;
 		}
 	}
+	*/
 
 	@Override
 	public ArrayList<Node> visitForClause(XQueryParser.ForClauseContext ctx) {
 		//get all var:node pair in this for loop level
 		//a for loop can contain multiple var in xq, so we need a counter
-//		System.out.println("call visitForClause");
+		//System.out.println("call visitForClause");
 		ArrayList<Node> res = new ArrayList<>();
-		res.addAll(getItems(0, ctx));
 		return res;
 
 	}
