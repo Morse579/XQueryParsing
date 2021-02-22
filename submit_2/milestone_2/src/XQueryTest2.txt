@@ -1,0 +1,6 @@
+<result>{
+for $allActs in doc("j_caesar.xml")//ACT
+where
+$allActs/TITLE/text() = "ACT X"
+return <act>{$allActs/TITLE/text()}</act>
+}</result>
