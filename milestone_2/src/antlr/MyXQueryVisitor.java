@@ -531,7 +531,10 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 	private void helperFLWR(XQueryParser.XqFLWRContext ctx, int counter, ArrayList<Node> res){
 		//handle for loop via recursion
 		//System.out.println("call helperFLWR");
-		if (counter != ctx.forClause().var().size()){
+		//System.out.println("counter: " + counter);
+
+		//System.out.println("ctx.forClause().var().size(): " + ctx.forClause().var().size());
+		if (ctx.forClause()!= null && counter != ctx.forClause().var().size()){
 			String var = ctx.forClause().var(counter).getText();
 			ArrayList<Node> nodes = visit(ctx.forClause().xq(counter));
 			for (Node n : nodes){
@@ -544,8 +547,10 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 		}
 		else {
 			//case: it's the last for loop
+			//System.out.println("in helperFLWR, else");
 			HashMap<String, ArrayList<Node>> original = new HashMap<>(xqMap);
 			if (ctx.letClause() != null) {
+				//System.out.println("there is a letClause");
 				visit(ctx.letClause());
 			}
 
@@ -578,6 +583,7 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 
 	@Override
 	public ArrayList<Node> visitXqLet(XQueryParser.XqLetContext ctx) {
+		//System.out.println("call visitXqLet");
 		HashMap<String, ArrayList<Node>> temp = new HashMap<>(xqMap);
 		visit(ctx.letClause());
 		ArrayList<Node> res = visit(ctx.xq());

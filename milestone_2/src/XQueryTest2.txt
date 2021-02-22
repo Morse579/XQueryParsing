@@ -1,5 +1,4 @@
 <result>{
-for $allActs in doc("j_caesar.xml")//ACT
-where
-return <act>{$allActs/TITLE/text()}</act>
+let $a := doc("j_caesar.xml")//PLAY/TITLE/text()
+return <title>{$a}</title>
 }</result>
