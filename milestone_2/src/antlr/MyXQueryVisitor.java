@@ -645,7 +645,7 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 
 	@Override
 	public ArrayList<Node> visitXqCondIs(XQueryParser.XqCondIsContext ctx) {
-		System.out.println("call XqCondIs");
+		//System.out.println("call XqCondIs");
 		ArrayList<Node> originNodesCopy = new ArrayList<>(currentNodes);
 		Map<String, ArrayList<Node>> originMapCopy = new HashMap<>(xqMap);
 		ArrayList<Node>res = new ArrayList<>();
@@ -662,7 +662,7 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 			for(Node j : res1){
 				//isSameNode(): build in
 				if(i == j){
-					System.out.println("is same node");
+					//System.out.println("is same node");
 					res.add(i);
 					return res;
 				}
