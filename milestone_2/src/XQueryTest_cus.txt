@@ -1,7 +1,4 @@
 <result>{
-for $allActs in doc("j_caesar.xml")//ACT
-where
-some $t in $allActs satisfies
-$t/TITLE/text() = "ACT IV"
-return <act>{$allActs/TITLE/text()}</act>
+let $a := doc("j_caesar.xml")//PLAY/TITLE/text()
+return $a
 }</result>

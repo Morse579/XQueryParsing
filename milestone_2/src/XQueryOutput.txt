@@ -1,3 +1,1 @@
-<result>
-    <title>The Tragedy of Julius Caesar</title>
-</result>
+<result>The Tragedy of Julius Caesar</result>

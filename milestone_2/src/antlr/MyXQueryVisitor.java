@@ -490,6 +490,7 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 		Document doc = builder.newDocument();
 
 		Node newElem = doc.createElement(tagName);
+		//System.out.println("list size: " + list.size());
 		for (Node node : list) {
 			Node newNode = doc.importNode(node, true);
 			newElem.appendChild(newNode);
@@ -523,6 +524,9 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 		ArrayList<Node> xqRes = visit(ctx.xq());
 		//System.out.println("ctx.tagName(0).getText(): " + ctx.tagName(0).getText());
 		//System.out.println("xqRes length: " + xqRes.size());
+		if(xqRes.size() == 0){
+			xqRes = new ArrayList<Node>();
+		}
 		res.add(makeNode(ctx.tagName(0).getText(), xqRes));
 
 		return res;
@@ -613,6 +617,7 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 
 	@Override
 	public ArrayList<Node> visitWhereClause(XQueryParser.WhereClauseContext ctx) {
+		//System.out.println("visitWhereClause");
 		return visit(ctx.cond());
 	}
 
