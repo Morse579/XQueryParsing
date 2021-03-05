@@ -713,7 +713,7 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 
 	@Override
 	public ArrayList<Node> visitXqCondAnd(XQueryParser.XqCondAndContext ctx) {
-		//TODO: CHECK ME
+		//TODO: CHECK ME !!!
 		//CURRENTLY FOLLOWING THE SAME FORMAT AS FILTER AND
 		ArrayList<Node> originNodesCopy = currentNodes;
 		ArrayList<Node> res0 = visit(ctx.cond(0));
@@ -721,7 +721,7 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 		ArrayList<Node> res1 = visit(ctx.cond(1));
 
 		res0.retainAll(res1);
-		Set<Node> intersection = new HashSet<Node>(res1);
+		Set<Node> intersection = new HashSet<Node>(res0);//CHANGED
 		ArrayList<Node> res = new ArrayList<Node>(intersection);
 		return res;
 	}

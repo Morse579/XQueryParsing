@@ -103,6 +103,14 @@ Letter: [a-zA-Z];
 Digit: [0-9];
 
 WS: [ \t\n\r]+ -> skip;
+
+IGNORE: [\\][n] -> skip;
+
+IGNORE2: [\\][t] -> skip;
+
+IGNORE3: ('\n' | ' '| ' \n' ) -> skip;
+
+
 	
 	
 
