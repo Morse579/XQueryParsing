@@ -719,11 +719,21 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 		ArrayList<Node> res0 = visit(ctx.cond(0));
 		currentNodes = originNodesCopy;
 		ArrayList<Node> res1 = visit(ctx.cond(1));
-
-		res0.retainAll(res1);
-		Set<Node> intersection = new HashSet<Node>(res0);//CHANGED
-		ArrayList<Node> res = new ArrayList<Node>(intersection);
-		return res;
+        if (!res0.isEmpty() && !res1.isEmpty()) {
+    		//res0.retainAll(res1);
+    		//System.out.println(res0);
+    		//Set<Node> intersection = new HashSet<Node>(res0);//CHANGED
+    		//ArrayList<Node> res = new ArrayList<Node>(intersection);
+            return currentNodes;
+        }
+        return new ArrayList<Node>();
+		
+		//res0.retainAll(res1);
+		//System.out.println(res0);
+		//Set<Node> intersection = new HashSet<Node>(res0);//CHANGED
+		//ArrayList<Node> res = new ArrayList<Node>(intersection);
+		//ArrayList<Node> res = new ArrayList<Node>(res0);
+		//return res;
 	}
 
 	//

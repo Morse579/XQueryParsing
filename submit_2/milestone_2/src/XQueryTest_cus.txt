@@ -1,4 +1,0 @@
-<result>{
-let $a := doc("j_caesar.xml")//PLAY/TITLE/text()
-return $a
-}</result>
