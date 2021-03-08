@@ -83,6 +83,14 @@ cond
     ;
 
 
+joinClause
+    : 'join' '(' xq ',' xq ',' attNames ',' attNames ')'
+    ;
+
+attNames
+    : '[' tagName (',' tagName)* ']'
+    ;
+
 	
 /*TOKENS*/
 

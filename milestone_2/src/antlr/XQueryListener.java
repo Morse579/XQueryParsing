@@ -518,6 +518,26 @@ public interface XQueryListener extends ParseTreeListener {
 	 */
 	void exitXqCondAnd(XQueryParser.XqCondAndContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link XQueryParser#joinClause}.
+	 * @param ctx the parse tree
+	 */
+	void enterJoinClause(XQueryParser.JoinClauseContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link XQueryParser#joinClause}.
+	 * @param ctx the parse tree
+	 */
+	void exitJoinClause(XQueryParser.JoinClauseContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link XQueryParser#attNames}.
+	 * @param ctx the parse tree
+	 */
+	void enterAttNames(XQueryParser.AttNamesContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link XQueryParser#attNames}.
+	 * @param ctx the parse tree
+	 */
+	void exitAttNames(XQueryParser.AttNamesContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link XQueryParser#var}.
 	 * @param ctx the parse tree
 	 */

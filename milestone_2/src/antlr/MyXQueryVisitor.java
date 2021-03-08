@@ -763,9 +763,68 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 
 
 
-	@Override public ArrayList<Node> visitVar(XQueryParser.VarContext ctx) {
-		return xqMap.get(ctx.getText());
+	/*----------------joinClause-----------------*/
+
+	@Override
+	public ArrayList<Node> visitJoinClause(XQueryParser.JoinClauseContext ctx) {
+		ArrayList<Node> res0 = visit(ctx.xq(0));
+		ArrayList<Node> res1 = visit(ctx.xq(1));
+		int size = ctx.attNames(0).tagName().size();
+		String [] res0_arr = new String [size];
+		String [] res1_arr = new String [size];
+		for (int i = 0; i < size; i++){
+			res0_arr[i] = ctx.attNames(0).tagName(i).getText();
+			res1_arr[i] = ctx.attNames(1).tagName(i).getText();
+		}
+		HashMap<String, ArrayList<Node>> hashMap0 = buildHashTable(res0, res0_arr);
+		ArrayList<Node> result = hashJoin(hashMap0, res1, res0_arr, res1_arr);
+		currentNodes = result;
+		return result;
 	}
+
+	private HashMap buildHashTable(ArrayList<Node> list, String [] tags){
+		HashMap<String, ArrayList<Node>> res = new HashMap<>();
+		for (Node n : list){
+			ArrayList<Node> children_n = children(n);
+			String key = "";
+			for (String tag: tags) {
+				for (Node c: children_n){
+					if (hashAtt.equals(c.getNodeName()))
+						key += c.getFirstChild().getTextContent();
+				}
+			}
+			if (res.containsKey(key))
+				res.get(key).add(n);
+			else{
+				ArrayList<Node> value = new ArrayList<>();
+				value.add(n);
+				res.put(key, value);
+			}
+		}
+		return res;
+	}
+
+
+	private ArrayList<Node> hashJoin(HashMap<String, ArrayList<Node>> hashMapLeft, ArrayList<Node> right, String [] listLeft, String []listRight) {
+		ArrayList<Node> result = new ArrayList<>();
+		for (Node n : right) {
+			ArrayList<Node> children_n = children(n);
+			String key = "";
+			for (String tag : listRight) {
+				for (Node c : children_n) {
+					if (tag.equals(c.getNodeName())) {
+						key += c.getFirstChild().getTextContent();
+					}
+				}
+			}
+			if (hashMapLeft.containsKey(key)){
+				result.addAll(product(hashMapLeft.get(key), n));
+			}
+		}
+		return result;
+	}
+
+
 
 
 

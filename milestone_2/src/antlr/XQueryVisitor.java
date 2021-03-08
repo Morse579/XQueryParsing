@@ -310,6 +310,18 @@ public interface XQueryVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitXqCondAnd(XQueryParser.XqCondAndContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link XQueryParser#joinClause}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitJoinClause(XQueryParser.JoinClauseContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link XQueryParser#attNames}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAttNames(XQueryParser.AttNamesContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link XQueryParser#var}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
