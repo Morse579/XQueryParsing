@@ -770,55 +770,63 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 		ArrayList<Node> res0 = visit(ctx.xq(0));
 		ArrayList<Node> res1 = visit(ctx.xq(1));
 		int size = ctx.attNames(0).tagName().size();
+		//results after visiting xq0 might be several attributes as in exxample 3
 		String [] res0_arr = new String [size];
 		String [] res1_arr = new String [size];
 		for (int i = 0; i < size; i++){
 			res0_arr[i] = ctx.attNames(0).tagName(i).getText();
 			res1_arr[i] = ctx.attNames(1).tagName(i).getText();
 		}
-		HashMap<String, ArrayList<Node>> hashMap0 = buildHashTable(res0, res0_arr);
-		ArrayList<Node> result = hashJoin(hashMap0, res1, res0_arr, res1_arr);
+		Map<ArrayList<String>, ArrayList<Node>> hashJoinMap0 = store(res0_arr, res0);
+		ArrayList<Node> result = hashJoin(hashJoinMap0, res0_arr, res1_arr, res1);
 		currentNodes = result;
 		return result;
 	}
 
-	private HashMap buildHashTable(ArrayList<Node> list, String [] tags){
-		HashMap<String, ArrayList<Node>> res = new HashMap<>();
-		for (Node n : list){
-			ArrayList<Node> children_n = children(n);
-			String key = "";
-			for (String tag: tags) {
-				for (Node c: children_n){
-					if (hashAtt.equals(c.getNodeName()))
-						key += c.getFirstChild().getTextContent();
-				}
-			}
-			if (res.containsKey(key))
-				res.get(key).add(n);
-			else{
-				ArrayList<Node> value = new ArrayList<>();
-				value.add(n);
-				res.put(key, value);
-			}
-		}
-		return res;
-	}
-
-
-	private ArrayList<Node> hashJoin(HashMap<String, ArrayList<Node>> hashMapLeft, ArrayList<Node> right, String [] listLeft, String []listRight) {
-		ArrayList<Node> result = new ArrayList<>();
-		for (Node n : right) {
-			ArrayList<Node> children_n = children(n);
-			String key = "";
-			for (String tag : listRight) {
-				for (Node c : children_n) {
+	private Map formMap(String [] tags, ArrayList<Node> res){
+		Map<ArrayList<String>, ArrayList<Node>> hashJoinMap = new HashMap<>();
+		// res is a node call tuple and it's children are the actual nodes we need to map
+		for (Node n : res){
+			ArrayList<String> key = new ArrayList<>();
+			for (String tag : tags) {
+				for (Node c : getChildren(n))) {
 					if (tag.equals(c.getNodeName())) {
-						key += c.getFirstChild().getTextContent();
+						key.add(c.getTextContent());
 					}
 				}
 			}
-			if (hashMapLeft.containsKey(key)){
-				result.addAll(product(hashMapLeft.get(key), n));
+
+			if (hashJoinMap.containsKey(key))
+				hashJoinMap.get(key).add(n);
+			else{
+				ArrayList<Node> value = new ArrayList<Node>(n);
+				hashJoinMap.put(key, value);
+			}
+		}
+		return hashJoinMap;
+	}
+
+
+	private ArrayList<Node> hashJoin(Map<ArrayList<String>, ArrayList<Node>> hashJoinMap0,  String[] res0_tags, String[] res1_tags, res1) {
+		ArrayList<Node> result = new ArrayList<Node>();
+		for (Node n : res1){
+			ArrayList<String> key = new ArrayList<>();
+			for (String tag : res1_tags) {
+				for (Node c : getChildren(n))) {
+					if (tag.equals(c.getNodeName())) {
+						key.add(c.getTextContent());
+					}
+				}
+			}
+
+			//find a row match, join col
+			if (hashJoinMap0.containsKey(key)) {
+				ArrayList<Node> curr_values = hashJoinMap0.get(key);
+				for (Node n2 : curr_values) {
+					ArrayList<Node> temp = getChildren(n2));
+					temp.addAll(getChildren(n));
+					result.addAll(makeElem("tuple", temp)); // $b = $a
+				}
 			}
 		}
 		return result;
