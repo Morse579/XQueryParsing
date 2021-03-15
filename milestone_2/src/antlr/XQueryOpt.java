@@ -28,7 +28,7 @@ import javax.xml.transform.stream.StreamResult;
 
 
 
-public class XQuery {
+public class XQueryOpt {
     public static void main(String[] args) throws IOException {
         //System.out.println("ACCEPT INPUT FILE:");
         //read test file from arg input
@@ -44,11 +44,13 @@ public class XQuery {
          */
 
         //open a file to write output in xml format
-        File outputFile = new File("Output.txt");
+        File outputFile = new File("Output.txt"); // output file for result
+        File rewriteQ = new File("QueryOutput.txt"); //output file for rewrite query
         if (!outputFile.exists()) outputFile.createNewFile(); // create output file
 
         @SuppressWarnings("resource")
 		FileOutputStream fileOutputStream = new FileOutputStream(outputFile);
+        FileOutputStream queryOutputStream = new FileOutputStream(rewriteQ);
         StringBuffer sb = new StringBuffer();
 
         //int idx = 0;
@@ -62,8 +64,8 @@ public class XQuery {
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         XQueryParser parser = new XQueryParser(tokens);
         ParseTree tree = parser.xq();
-        MyXQueryVisitor visitor = new MyXQueryVisitor();
-        ArrayList<Node> output_l  = (ArrayList<Node>) visitor.visit(tree);
+        MyXQueryVisitor visitor_opt = new MyXQueryVisitor();
+        ArrayList<Node> output_l  = (ArrayList<Node>) visitor_opt.visit(tree);
         //System.out.println("outputsize: " + output_l.size());
             //idx++;
 
@@ -89,6 +91,12 @@ public class XQuery {
         }
             //fileOutputStream.write(("-------------------------END OF TEST------------------------\n").getBytes());
 //        }
+        
+        //write rewrite query into output file
+        Optimized q_opt = new Optimized();
+        String q_result = "";//q_opt.inputRewrite(tree.XqFLWRContext);
+        queryOutputStream.write(q_result.getBytes());
+        
     }
 
 
@@ -107,5 +115,26 @@ public class XQuery {
         }
 
         return "";
+    }
+    
+    public static ArrayList<Node> evalRewrite(String rewrittenInput){
+        try {
+            CharStream input = CharStreams.fromString(rewrittenInput);
+            XQueryLexer lexer = new XQueryLexer(input);
+            CommonTokenStream tokens = new CommonTokenStream(lexer);
+            XQueryParser parser = new XQueryParser(tokens);
+            parser.removeErrorListeners();
+            ParseTree tree = parser.xq();
+
+            MyXQueryVisitor rewriteVisitor = new MyXQueryVisitor();
+            rewriteVisitor.needRewrite = false;
+            ArrayList<Node> results = rewriteVisitor.visit(tree);
+            return results;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("Error in xquery.evalRewrite: " + e.getMessage());
+        }
+        return null;
     }
 }
