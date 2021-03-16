@@ -50,6 +50,7 @@ xq
     | xq '//' rp                                        # XqFromCurr
     | '<' tagName '>' '{' xq '}' '</' tagName '>'       # XqNew
     | forClause? letClause? whereClause? returnClause   # XqFLWR
+    | joinClause                                        # XqJoin
     | letClause xq                                      # XqLet
     ;
 

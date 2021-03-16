@@ -534,21 +534,33 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 		return res;
 	}
 
+//	boolean printOnce = false;
+
 	private void helperFLWR(XQueryParser.XqFLWRContext ctx, int counter, ArrayList<Node> res){
 		//handle for loop via recursion
-		//System.out.println("call helperFLWR");
-		//System.out.println("counter: " + counter);
 
-		//System.out.println("ctx.forClause().var().size(): " + ctx.forClause().var().size());
+//		if(!printOnce) {
+
+			System.out.println("call helperFLWR");
+			System.out.println("counter: " + counter);
+			System.out.println("ctx.forClause().var().size(): " + ctx.forClause().var().size());
+//			printOnce = true;
+//		}
+
 		if (ctx.forClause()!= null && counter != ctx.forClause().var().size()){
+
 			String var = ctx.forClause().var(counter).getText();
+			System.out.println("var:" + var);
 			ArrayList<Node> nodes = visit(ctx.forClause().xq(counter));
+			System.out.println("nodes number: " + nodes.size());
 			for (Node n : nodes){
 				ArrayList<Node> node_list = new ArrayList<>();
 				node_list.add(n);
-				xqMap.put(var, node_list);
-				helperFLWR(ctx, counter + 1, res);
 				xqMap.remove(var);
+				xqMap.put(var, node_list);
+//				System.out.println("recurrsion and call helperFLWR again");
+				helperFLWR(ctx, counter + 1, res);
+
 			}
 		}
 		else {
@@ -572,7 +584,9 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 			}
 			//reset
 			xqMap = original;
+
 		}
+
 	}
 	
 	boolean needRewrite = true;
@@ -611,6 +625,7 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 		}
 		else {
 			System.out.println("no need to rewrite! / has been rewritten!");
+			System.out.println("forClause size: " + ctx.forClause().var().size());
 			helperFLWR(ctx,0,res);
 		}
 
