@@ -789,7 +789,7 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 		for (Node n : res){
 			ArrayList<String> key = new ArrayList<>();
 			for (String tag : tags) {
-				for (Node c : getChildren(n))) {
+				for (Node c : getChildren(n)) {
 					if (tag.equals(c.getNodeName())) {
 						key.add(c.getTextContent());
 					}
@@ -807,12 +807,30 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 	}
 
 
-	private ArrayList<Node> hashJoin(Map<ArrayList<String>, ArrayList<Node>> hashJoinMap0,  String[] res0_tags, String[] res1_tags, res1) {
+
+	// FIXME!!!
+	private Node makeElem(String tag, ArrayList<Node> list){
+		Document outputDocument = null;
+		Node result = outputDocument.createElement(tag);
+		for (Node node : list) {
+			if (node != null) {
+				Node newNode = outputDocument.importNode(node, true);
+				result.appendChild(newNode);
+			}
+		}
+		return result;
+	}
+
+
+
+
+
+	private ArrayList<Node> hashJoin(Map<ArrayList<String>, ArrayList<Node>> hashJoinMap0,  String[] res0_tags, String[] res1_tags, ArrayList<Node> res1) {
 		ArrayList<Node> result = new ArrayList<Node>();
 		for (Node n : res1){
 			ArrayList<String> key = new ArrayList<>();
 			for (String tag : res1_tags) {
-				for (Node c : getChildren(n))) {
+				for (Node c : getChildren(n)) {
 					if (tag.equals(c.getNodeName())) {
 						key.add(c.getTextContent());
 					}
@@ -823,7 +841,7 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 			if (hashJoinMap0.containsKey(key)) {
 				ArrayList<Node> curr_values = hashJoinMap0.get(key);
 				for (Node n2 : curr_values) {
-					ArrayList<Node> temp = getChildren(n2));
+					ArrayList<Node> temp = getChildren(n2);
 					temp.addAll(getChildren(n));
 					result.addAll(makeElem("tuple", temp)); // $b = $a
 				}
