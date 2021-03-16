@@ -813,6 +813,11 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 
 
 	/*----------------joinClause-----------------*/
+//	@Override
+//    public ArrayList<Node> visitXqjoin(XQueryParser.XqjoinContext ctx) {
+        //System.out.println(3);
+//        return visitChildren(ctx);
+//    }
 
 	@Override
 	public ArrayList<Node> visitJoinClause(XQueryParser.JoinClauseContext ctx) {
