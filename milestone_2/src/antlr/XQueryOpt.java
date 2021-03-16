@@ -117,24 +117,24 @@ public class XQueryOpt {
         return "";
     }
     
-    public static ArrayList<Node> evalRewrite(String rewrittenInput){
-        try {
-            CharStream input = CharStreams.fromString(rewrittenInput);
-            XQueryLexer lexer = new XQueryLexer(input);
-            CommonTokenStream tokens = new CommonTokenStream(lexer);
-            XQueryParser parser = new XQueryParser(tokens);
-            parser.removeErrorListeners();
-            ParseTree tree = parser.xq();
-
-            MyXQueryVisitor rewriteVisitor = new MyXQueryVisitor();
-            rewriteVisitor.needRewrite = false;
-            ArrayList<Node> results = rewriteVisitor.visit(tree);
-            return results;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.err.println("Error in xquery.evalRewrite: " + e.getMessage());
-        }
-        return null;
-    }
+//    public static ArrayList<Node> evalRewrite(String rewrittenInput){
+//        try {
+//            CharStream input = CharStreams.fromString(rewrittenInput);
+//            XQueryLexer lexer = new XQueryLexer(input);
+//            CommonTokenStream tokens = new CommonTokenStream(lexer);
+//            XQueryParser parser = new XQueryParser(tokens);
+//            parser.removeErrorListeners();
+//            ParseTree tree = parser.xq();
+//
+//            MyXQueryVisitor rewriteVisitor = new MyXQueryVisitor();
+//            rewriteVisitor.needRewrite = false;
+//            ArrayList<Node> results = rewriteVisitor.visit(tree);
+//            return results;
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            System.err.println("Error in xquery.evalRewrite: " + e.getMessage());
+//        }
+//        return null;
+//    }
 }
