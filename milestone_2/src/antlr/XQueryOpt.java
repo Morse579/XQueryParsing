@@ -53,12 +53,6 @@ public class XQueryOpt {
         FileOutputStream queryOutputStream = new FileOutputStream(rewriteQ);
         StringBuffer sb = new StringBuffer();
 
-        //int idx = 0;
-        //test query line by line
-//        for(String line : lines){
-
-            //XPath eval
-            //System.out.println(line);
         CharStream input_l = CharStreams.fromString(line);
         XQueryLexer lexer = new XQueryLexer(input_l);
         CommonTokenStream tokens = new CommonTokenStream(lexer);

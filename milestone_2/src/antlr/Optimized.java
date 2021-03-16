@@ -14,9 +14,14 @@ import org.w3c.dom.Node;
 
 public class Optimized {
 
+    String indent = "             ";
+
     private String PrintJoinCond(LinkedList<String> ret0, LinkedList<String> ret1, String output) {
+        System.out.println("call PrintJoinCond()");
+        System.out.println("take variable 0 and 1 and write the [tuple],[tuple] part in joinClause");
+
         //if the return value is empty
-        output += "                 [";
+        output += "             [";
         for(int i = 0; i < ret0.size();i++) {
             output += ret0.get(i);
             if(i != ret0.size()-1) {
@@ -30,7 +35,7 @@ public class Optimized {
                 output +=",";
             }
         }
-        output += "]  ";
+        output += "] ";
         return output;
     }
 
@@ -39,12 +44,14 @@ public class Optimized {
         //print for clause
         int numFor = ctx.forClause().var().size();
 
+
+
         for(int i = 0; i < classify.size(); i++) {
             ArrayList<String> curSet = classify.get(i);
 
             //tuples == the string after return
             String tuples = "";
-            //
+
             int count = 0;
 
             //print for
@@ -54,17 +61,20 @@ public class Optimized {
                     //if it's the first for clause, add "for" keyword
                     if(count == 0) {
                         String tmpp = ctx.forClause().xq(k).getText();
+                        System.out.println("tmpp:" + tmpp);
                         String[] sl = tmpp.split("return",2);
                         //if sl contains the key word "return"
+                        System.out.println("split with return gives an array of size: " + sl.length );
                         if(sl.length == 2) {
                             tmpp = sl[0] + " return " + sl[1];
                         }
-                        output += "for " + key + " in " + tmpp;
+                        output += indent.repeat(count) + "for " + key + " in " + tmpp;
 
                         count++;
+
                     }else {
                         output += ",\n";
-                        output += "                   " + key + " in " + ctx.forClause().xq(k).getText();
+                        output += indent.repeat(count) + key + " in " + ctx.forClause().xq(k).getText();
 
                     }
 
@@ -95,15 +105,18 @@ public class Optimized {
 
             //print return
             tuples = "<tuple> {"+tuples+"} </tuple>,";
-            output += "                  return " + tuples + "\n";
+            output += indent.repeat(count) + "return " + tuples + "\n";
 
 
-            // return cond
+            // the third and fourth arguments specify that the join is on attributes
             if(i > 0) {
                 LinkedList<String> ret0 = new LinkedList<>();
                 LinkedList<String> ret1 = new LinkedList<>();
 
                 for (int ii = 0; ii < cond.length; ii++) {
+//                    System.out.println("cond[ii][0]: " + cond[ii][0]);
+//                    System.out.println("cond[ii][1]: " + cond[ii][1]);
+
                     if (relaWhere[ii][0] == i && (relaWhere[ii][1] >= 0 && relaWhere[ii][1] < i)) {
                         ret0.add(cond[ii][1].substring(1));
                         ret1.add(cond[ii][0].substring(1));
@@ -175,11 +188,14 @@ public class Optimized {
 
         //------separate whereClause:------
         XQueryParser.WhereClauseContext whereClause_ctx = ctx.whereClause();
+
         //e.g.
         //where $aj eq "John" and
         //$af1 eq $af21 and $al1 eq $al21 and
         //$af22 eq $af3 and $al22 eq $al3
         //all conditions in allConds need to be satisfy
+
+
         String[] allConds = whereClause_ctx.cond().getText().split("and");
         int numConds = allConds.length;
         int[][] varGroup = new int[numConds][2]; //each entry represents a group a variable belongs to
@@ -189,13 +205,14 @@ public class Optimized {
         for (int i = 0; i < allConds.length; i++) {
             String workingCond = allConds[i];
             String[] vars = new String[2];
-            if (workingCond.contains("eq")) {
-                vars = workingCond.split("eq");
+            if (workingCond.contains("eq") || workingCond.contains("=")) {
+                vars = workingCond.split("eq|=");
             }
 
             //trim leading and trailing whitespaces
             //vars.size should be at most 2
             for (int j = 0; j < vars.length; j++) {
+                System.out.println("vars[j]" + vars[j]);
                 vars[j] = vars[j].trim();
                 //check which group this var belongs to
                 //var1 may belongs to group 1 while var2 belongs to group 2
@@ -218,7 +235,7 @@ public class Optimized {
         result += "for $tuple in ";
         //
         for (int i = 1; i < groups.size(); i++) {
-            result += " join ";
+            result += "join (\n";
         }
 
         result = printForandWhere(ctx, result, groups, eqVars ,varGroup);
@@ -226,6 +243,8 @@ public class Optimized {
 
         //------return components in each for group------
         // convert the return statement in original form to return statements in final form
+        //System.out.println("Enter return part!");
+
         XQueryParser.ReturnClauseContext returnClause_ctx = ctx.returnClause();
         // from:
         // <triplet> {$b1, $b2, $b3} </triplet>
@@ -241,6 +260,7 @@ public class Optimized {
         //<price-review>{ $tuple/a/*/price }</price-review>,
         //<price>{ $tuple/b/*/price }</price> }</book-with-prices>
         String originalReturn = returnClause_ctx.xq().getText();
+        //System.out.println("Original return:" + originalReturn);
         String[] returnParts = originalReturn.split("\\$");
         // result after split:
         // <book-with-prices>{
@@ -254,8 +274,16 @@ public class Optimized {
         //        //<something>{ b2 }</something>,
         //        //b3} </triplet>
         for (int i = 0; i < returnParts.length - 1; i++) {
-            returnParts[i] += "$tuple";
+            returnParts[i] += "$tuple/";
         }
+
+        //Print all returnParts:
+        /*
+        for (int i = 0; i < returnParts.length; i++) {
+            System.out.println(returnParts[i]);
+        }
+        */
+
 
         String returnRefrom = returnParts[0];
 
@@ -271,21 +299,25 @@ public class Optimized {
             String[] working = cur1;
 
             if (working.length > 1) {
+                System.out.println("case 1 or 2:");
                 //two cases:
                 //case1: tb,<price-review>{$tuple    -->    tb/*,  <price-review>{$tuple
                 //case2: a/price }</price-review>,<price>{$tuple   -->  a/price }</price-review>    <price>{$tuple
                 if (returnParts[i].contains("}")) {
                     //case2:
+                    System.out.println("case 2:");
                     working = cur2;
                     //working =   a    price }</price-review>,<price>{$tuple
                 }
+                working[0] += "/*,";
             } else {
                 //last component
                 //case 3, e.g.: b/price}</price>}</book-with-prices>
+                System.out.println("case 3:");
                 working = cur2;
+                working[0] += "/*/";
             }
 
-            working[0] += "/*,";
             returnRefrom += working[0] + working[1];
 
         }

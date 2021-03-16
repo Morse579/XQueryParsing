@@ -579,38 +579,39 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 
 	@Override
 	public ArrayList<Node> visitXqFLWR(XQueryParser.XqFLWRContext ctx) {
-		//System.out.println("call visirXqFLWR");
-		HashMap<String, ArrayList<Node>> original = new HashMap<>(xqMap);
-		xqStack.push(original);
-		ArrayList<Node> res = new ArrayList<>();
-		Optimized q_rewrite = new Optimized();
-		String re = q_rewrite.inputRewrite(ctx);
-		FileWriter writer;
-		try {
-			writer = new FileWriter("rewrited.txt");
-			writer.write(re);
-			writer.flush();
-			writer.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 
-		if (re == ""){
-			needRewrite = false;
+		System.out.println("call visirXqFLWR");
+		ArrayList<Node> res = new ArrayList<>();
+
+		if(needRewrite) {
+			System.out.println("need to be rewritten, proceed to rewrite process");
+			HashMap<String, ArrayList<Node>> original = new HashMap<>(xqMap);
+			xqStack.push(original);
+			Optimized q_rewrite = new Optimized();
+			String re = q_rewrite.inputRewrite(ctx);
+			FileWriter writer;
+			try {
+				writer = new FileWriter("rewrited.txt");
+				writer.write(re);
+				writer.flush();
+				writer.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+			if (re == "") {
+				needRewrite = false;
+			} else {
+				//System.out.println(1);
+				//ArrayList<Node> res = new ArrayList<>();
+
+				//System.out.println("REWRITE:\n" + re);
+				res = XQueryOpt.evalRewrite(re);
+			}
 		}
 		else {
-			//System.out.println(1);
-			//ArrayList<Node> res = new ArrayList<>();
-			res = XQueryOpt.evalRewrite(re);
-		}
-
-
-
-		if(!needRewrite) {
-			//ArrayList<Node> res = new ArrayList<>();
-			helperFLWR(ctx, 0, res);
-			xqMap = xqStack.pop();
-			return res;
+			System.out.println("no need to rewrite! / has been rewritten!");
+			helperFLWR(ctx,0,res);
 		}
 
 		return res;
@@ -800,6 +801,7 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 
 	@Override
 	public ArrayList<Node> visitJoinClause(XQueryParser.JoinClauseContext ctx) {
+		System.out.println("call visitJoinClause");
 		ArrayList<Node> res0 = visit(ctx.xq(0));
 		ArrayList<Node> res1 = visit(ctx.xq(1));
 		int size = ctx.attNames(0).tagName().size();
@@ -816,7 +818,7 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 		return result;
 	}
 
-	private Map formMap(String [] tags, ArrayList<Node> res){
+	private Map<ArrayList<String>, ArrayList<Node>> formMap(String [] tags, ArrayList<Node> res){
 		Map<ArrayList<String>, ArrayList<Node>> hashJoinMap = new HashMap<>();
 		// res is a node call tuple and it's children are the actual nodes we need to map
 		for (Node n : res){
