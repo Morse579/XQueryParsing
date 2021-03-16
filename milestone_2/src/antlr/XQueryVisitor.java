@@ -188,6 +188,13 @@ public interface XQueryVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitXqParenthesis(XQueryParser.XqParenthesisContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code XqJoin}
+	 * labeled alternative in {@link XQueryParser#xq}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitXqJoin(XQueryParser.XqJoinContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code XqConcat}
 	 * labeled alternative in {@link XQueryParser#xq}.
 	 * @param ctx the parse tree
