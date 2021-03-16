@@ -777,7 +777,7 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 			res0_arr[i] = ctx.attNames(0).tagName(i).getText();
 			res1_arr[i] = ctx.attNames(1).tagName(i).getText();
 		}
-		Map<ArrayList<String>, ArrayList<Node>> hashJoinMap0 = store(res0_arr, res0);
+		Map<ArrayList<String>, ArrayList<Node>> hashJoinMap0 = formMap(res0_arr, res0);
 		ArrayList<Node> result = hashJoin(hashJoinMap0, res0_arr, res1_arr, res1);
 		currentNodes = result;
 		return result;
@@ -799,7 +799,8 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 			if (hashJoinMap.containsKey(key))
 				hashJoinMap.get(key).add(n);
 			else{
-				ArrayList<Node> value = new ArrayList<Node>(n);
+				ArrayList<Node> value = new ArrayList<Node>();
+				value.add(n);
 				hashJoinMap.put(key, value);
 			}
 		}
@@ -809,17 +810,17 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 
 
 	// FIXME!!!
-	private Node makeElem(String tag, ArrayList<Node> list){
-		Document outputDocument = null;
-		Node result = outputDocument.createElement(tag);
-		for (Node node : list) {
-			if (node != null) {
-				Node newNode = outputDocument.importNode(node, true);
-				result.appendChild(newNode);
-			}
-		}
-		return result;
-	}
+//	private Node makeElem(String tag, ArrayList<Node> list){
+//		Document outputDocument = null;
+//		Node result = outputDocument.createElement(tag);
+//		for (Node node : list) {
+//			if (node != null) {
+//				Node newNode = outputDocument.importNode(node, true);
+//				result.appendChild(newNode);
+//			}
+//		}
+//		return result;
+//	}
 
 
 
@@ -843,7 +844,7 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 				for (Node n2 : curr_values) {
 					ArrayList<Node> temp = getChildren(n2);
 					temp.addAll(getChildren(n));
-					result.addAll(makeElem("tuple", temp)); // $b = $a
+					result.add(makeNode("tuple", temp)); // $b = $a
 				}
 			}
 		}

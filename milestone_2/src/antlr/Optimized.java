@@ -1,3 +1,5 @@
+package antlr;
+
 import java.io.File;
 import java.util.*;
 import org.antlr.v4.runtime.*;
@@ -128,14 +130,14 @@ public class Optimized {
         String result = "";
 
         //-----grouping forClause:------
-        ForClauseContext forClause_ctx = ctx.forClause();
+        XQueryParser.ForClauseContext forClause_ctx = ctx.forClause();
         //group the key that's relevent to each othe in one trunk
         //e.g.
         //for $b1 in doc("input")/book,
         //$aj in $b1/author/first/text(),
         //$a1 in $b1/author,
         //$af1 in $a1/first,
-        ArrayList<ArrayList<String>> groups;
+        ArrayList<ArrayList<String>> groups = new ArrayList<ArrayList<String>>();;
         for (int i = 0; i < forClause_ctx.xq().size(); i++) {
             String xq = forClause_ctx.xq(i).getText();
             String key = forClause_ctx.var(i).getText();
@@ -143,10 +145,11 @@ public class Optimized {
 
             //check if current node groups contains this parent, if so, put current key into that group too
             if (groups.size() == 0) {
-                ArrayList<String> newGroup = new ArrayList<String>(key);
+                ArrayList<String> newGroup = new ArrayList<String>();
+                newGroup.add(key);
                 groups.add(newGroup);
             } else {
-                bool findGroup = false;
+                boolean findGroup = false;
                 for (int j = 0; j < groups.size(); j++) {
                     ArrayList<String> workingGroup = groups.get(j);
                     if (workingGroup.contains(parent)) {
@@ -157,7 +160,8 @@ public class Optimized {
                 }
 
                 if (!findGroup) {
-                    ArrayList<String> newGroup = new ArrayList<String>(key);
+                    ArrayList<String> newGroup = new ArrayList<String>();
+                    newGroup.add(key);
                     groups.add(newGroup);
                 }
             }
@@ -170,7 +174,7 @@ public class Optimized {
 
 
         //------separate whereClause:------
-        WhereClauseContext whereClause_ctx = ctx.whereClause();
+        XQueryParser.WhereClauseContext whereClause_ctx = ctx.whereClause();
         //e.g.
         //where $aj eq "John" and
         //$af1 eq $af21 and $al1 eq $al21 and
@@ -184,14 +188,14 @@ public class Optimized {
 
         for (int i = 0; i < allConds.length; i++) {
             String workingCond = allConds[i];
-            String[] vars;
+            String[] vars = new String[2];
             if (workingCond.contains("eq")) {
                 vars = workingCond.split("eq");
             }
 
             //trim leading and trailing whitespaces
             //vars.size should be at most 2
-            for (int j = 0; j < vars.size(); j++) {
+            for (int j = 0; j < vars.length; j++) {
                 vars[j] = vars[j].trim();
                 //check which group this var belongs to
                 //var1 may belongs to group 1 while var2 belongs to group 2
@@ -222,7 +226,7 @@ public class Optimized {
 
         //------return components in each for group------
         // convert the return statement in original form to return statements in final form
-        ReturnClauseContext returnClause_ctx = ctx.returnClause();
+        XQueryParser.ReturnClauseContext returnClause_ctx = ctx.returnClause();
         // from:
         // <triplet> {$b1, $b2, $b3} </triplet>
         // convert to:
@@ -236,7 +240,7 @@ public class Optimized {
         //<book-with-prices>{ $tuple/tb/*,
         //<price-review>{ $tuple/a/*/price }</price-review>,
         //<price>{ $tuple/b/*/price }</price> }</book-with-prices>
-        String originalReturn = returnClause.xq().getText();
+        String originalReturn = returnClause_ctx.xq().getText();
         String[] returnParts = originalReturn.split("\\$");
         // result after split:
         // <book-with-prices>{
