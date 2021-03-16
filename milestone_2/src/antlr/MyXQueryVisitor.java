@@ -578,10 +578,37 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 		//System.out.println("call visirXqFLWR");
 		HashMap<String, ArrayList<Node>> original = new HashMap<>(xqMap);
 		xqStack.push(original);
-		ArrayList<Node> res = new ArrayList<>();
-		helperFLWR(ctx, 0, res);
-		xqMap = xqStack.pop();
-		return res;
+
+
+		String re = Optimized.inputRewrite(context);
+		FileWriter writer;
+		try {
+			writer = new FileWriter("rewrited.txt");
+			writer.write(re);
+			writer.flush();
+			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		if (re.length == 0){
+			needRewrite = false;
+		}
+		else {
+			//System.out.println(1);
+			res = XQuery.evalRewrited(rewrited);
+		}
+
+
+
+		if(!needRewrite) {
+			ArrayList<Node> res = new ArrayList<>();
+			helperFLWR(ctx, 0, res);
+			xqMap = xqStack.pop();
+			return res;
+		}
+
+		return res
 
 	}
 
