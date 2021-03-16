@@ -2,6 +2,8 @@ package antlr;
 
 import java.util.*;
 
+import org.antlr.runtime.CharStream;
+import org.antlr.v4.runtime.CharStreams;
 import org.w3c.dom.*;
 
 import javax.sound.midi.SysexMessage;
@@ -572,15 +574,17 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 			xqMap = original;
 		}
 	}
+	
+	boolean needRewrite = true;
 
 	@Override
 	public ArrayList<Node> visitXqFLWR(XQueryParser.XqFLWRContext ctx) {
 		//System.out.println("call visirXqFLWR");
 		HashMap<String, ArrayList<Node>> original = new HashMap<>(xqMap);
 		xqStack.push(original);
-
-
-		String re = Optimized.inputRewrite(context);
+		ArrayList<Node> res = new ArrayList<>();
+		Optimized q_rewrite = new Optimized();
+		String re = q_rewrite.inputRewrite(ctx);
 		FileWriter writer;
 		try {
 			writer = new FileWriter("rewrited.txt");
@@ -591,27 +595,29 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 			e.printStackTrace();
 		}
 
-		if (re.length == 0){
+		if (re == ""){
 			needRewrite = false;
 		}
 		else {
 			//System.out.println(1);
-			res = XQuery.evalRewrited(rewrited);
+			//ArrayList<Node> res = new ArrayList<>();
+			res = XQueryOpt.evalRewrite(re);
 		}
 
 
 
 		if(!needRewrite) {
-			ArrayList<Node> res = new ArrayList<>();
+			//ArrayList<Node> res = new ArrayList<>();
 			helperFLWR(ctx, 0, res);
 			xqMap = xqStack.pop();
 			return res;
 		}
 
-		return res
+		return res;
 
 	}
-
+	
+	
 	@Override
 	public ArrayList<Node> visitXqLet(XQueryParser.XqLetContext ctx) {
 		//System.out.println("call visitXqLet");
