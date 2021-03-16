@@ -21,11 +21,8 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 	Map<String, ArrayList<Node>> xqMap = new HashMap<>();
 	Stack<HashMap<String, ArrayList<Node>>> xqStack = new Stack<>();
 
-
-	Document doc_Out = null;
-
 	//TODO!!! check
-	//Document document = null;
+	Document document = null;
 
 	@Override
 	public ArrayList<Node> visitApRoot(XQueryParser.ApRootContext ctx) {
@@ -353,6 +350,7 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 		return visitChildren(ctx);
 	}
 
+
 	private ArrayList<Node> xlmParser(String input_f) {
 		ArrayList<Node> temp = new ArrayList<>();
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -363,7 +361,7 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 			e.printStackTrace();
 		}
 		//Build Document
-		Document document = null;
+		document = null;
 		try {
 			document = builder.parse(new File(input_f));
 		} catch (SAXException e) {
@@ -480,8 +478,11 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 	
 	
 	//HELPER FUNCTIONS
+//	int timesMakeNode = 0;
 	public Node makeNode(String tagName, List<Node> list){
-		//System.out.println("call makeNode");
+//		System.out.println("call makeNode");
+//		timesMakeNode++;
+
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder builder = null;
 		try {
@@ -539,20 +540,17 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 	private void helperFLWR(XQueryParser.XqFLWRContext ctx, int counter, ArrayList<Node> res){
 		//handle for loop via recursion
 
-//		if(!printOnce) {
+//		System.out.println("call helperFLWR");
+//		System.out.println("counter: " + counter);
+//		System.out.println("ctx.forClause().var().size(): " + ctx.forClause().var().size());
 
-			System.out.println("call helperFLWR");
-			System.out.println("counter: " + counter);
-			System.out.println("ctx.forClause().var().size(): " + ctx.forClause().var().size());
-//			printOnce = true;
-//		}
 
 		if (ctx.forClause()!= null && counter != ctx.forClause().var().size()){
 
 			String var = ctx.forClause().var(counter).getText();
-			System.out.println("var:" + var);
+//			System.out.println("var:" + var);
 			ArrayList<Node> nodes = visit(ctx.forClause().xq(counter));
-			System.out.println("nodes number: " + nodes.size());
+//			System.out.println("nodes number: " + nodes.size());
 			for (Node n : nodes){
 				ArrayList<Node> node_list = new ArrayList<>();
 				node_list.add(n);
@@ -762,27 +760,15 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 
 	@Override
 	public ArrayList<Node> visitXqCondAnd(XQueryParser.XqCondAndContext ctx) {
-		//TODO: CHECK ME !!!
-		//CURRENTLY FOLLOWING THE SAME FORMAT AS FILTER AND
 		ArrayList<Node> originNodesCopy = currentNodes;
 		ArrayList<Node> res0 = visit(ctx.cond(0));
 		currentNodes = originNodesCopy;
 		ArrayList<Node> res1 = visit(ctx.cond(1));
         if (!res0.isEmpty() && !res1.isEmpty()) {
-    		//res0.retainAll(res1);
-    		//System.out.println(res0);
-    		//Set<Node> intersection = new HashSet<Node>(res0);//CHANGED
-    		//ArrayList<Node> res = new ArrayList<Node>(intersection);
             return currentNodes;
         }
         return new ArrayList<Node>();
-		
-		//res0.retainAll(res1);
-		//System.out.println(res0);
-		//Set<Node> intersection = new HashSet<Node>(res0);//CHANGED
-		//ArrayList<Node> res = new ArrayList<Node>(intersection);
-		//ArrayList<Node> res = new ArrayList<Node>(res0);
-		//return res;
+
 	}
 
 	//
@@ -813,46 +799,66 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 
 
 	/*----------------joinClause-----------------*/
-//	@Override
+	@Override
 	public ArrayList<Node> visitXqJoin(XQueryParser.XqJoinContext ctx) { 
 		return visitChildren(ctx); 
-		}
+	}
 
 	@Override
 	public ArrayList<Node> visitJoinClause(XQueryParser.JoinClauseContext ctx) {
 		System.out.println("call visitJoinClause");
+		System.out.println("xq0:\n" + ctx.xq(0).getText());
+		System.out.println("xq1:\n" + ctx.xq(1).getText());
+
 		ArrayList<Node> res0 = visit(ctx.xq(0));
 		ArrayList<Node> res1 = visit(ctx.xq(1));
+		System.out.println("visit first xq results in # nodes: " + res0.size());
+		System.out.println("visit second xq results in # nodes: " + res1.size());
+
 		int size = ctx.attNames(0).tagName().size();
 		//results after visiting xq0 might be several attributes as in exxample 3
+		//get the content of first [] and second []. The third and fourth variable in joinclause input statement
 		String [] res0_arr = new String [size];
 		String [] res1_arr = new String [size];
 		for (int i = 0; i < size; i++){
 			res0_arr[i] = ctx.attNames(0).tagName(i).getText();
 			res1_arr[i] = ctx.attNames(1).tagName(i).getText();
 		}
-		Map<ArrayList<String>, ArrayList<Node>> hashJoinMap0 = formMap(res0_arr, res0);
+		Map<String, ArrayList<Node>> hashJoinMap0 = formMap(res0_arr, res0);
 		ArrayList<Node> result = hashJoin(hashJoinMap0, res0_arr, res1_arr, res1);
 		currentNodes = result;
+		System.out.println("# of nodes resulting from joinClause: " + currentNodes.size());
 		return result;
 	}
 
-	private Map<ArrayList<String>, ArrayList<Node>> formMap(String [] tags, ArrayList<Node> res){
-		Map<ArrayList<String>, ArrayList<Node>> hashJoinMap = new HashMap<>();
+	private Map<String, ArrayList<Node>> formMap(String [] tags, ArrayList<Node> res){
+		System.out.println("call formMap()");
+		HashMap<String, ArrayList<Node>> hashJoinMap = new HashMap<>();
 		// res is a node call tuple and it's children are the actual nodes we need to map
+
 		for (Node n : res){
-			ArrayList<String> key = new ArrayList<>();
+			String key = "";
 			for (String tag : tags) {
-				for (Node c : getChildren(n)) {
+//				System.out.println("tag: " + tag);
+				ArrayList<Node> children = getChildren(n);
+				for (Node c : children) {
+//					System.out.println("c.getNodeName(): " + c.getNodeName());
 					if (tag.equals(c.getNodeName())) {
-						key.add(c.getTextContent());
+						key += c .getTextContent();
 					}
 				}
 			}
-
-			if (hashJoinMap.containsKey(key))
-				hashJoinMap.get(key).add(n);
+//			System.out.println("HERE");
+//			System.out.println("timesMakeNode: " + timesMakeNode);
+//			System.out.println("key: " + key);
+			if (hashJoinMap.containsKey(key)) {
+//				System.out.println("contain the key");
+				ArrayList<Node> value = hashJoinMap.get(key);
+				value.add(n);
+				hashJoinMap.replace(key, value);
+			}
 			else{
+//				System.out.println("doesn't the key");
 				ArrayList<Node> value = new ArrayList<Node>();
 				value.add(n);
 				hashJoinMap.put(key, value);
@@ -862,32 +868,15 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 	}
 
 
-
-	// FIXME!!!
-//	private Node makeElem(String tag, ArrayList<Node> list){
-//		Document outputDocument = null;
-//		Node result = outputDocument.createElement(tag);
-//		for (Node node : list) {
-//			if (node != null) {
-//				Node newNode = outputDocument.importNode(node, true);
-//				result.appendChild(newNode);
-//			}
-//		}
-//		return result;
-//	}
-
-
-
-
-
-	private ArrayList<Node> hashJoin(Map<ArrayList<String>, ArrayList<Node>> hashJoinMap0,  String[] res0_tags, String[] res1_tags, ArrayList<Node> res1) {
+	private ArrayList<Node> hashJoin(Map<String, ArrayList<Node>> hashJoinMap0,  String[] res0_tags, String[] res1_tags, ArrayList<Node> res1) {
 		ArrayList<Node> result = new ArrayList<Node>();
 		for (Node n : res1){
-			ArrayList<String> key = new ArrayList<>();
+			String key = "";
 			for (String tag : res1_tags) {
-				for (Node c : getChildren(n)) {
+				ArrayList<Node> children = getChildren(n);
+				for (Node c : children) {
 					if (tag.equals(c.getNodeName())) {
-						key.add(c.getTextContent());
+						key += c.getTextContent();
 					}
 				}
 			}
@@ -900,10 +889,24 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 					temp.addAll(getChildren(n));
 					result.add(makeNode("tuple", temp)); // $b = $a
 				}
+//				result.addAll(product(hashJoinMap0.get(key),n));
 			}
 		}
 		return result;
 	}
+
+
+//	private Node makeElem(String tag, ArrayList<Node> list){
+//		Node result = doc.createElement(tag);
+//		for (Node node : list) {
+//			if (node != null) {
+//				Node newNode = doc_Out.importNode(node, true);
+//				result.appendChild(newNode);
+//			}
+//		}
+//		return result;
+//	}
+
 
 
 
