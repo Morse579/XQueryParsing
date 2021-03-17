@@ -539,12 +539,6 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 
 	private void helperFLWR(XQueryParser.XqFLWRContext ctx, int counter, ArrayList<Node> res){
 		//handle for loop via recursion
-
-//		System.out.println("call helperFLWR");
-//		System.out.println("counter: " + counter);
-//		System.out.println("ctx.forClause().var().size(): " + ctx.forClause().var().size());
-
-
 		if (ctx.forClause()!= null && counter != ctx.forClause().var().size()){
 
 			String var = ctx.forClause().var(counter).getText();
@@ -620,10 +614,10 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 //				System.out.println("RE = EMPTY! no need to rewrite! / has been rewritten!");
 				ctx = original_ctx;
 //				System.out.println("forClause size: " + ctx.forClause().var().size());
-				if(ctx.forClause().var().size() == 2) {
+//				if(ctx.forClause().var().size() == 2) {
 //					System.out.println("var0: \n"+ ctx.forClause().var(0).getText() + "\n" + "xq0:\n" + ctx.forClause().xq(0).getText());
 //					System.out.println("var1: \n"+ ctx.forClause().var(1).getText() + "\n" + "xq1:\n" + ctx.forClause().xq(1).getText());
-				}
+//				}
 				helperFLWR(ctx,0,res);
 			} else {
 				//System.out.println(1);
@@ -681,7 +675,7 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 
 	@Override
 	public ArrayList<Node> visitWhereClause(XQueryParser.WhereClauseContext ctx) {
-		//System.out.println("visitWhereClause");
+//		System.out.println("visitWhereClause");
 		return visit(ctx.cond());
 	}
 
@@ -836,8 +830,22 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 		System.out.println("visit first xq results in # nodes: " + res0.size());
 		System.out.println("visit second xq results in # nodes: " + res1.size());
 
+		//test
+		/*
+		System.out.println("TEST");
+		for(int h = 0; h < res0.size(); h++){
+			System.out.println(res0.get(h).getNodeName());
+			ArrayList<Node> temp = getChildren(res0.get(h));
+			for(Node n : temp){
+				System.out.println(n.getNodeName());
+				System.out.println(n.getTextContent());
+			}
+		}
+		 */
+
+
 		int size = ctx.attNames(0).tagName().size();
-		//results after visiting xq0 might be several attributes as in exxample 3
+		//results after visiting xq0 might be several attributes as in example 3
 		//get the content of first [] and second []. The third and fourth variable in joinclause input statement
 		String [] res0_arr = new String [size];
 		String [] res1_arr = new String [size];
@@ -845,12 +853,75 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 			res0_arr[i] = ctx.attNames(0).tagName(i).getText();
 			res1_arr[i] = ctx.attNames(1).tagName(i).getText();
 		}
-		Map<String, ArrayList<Node>> hashJoinMap0 = formMap(res0_arr, res0);
-		ArrayList<Node> result = hashJoin(hashJoinMap0, res0_arr, res1_arr, res0, res1);
+
+		ArrayList<Node> result = newJoin(res0, res1, res0_arr, res1_arr);
+//		Map<String, ArrayList<Node>> hashJoinMap0 = formMap(res0_arr, res0);
+//		ArrayList<Node> result = hashJoin(hashJoinMap0, res0_arr, res1_arr, res0, res1);
 		currentNodes = result;
 		System.out.println("# of nodes resulting from joinClause: " + currentNodes.size());
 		return result;
 	}
+
+	public ArrayList<Node> newJoin (ArrayList<Node> res0, ArrayList<Node> res1, String [] tags0, String [] tags1){
+		ArrayList<Node> result = new ArrayList<>();
+		for(int i = 0; i< tags0.length; i++){
+			String target0 = tags0[i];
+			String target1 = tags1[i];
+			System.out.println("target0: "+target0);
+			System.out.println("target1: "+target1);
+			Node targetNode0 = null;
+			Node targetNode1 = null;
+			for(Node tuple0 : res0){
+				ArrayList<Node> children0 = getChildren(tuple0);
+				for(Node c0 : children0) {
+					System.out.println("child0 node name: " + c0.getNodeName());
+					if (c0.getNodeName().compareTo(target0) == 0) {
+//						System.out.println("FOUND");
+						//we need to compare this target node with the other target node
+						targetNode0 = c0;
+						break;
+					}
+				}
+
+				String content0  = targetNode0.getTextContent();
+
+
+				for(Node tuple1 : res1){
+					ArrayList<Node> children1 = getChildren(tuple1);
+					for(Node c1 : children0) {
+						System.out.println("child1 node name: " + c1.getNodeName());
+						if (c1.getNodeName().compareTo(target1) == 0) {
+							//we need to compare this target node with the other target node
+							targetNode1 = c1;
+							break;
+						}
+					}
+
+					String content1 = targetNode1.getTextContent();
+					if(content0.compareTo(content1) == 0){
+						//join tuple0 and tuple1
+						ArrayList<Node> temp = new ArrayList<>();
+						temp.addAll(children0);
+						temp.addAll(children1);
+						result.add(makeNode("tuple",temp));
+
+					}
+
+				}
+
+
+
+			}
+
+
+
+
+
+		}
+
+		return result;
+	}
+
 
 	private Map<String, ArrayList<Node>> formMap(String [] tags, ArrayList<Node> res){
 		System.out.println("call formMap()");
@@ -919,53 +990,30 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 			ArrayList<Node> tag1nodes = hashJoinMap1.get(tag1);
 			System.out.println("# of nodes under tag1: " + tag1nodes.size());
 			for (int j = 0; j < tag0nodes.size(); j++) {
+				//for all tuples from the first for loop
 				String content0 = tag0nodes.get(j).getTextContent();
-				String content1 = tag1nodes.get(j).getTextContent();
-				if (content0.compareTo(content1) != 0) {
-//					System.out.println("return empty as nodes in filters are not equal");
-					notEqualCount++;
-				}
-				else
-					result.add(tag0nodes.get(j));
+					for(int k = 0; k < tag1nodes.size(); k++) {
+						//find all tuples from the second for loop that satisfy the join condition
+						String content1 = tag1nodes.get(j).getTextContent();
+						if (content0.compareTo(content1) != 0) {
+							//not satisfy, do not join
+							notEqualCount++;
+						} else {
+							//join them together by making them become a new tuple
+
+							result.add(tag0nodes.get(j));
+						}
+					}
 			}
+
+
+
+
 		}
+
 		System.out.println("not equal count: " + notEqualCount);
-
-
-
-		//filter has been checked, two tuples satisfy the conditions in []
-//		System.out.println("filter has been checked, now put them all to result arraylist");
-//		for(String key : hashJoinMap0.keySet()){
-//			System.out.println("map0 key: " + key);
-//			result.addAll(hashJoinMap0.get(key));
-//		}
-//		for(String key : hashJoinMap1.keySet()){
-//			System.out.println("map1 key: " + key);
-//			result.addAll(hashJoinMap1.get(key));
-//		}
-//		result.addAll(res1);
 		return result;
 	}
-
-
-//	private Node makeElem(String tag, ArrayList<Node> list){
-//		Node result = doc.createElement(tag);
-//		for (Node node : list) {
-//			if (node != null) {
-//				Node newNode = doc_Out.importNode(node, true);
-//				result.appendChild(newNode);
-//			}
-//		}
-//		return result;
-//	}
-
-
-
-
-
-
-
-
 
 
 
