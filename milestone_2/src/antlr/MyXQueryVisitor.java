@@ -916,14 +916,11 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 			ArrayList<Node> tag1nodes = hashJoinMap1.get(tag1);
 			System.out.println("# of nodes under tag1: " + tag1nodes.size());
 			for(int j = 0; j < tag0nodes.size(); j++){
-				boolean isEqual = tag0nodes.get(j).isEqualNode(tag1nodes.get(j));
-				if(!isEqual){
+				String content0 = tag0nodes.get(j).getTextContent();
+				String content1 = tag1nodes.get(j).getTextContent();
+				if(content0.compareTo(content1) != 0)
 					System.out.println("return empty as nodes in filters are not equal");
-					Node working0 = tag0nodes.get(j);
-//					System.out.println("node0 name:"+ working0.getNodeName());
-					Node working1 = tag1nodes.get(j);
-//					System.out.println("node1 name:"+ working1.getNodeName());
-				}
+
 			}
 
 
