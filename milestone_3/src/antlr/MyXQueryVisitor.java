@@ -874,7 +874,7 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 			for(Node tuple0 : res0){
 				ArrayList<Node> children0 = getChildren(tuple0);
 				for(Node c0 : children0) {
-					System.out.println("child0 node name: " + c0.getNodeName());
+//					System.out.println("child0 node name: " + c0.getNodeName());
 					if (c0.getNodeName().compareTo(target0) == 0) {
 //						System.out.println("FOUND");
 						//we need to compare this target node with the other target node
@@ -885,11 +885,10 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 
 				String content0  = targetNode0.getTextContent();
 
-
 				for(Node tuple1 : res1){
 					ArrayList<Node> children1 = getChildren(tuple1);
-					for(Node c1 : children0) {
-						System.out.println("child1 node name: " + c1.getNodeName());
+					for(Node c1 : children1) {
+//						System.out.println("child1 node name: " + c1.getNodeName());
 						if (c1.getNodeName().compareTo(target1) == 0) {
 							//we need to compare this target node with the other target node
 							targetNode1 = c1;
@@ -904,116 +903,107 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 						temp.addAll(children0);
 						temp.addAll(children1);
 						result.add(makeNode("tuple",temp));
-
 					}
-
 				}
 
-
-
 			}
-
-
-
-
-
 		}
 
 		return result;
 	}
 
 
-	private Map<String, ArrayList<Node>> formMap(String [] tags, ArrayList<Node> res){
-		System.out.println("call formMap()");
-		HashMap<String, ArrayList<Node>> hashJoinMap = new HashMap<>();
-
-		// res is a node call tuple and it's children are the actual nodes we need to map
-		System.out.println("formMap input res.size():" + res.size());
-//		System.out.println("res has " + children.size() + " kids");
-		for (Node n : res){
-			String key = "";
-			ArrayList<Node> children = getChildren(n);
-			for (Node c : children) {
-				key = c.getNodeName();
-//				System.out.println("tryting to store node: " + key);
-				if (!hashJoinMap.containsKey(key)) {
-//					System.out.println("map doesn't contain that key yet: " + key);
-//					System.out.println("store node with key: " + key);
-					ArrayList<Node> value = new ArrayList<Node>();
-					value.add(c);
-					hashJoinMap.put(key, value);
-				}
-				else{
-					ArrayList<Node> value = hashJoinMap.get(key);
-					value.add(c);
-					hashJoinMap.replace(key,value);
-				}
-			}
-		}
-		return hashJoinMap;
-	}
-
-
-	private ArrayList<Node> hashJoin(Map<String, ArrayList<Node>> hashJoinMap0,  String[] res0_tags, String[] res1_tags, ArrayList<Node> res0, ArrayList<Node> res1) {
-		ArrayList<Node> result = new ArrayList<Node>();
-		System.out.println("call hashJoin");
-
-		HashMap<String, ArrayList<Node>> hashJoinMap1 = new HashMap<>();
-		for (Node n : res1){
-			String key = "";
-			ArrayList<Node> children = getChildren(n);
-			for (Node c : children) {
-				key = c.getNodeName();
-//				System.out.println("tryting to store node: " + key);
-				if (!hashJoinMap1.containsKey(key)) {
-//					System.out.println("map doesn't contain that key yet!");
-//					System.out.println("store node with key: " + key);
-					ArrayList<Node> value = new ArrayList<Node>();
-					value.add(c);
-					hashJoinMap1.put(key, value);
-				}
-				else{
-					ArrayList<Node> value = hashJoinMap1.get(key);
-					value.add(c);
-					hashJoinMap1.replace(key,value);
-				}
-			}
-		}
-		int notEqualCount = 0;
-		for(int i = 0; i < res0_tags.length; i++) {
-			String tag0 = res0_tags[i];
-			System.out.println("tag0:" + tag0);
-			String tag1 = res1_tags[i];
-			System.out.println("tag1:" + tag1);
-			ArrayList<Node> tag0nodes = hashJoinMap0.get(tag0);
-			System.out.println("# of nodes under tag0: " + tag0nodes.size());
-			ArrayList<Node> tag1nodes = hashJoinMap1.get(tag1);
-			System.out.println("# of nodes under tag1: " + tag1nodes.size());
-			for (int j = 0; j < tag0nodes.size(); j++) {
-				//for all tuples from the first for loop
-				String content0 = tag0nodes.get(j).getTextContent();
-					for(int k = 0; k < tag1nodes.size(); k++) {
-						//find all tuples from the second for loop that satisfy the join condition
-						String content1 = tag1nodes.get(j).getTextContent();
-						if (content0.compareTo(content1) != 0) {
-							//not satisfy, do not join
-							notEqualCount++;
-						} else {
-							//join them together by making them become a new tuple
-
-							result.add(tag0nodes.get(j));
-						}
-					}
-			}
-
-
-
-
-		}
-
-		System.out.println("not equal count: " + notEqualCount);
-		return result;
-	}
+//	private Map<String, ArrayList<Node>> formMap(String [] tags, ArrayList<Node> res){
+//		System.out.println("call formMap()");
+//		HashMap<String, ArrayList<Node>> hashJoinMap = new HashMap<>();
+//
+//		// res is a node call tuple and it's children are the actual nodes we need to map
+//		System.out.println("formMap input res.size():" + res.size());
+////		System.out.println("res has " + children.size() + " kids");
+//		for (Node n : res){
+//			String key = "";
+//			ArrayList<Node> children = getChildren(n);
+//			for (Node c : children) {
+//				key = c.getNodeName();
+////				System.out.println("tryting to store node: " + key);
+//				if (!hashJoinMap.containsKey(key)) {
+////					System.out.println("map doesn't contain that key yet: " + key);
+////					System.out.println("store node with key: " + key);
+//					ArrayList<Node> value = new ArrayList<Node>();
+//					value.add(c);
+//					hashJoinMap.put(key, value);
+//				}
+//				else{
+//					ArrayList<Node> value = hashJoinMap.get(key);
+//					value.add(c);
+//					hashJoinMap.replace(key,value);
+//				}
+//			}
+//		}
+//		return hashJoinMap;
+//	}
+//
+//
+//	private ArrayList<Node> hashJoin(Map<String, ArrayList<Node>> hashJoinMap0,  String[] res0_tags, String[] res1_tags, ArrayList<Node> res0, ArrayList<Node> res1) {
+//		ArrayList<Node> result = new ArrayList<Node>();
+//		System.out.println("call hashJoin");
+//
+//		HashMap<String, ArrayList<Node>> hashJoinMap1 = new HashMap<>();
+//		for (Node n : res1){
+//			String key = "";
+//			ArrayList<Node> children = getChildren(n);
+//			for (Node c : children) {
+//				key = c.getNodeName();
+////				System.out.println("tryting to store node: " + key);
+//				if (!hashJoinMap1.containsKey(key)) {
+////					System.out.println("map doesn't contain that key yet!");
+////					System.out.println("store node with key: " + key);
+//					ArrayList<Node> value = new ArrayList<Node>();
+//					value.add(c);
+//					hashJoinMap1.put(key, value);
+//				}
+//				else{
+//					ArrayList<Node> value = hashJoinMap1.get(key);
+//					value.add(c);
+//					hashJoinMap1.replace(key,value);
+//				}
+//			}
+//		}
+//		int notEqualCount = 0;
+//		for(int i = 0; i < res0_tags.length; i++) {
+//			String tag0 = res0_tags[i];
+//			System.out.println("tag0:" + tag0);
+//			String tag1 = res1_tags[i];
+//			System.out.println("tag1:" + tag1);
+//			ArrayList<Node> tag0nodes = hashJoinMap0.get(tag0);
+//			System.out.println("# of nodes under tag0: " + tag0nodes.size());
+//			ArrayList<Node> tag1nodes = hashJoinMap1.get(tag1);
+//			System.out.println("# of nodes under tag1: " + tag1nodes.size());
+//			for (int j = 0; j < tag0nodes.size(); j++) {
+//				//for all tuples from the first for loop
+//				String content0 = tag0nodes.get(j).getTextContent();
+//					for(int k = 0; k < tag1nodes.size(); k++) {
+//						//find all tuples from the second for loop that satisfy the join condition
+//						String content1 = tag1nodes.get(j).getTextContent();
+//						if (content0.compareTo(content1) != 0) {
+//							//not satisfy, do not join
+//							notEqualCount++;
+//						} else {
+//							//join them together by making them become a new tuple
+//
+//							result.add(tag0nodes.get(j));
+//						}
+//					}
+//			}
+//
+//
+//
+//
+//		}
+//
+//		System.out.println("not equal count: " + notEqualCount);
+//		return result;
+//	}
 
 
 
