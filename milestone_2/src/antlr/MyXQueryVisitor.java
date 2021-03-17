@@ -580,6 +580,8 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 			if (ret != null) {
 				res.addAll(ret);
 			}
+
+
 			//reset
 			xqMap = original;
 
@@ -592,7 +594,7 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 	@Override
 	public ArrayList<Node> visitXqFLWR(XQueryParser.XqFLWRContext ctx) {
 
-		System.out.println("call visirXqFLWR");
+		System.out.println("call visitXqFLWR");
 		ArrayList<Node> res = new ArrayList<>();
 
 		if(needRewrite) {
@@ -613,6 +615,14 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 
 			if (re == "") {
 				needRewrite = false;
+				System.out.println("no need to rewrite! / has been rewritten!");
+				System.out.println("forClause size: " + ctx.forClause().var().size());
+				if(ctx.forClause().var().size() == 2) {
+
+					System.out.println("var0: \n"+ ctx.forClause().var(0).getText() + "\n" + "xq0:\n" + ctx.forClause().xq(0).getText());
+					System.out.println("var1: \n"+ ctx.forClause().var(1).getText() + "\n" + "xq1:\n" + ctx.forClause().xq(1).getText());
+				}
+				helperFLWR(ctx,0,res);
 			} else {
 				//System.out.println(1);
 				//ArrayList<Node> res = new ArrayList<>();
@@ -624,6 +634,11 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 		else {
 			System.out.println("no need to rewrite! / has been rewritten!");
 			System.out.println("forClause size: " + ctx.forClause().var().size());
+			if(ctx.forClause().var().size() == 2) {
+
+				System.out.println("var0: \n"+ ctx.forClause().var(0).getText() + "\n" + "xq0:\n" + ctx.forClause().xq(0).getText());
+				System.out.println("var1: \n"+ ctx.forClause().var(1).getText() + "\n" + "xq1:\n" + ctx.forClause().xq(1).getText());
+			}
 			helperFLWR(ctx,0,res);
 		}
 
@@ -837,6 +852,7 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 
 		// res is a node call tuple and it's children are the actual nodes we need to map
 		System.out.println("formMap input res.size():" + res.size());
+//		System.out.println("res has " + children.size() + " kids");
 		for (Node n : res){
 			String key = "";
 			ArrayList<Node> children = getChildren(n);
@@ -844,15 +860,15 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 				key = c.getNodeName();
 //				System.out.println("tryting to store node: " + key);
 				if (!hashJoinMap.containsKey(key)) {
-					System.out.println("map doesn't contain that key yet!");
+					System.out.println("map doesn't contain that key yet: " + key);
 					System.out.println("store node with key: " + key);
 					ArrayList<Node> value = new ArrayList<Node>();
-					value.add(n);
+					value.add(c);
 					hashJoinMap.put(key, value);
 				}
 				else{
 					ArrayList<Node> value = hashJoinMap.get(key);
-					value.add(n);
+					value.add(c);
 					hashJoinMap.replace(key,value);
 				}
 			}
@@ -863,6 +879,7 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 
 	private ArrayList<Node> hashJoin(Map<String, ArrayList<Node>> hashJoinMap0,  String[] res0_tags, String[] res1_tags, ArrayList<Node> res1) {
 		ArrayList<Node> result = new ArrayList<Node>();
+		System.out.println("call hashJoin");
 
 		HashMap<String, ArrayList<Node>> hashJoinMap1 = new HashMap<>();
 		for (Node n : res1){
@@ -875,12 +892,12 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 					System.out.println("map doesn't contain that key yet!");
 					System.out.println("store node with key: " + key);
 					ArrayList<Node> value = new ArrayList<Node>();
-					value.add(n);
+					value.add(c);
 					hashJoinMap1.put(key, value);
 				}
 				else{
 					ArrayList<Node> value = hashJoinMap1.get(key);
-					value.add(n);
+					value.add(c);
 					hashJoinMap1.replace(key,value);
 				}
 			}
@@ -891,19 +908,50 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 			System.out.println("tag0:" + tag0);
 			String tag1 = res1_tags[i];
 			System.out.println("tag1:" + tag1);
-			ArrayList<Node> tag0node = hashJoinMap0.get(tag0);
-			ArrayList<Node> tag1node = hashJoinMap1.get(tag1);
-
-			if(! tag0node.get(0).isEqualNode(tag1node.get(0))) {
-				return result;
+			ArrayList<Node> tag0nodes = hashJoinMap0.get(tag0);
+			System.out.println("# of nodes under tag0: " + tag0nodes.size());
+			ArrayList<Node> tag1nodes = hashJoinMap1.get(tag1);
+			System.out.println("# of nodes under tag1: " + tag1nodes.size());
+			for(int j = 0; j < tag0nodes.size(); j++){
+				boolean isEqual = tag0nodes.get(j).isEqualNode(tag1nodes.get(j));
+				if(!isEqual){
+					System.out.println("return empty as nodes in filters are not equal");
+					Node working0 = tag0nodes.get(j);
+//					System.out.println("node0 name:"+ working0.getNodeName());
+					Node working1 = tag1nodes.get(j);
+//					System.out.println("node1 name:"+ working1.getNodeName());
+				}
 			}
+
+
+//			if(! tag0node.get(0).getText(tag1node.get(0))) {
+//				return result;
+//			}
+
+//			if(tag0nodes.size() != tag1nodes.size()){
+//				return result;
+//			}
+//
+//			for(int j = 0; j < tag0nodes.size(); j++){
+//				String content0 = tag0nodes.get(j).getTextContent();
+//				String content1 = tag1nodes.get(j).getTextContent();
+//
+//				if(content0 != content1){
+//					System.out.println("content0: " + content0);
+//					System.out.println("content1: " + content1);
+//					return result;
+//				}
+//			}
 		}
 
 		//filter has been checked, two tuples satisfy the conditions in []
+		System.out.println("filter has been checked, now put them all to result arraylist");
 		for(String key : hashJoinMap0.keySet()){
+			System.out.println("map0 key: " + key);
 			result.addAll(hashJoinMap0.get(key));
 		}
 		for(String key : hashJoinMap1.keySet()){
+			System.out.println("map1 key: " + key);
 			result.addAll(hashJoinMap1.get(key));
 		}
 
