@@ -820,9 +820,9 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 
 	@Override
 	public ArrayList<Node> visitJoinClause(XQueryParser.JoinClauseContext ctx) {
-		System.out.println("call visitJoinClause");
-		System.out.println("xq0:\n" + ctx.xq(0).getText());
-		System.out.println("xq1:\n" + ctx.xq(1).getText());
+//		System.out.println("call visitJoinClause");
+//		System.out.println("xq0:\n" + ctx.xq(0).getText());
+//		System.out.println("xq1:\n" + ctx.xq(1).getText());
 
 		ArrayList<Node> res0 = visit(ctx.xq(0));
 		ArrayList<Node> res1 = visit(ctx.xq(1));

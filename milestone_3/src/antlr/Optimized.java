@@ -58,7 +58,7 @@ public class Optimized {
                     //if it's the first for clause, add "for" keyword
                     if(count == 0) {
                         String tmpp = ctx.forClause().xq(k).getText();
-                        System.out.println("tmpp:" + tmpp);
+//                        System.out.println("tmpp:" + tmpp);
                         String[] sl = tmpp.split("return",2);
                         //if sl contains the key word "return"
 //                        System.out.println("split with return gives an array of size: " + sl.length );
@@ -79,6 +79,7 @@ public class Optimized {
                     if(tuples.equals("")) {
                         tuples = tuples + " <" + key.substring(1) + "> " + " {" + key + "} " + " </" + key.substring(1) + ">";
                     }else {
+                        System.out.println("in tuples else");
                         tuples = tuples + ", <" + key.substring(1) + "> " + " {" + key + "} " + " </" + key.substring(1) + ">";
                     }
                 }
@@ -107,7 +108,10 @@ public class Optimized {
 
 
             //print return
+            System.out.println("print return of For and Where");
             tuples = "<tuple> {"+tuples+"} </tuple>,";
+            System.out.println("working on tuples:");
+            System.out.println(tuples);
             output += indent.repeat(count) + "return " + tuples + "\n";
 
 
@@ -249,6 +253,7 @@ public class Optimized {
 
 
         //------return components in each for group------
+        System.out.println("working on return in rewrite");
         // convert the return statement in original form to return statements in final form
         //System.out.println("Enter return part!");
 
@@ -301,8 +306,10 @@ public class Optimized {
         // a/price }</price-review>,<price>{$tuple
         // b/price}</price>}</book-with-prices>
         for (int i = 1; i < returnParts.length; i++) {
+            System.out.println("working on return part: \n" + returnParts[i] );
             String[] cur1 = returnParts[i].split(",", 2);
-            String[] cur2 = returnParts[i].split("/", 2);
+            String[] cur2 = returnParts[i].split("}", 2);
+            String[] cur3 = returnParts[i].split("/", 2);
             String[] working = cur1;
 
             if (working.length > 1) {
@@ -318,11 +325,23 @@ public class Optimized {
                 }
                 working[0] += "/*,";
             } else {
-                //last component
-                //case 3, e.g.: b/price}</price>}</book-with-prices>
+                //two cases of being the last component:
+                //1: a/TITLE/text()}</act>
+                //2: b3} </triplet>
+
                 System.out.println("case 3:");
-                working = cur2;
-                working[0] += "/*/";
+//                String[] temp_chek_slash = cur3[1].split("/");
+                if(cur3[1].split("/").length > 2){
+                    //there are more "/" after the key
+                    //sub case 1:
+                    working = cur3;
+                    working[0] += "/*/";
+                }
+                else{
+                    working = cur2;
+                    working[0] += "/*}";
+                }
+
             }
 
             returnRefrom += working[0] + working[1];
