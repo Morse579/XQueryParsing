@@ -44,7 +44,7 @@ public class XQuery {
          */
 
         //open a file to write output in xml format
-        File outputFile = new File("Output.txt");
+        File outputFile = new File("XQueryOutput.txt");
         if (!outputFile.exists()) outputFile.createNewFile(); // create output file
 
         @SuppressWarnings("resource")
