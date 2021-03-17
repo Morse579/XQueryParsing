@@ -283,7 +283,7 @@ public class Optimized {
         */
 
 
-        String returnRefrom = returnParts[0];
+        String returnRefrom = "return " + returnParts[0];
 
         // results of the for loop above:
         // <book-with-prices>{$tuple

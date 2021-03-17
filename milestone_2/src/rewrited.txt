@@ -6,4 +6,4 @@ for $a in doc("j_caesar.xml")//ACT,
              $sp in $a//SPEAKER
              return <tuple> { <a>  {$a}  </a>, <sp>  {$sp}  </sp>} </tuple>,
              [s], [sp] )
-<act>{$tuple/a/*/TITLE/text()}</act>
+return <act>{$tuple/a/*/TITLE/text()}</act>
