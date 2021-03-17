@@ -595,6 +595,7 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 	public ArrayList<Node> visitXqFLWR(XQueryParser.XqFLWRContext ctx) {
 
 		System.out.println("call visitXqFLWR");
+		XQueryParser.XqFLWRContext original_ctx = ctx;
 		ArrayList<Node> res = new ArrayList<>();
 
 		if(needRewrite) {
@@ -615,7 +616,9 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 
 			if (re == "") {
 				needRewrite = false;
-				System.out.println("no need to rewrite! / has been rewritten!");
+
+				System.out.println("RE = EMPTY! no need to rewrite! / has been rewritten!");
+				ctx = original_ctx;
 				System.out.println("forClause size: " + ctx.forClause().var().size());
 				if(ctx.forClause().var().size() == 2) {
 

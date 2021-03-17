@@ -43,9 +43,6 @@ public class Optimized {
     public String printForandWhere(XQueryParser.XqFLWRContext ctx, String output, ArrayList<ArrayList<String>> classify, String[][] cond , int[][] relaWhere){
         //print for clause
         int numFor = ctx.forClause().var().size();
-
-
-
         for(int i = 0; i < classify.size(); i++) {
             ArrayList<String> curSet = classify.get(i);
 
@@ -144,6 +141,7 @@ public class Optimized {
 
         //-----grouping forClause:------
         XQueryParser.ForClauseContext forClause_ctx = ctx.forClause();
+
         //group the key that's relevent to each othe in one trunk
         //e.g.
         //for $b1 in doc("input")/book,
