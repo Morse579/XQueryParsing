@@ -611,7 +611,7 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 			if (re == "") {
 				needRewrite = false;
 
-//				System.out.println("RE = EMPTY! no need to rewrite! / has been rewritten!");
+				System.out.println("RE = EMPTY! no need to rewrite! / has been rewritten!");
 				ctx = original_ctx;
 //				System.out.println("forClause size: " + ctx.forClause().var().size());
 //				if(ctx.forClause().var().size() == 2) {
@@ -628,11 +628,11 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 			}
 		}
 		else {
-//			System.out.println("no need to rewrite! / has been rewritten!");
-//			System.out.println("forClause size: " + ctx.forClause().var().size());
+			System.out.println("no need to rewrite! / has been rewritten!");
+			System.out.println("forClause size: " + ctx.forClause().var().size());
 			if(ctx.forClause().var().size() == 2) {
-//				System.out.println("var0: \n"+ ctx.forClause().var(0).getText() + "\n" + "xq0:\n" + ctx.forClause().xq(0).getText());
-//				System.out.println("var1: \n"+ ctx.forClause().var(1).getText() + "\n" + "xq1:\n" + ctx.forClause().xq(1).getText());
+				System.out.println("var0: \n"+ ctx.forClause().var(0).getText() + "\n" + "xq0:\n" + ctx.forClause().xq(0).getText());
+				System.out.println("var1: \n"+ ctx.forClause().var(1).getText() + "\n" + "xq1:\n" + ctx.forClause().xq(1).getText());
 			}
 //			System.out.println("call helperFLWR for rewritten str");
 			helperFLWR(ctx,0,res);
@@ -864,6 +864,7 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 
 	public ArrayList<Node> newJoin (ArrayList<Node> res0, ArrayList<Node> res1, String [] tags0, String [] tags1){
 		ArrayList<Node> result = new ArrayList<>();
+
 		for(int i = 0; i< tags0.length; i++){
 			String target0 = tags0[i];
 			String target1 = tags1[i];
@@ -871,7 +872,11 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 			System.out.println("target1: "+target1);
 			Node targetNode0 = null;
 			Node targetNode1 = null;
-			for(Node tuple0 : res0){
+			ArrayList<Node> evalRes0 = new ArrayList<Node>();
+			ArrayList<Node> evalRes1 = new ArrayList<Node>();
+
+			for(int t0 = 0; t0 < res0.size(); t0++){
+				Node tuple0 = res0.get(t0);
 				ArrayList<Node> children0 = getChildren(tuple0);
 				for(Node c0 : children0) {
 //					System.out.println("child0 node name: " + c0.getNodeName());
@@ -885,7 +890,8 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 
 				String content0  = targetNode0.getTextContent();
 
-				for(Node tuple1 : res1){
+				for(int t1 = 0; t1 < res1.size(); t1++){
+					Node tuple1 = res1.get(t1);
 					ArrayList<Node> children1 = getChildren(tuple1);
 					for(Node c1 : children1) {
 //						System.out.println("child1 node name: " + c1.getNodeName());
@@ -897,16 +903,38 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 					}
 
 					String content1 = targetNode1.getTextContent();
-					if(content0.compareTo(content1) == 0){
+//					System.out.println("comparison result: " + content0.compareTo(content1));
+					if(content0.compareTo(content1) == 0 && i == tags0.length - 1){
+
 						//join tuple0 and tuple1
+//						System.out.println("satisfy all conditions");
+//						System.out.println("i: " + i);
+//						System.out.println("tags0.length: " + tags0.length);
 						ArrayList<Node> temp = new ArrayList<>();
 						temp.addAll(children0);
 						temp.addAll(children1);
 						result.add(makeNode("tuple",temp));
 					}
-				}
+					else if(content0.compareTo(content1) == 0 && i + 1 < tags0.length){
+						//haven't check all conditions yet
+						//tuple 0 and tuple1 temporarily satisfy the condition
+						evalRes0.add(tuple0);
+						evalRes1.add(tuple1);
+					}
+					else{
+						//break out of the loop of checking tuple1 because tuples fail to pass the filter
+						//continue to check if next tuple in res1 can be join with the tuple in res0
 
+						continue;
+					}
+
+				}
 			}
+			if(i + 1 != tags0.length - 1){
+				res0 = evalRes0;
+				res1 = evalRes1;
+			}
+
 		}
 
 		return result;

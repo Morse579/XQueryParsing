@@ -1,4 +1,3 @@
-
 for $b1 in doc("book.xml")//book,
    $aj in $b1/author/first/text(),
    $a1 in $b1/author,
