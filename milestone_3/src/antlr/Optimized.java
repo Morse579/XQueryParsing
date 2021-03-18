@@ -87,7 +87,7 @@ public class Optimized {
             output += "\n";
 
             //print where
-            System.out.println("print where");
+            //System.out.println("print where");
             String temp = "";
             int count1 = 0;
             for(int j = 0;j < cond.length;j++) {
@@ -225,13 +225,13 @@ public class Optimized {
             //vars.size should be at most 2
             for (int j = 0; j < vars.length; j++) {
                 varGroup[i][j] = -1;
-                System.out.println("vars[j]" + vars[j]);
+                //System.out.println("vars[j]" + vars[j]);
                 vars[j] = vars[j].trim();
                 //check which group this var belongs to
                 //var1 may belongs to group 1 while var2 belongs to group 2
                 for (int k = 0; k < groups.size(); k++) {
                     if (groups.get(k).contains(vars[j])) {
-                        System.out.println("group " + k +" contains the variable");
+                        //System.out.println("group " + k +" contains the variable");
                         //the ith condition evaluation's jth (first or second) conponent:
                         varGroup[i][j] = k;
                     }
