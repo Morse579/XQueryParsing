@@ -622,7 +622,7 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 				//ArrayList<Node> res = new ArrayList<>();
 
 				//System.out.println("REWRITE:\n" + re);
-				res = XQueryOpt.evalRewrite(re);
+				res = XQueryOpt.evalRewritten(re);
 			}
 		}
 		else {

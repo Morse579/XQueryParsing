@@ -40,11 +40,11 @@ public class Optimized {
     }
 
 
-    public String printForandWhere(XQueryParser.XqFLWRContext ctx, String output, ArrayList<ArrayList<String>> classify, String[][] cond , int[][] relaWhere){
+    public String printForandWhere(XQueryParser.XqFLWRContext ctx, String output, ArrayList<ArrayList<String>> groups, String[][] cond , int[][] varGroup){
         //print for clause
         int numFor = ctx.forClause().var().size();
-        for(int i = 0; i < classify.size(); i++) {
-            ArrayList<String> curSet = classify.get(i);
+        for(int i = 0; i < groups.size(); i++) {
+            ArrayList<String> curSet = groups.get(i);
 
             //tuples == the string after return
             String tuples = "";
@@ -92,7 +92,7 @@ public class Optimized {
             int count1 = 0;
             for(int j = 0;j < cond.length;j++) {
 //                System.out.println("cond length: " + cond.length);
-                if(relaWhere[j][1] == -1 && curSet.contains(cond[j][0])) {
+                if(varGroup[j][1] == -1 && curSet.contains(cond[j][0])) {
                     if(count1 == 0){
                         count1++;
                         output += indent.repeat(count) + "where " + cond[j][0] + " eq " + cond[j][1] +"\n";
@@ -121,22 +121,22 @@ public class Optimized {
                 LinkedList<String> ret0 = new LinkedList<>();
                 LinkedList<String> ret1 = new LinkedList<>();
 
-                for (int ii = 0; ii < cond.length; ii++) {
+                for (int l = 0; l < cond.length; l++) {
 //                    System.out.println("cond[ii][0]: " + cond[ii][0]);
 //                    System.out.println("cond[ii][1]: " + cond[ii][1]);
 
-                    if (relaWhere[ii][0] == i && (relaWhere[ii][1] >= 0 && relaWhere[ii][1] < i)) {
-                        ret0.add(cond[ii][1].substring(1));
-                        ret1.add(cond[ii][0].substring(1));
-                    } else if (relaWhere[ii][1] == i && (relaWhere[ii][0] >= 0 && relaWhere[ii][0] < i)) {
-                        ret0.add(cond[ii][0].substring(1));
-                        ret1.add(cond[ii][1].substring(1));
+                    if (varGroup[l][0] == i && (varGroup[l][1] >= 0 && varGroup[l][1] < i)) {
+                        ret0.add(cond[l][1].substring(1));
+                        ret1.add(cond[l][0].substring(1));
+                    } else if (varGroup[l][1] == i && (varGroup[l][0] >= 0 && varGroup[l][0] < i)) {
+                        ret0.add(cond[l][0].substring(1));
+                        ret1.add(cond[l][1].substring(1));
                     }
                 }
                 output = PrintJoinCond(ret0, ret1, output);
                 if(output == "")
                     return "";
-                if(i != classify.size() - 1)
+                if(i != groups.size() - 1)
                     output += "),\n";
                 else
                     output += ")\n";

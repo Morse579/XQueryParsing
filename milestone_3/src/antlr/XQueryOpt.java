@@ -16,9 +16,6 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-/** TODO!
- * I only change the name from XPath to XQuery
- */
 
 /**
  * Exiting node-to-xml transformer is used.
@@ -60,7 +57,7 @@ public class XQueryOpt {
         ParseTree tree = parser.xq();
         MyXQueryVisitor visitor_opt = new MyXQueryVisitor();
         ArrayList<Node> output_l  = (ArrayList<Node>) visitor_opt.visit(tree);
-        //System.out.println("outputsize: " + output_l.size());
+//        System.out.println("outputsize: " + output_l.size());
             //idx++;
 
             /*output the result to terminal while testing
@@ -77,14 +74,14 @@ public class XQueryOpt {
             sb.append(line);
             fileOutputStream.write(sb.toString().getBytes());
             */
-        System.out.println("Number of tags found: " + output_l.size());
+
         for (Node n : output_l) {
+//            System.out.println("HERE");
             String curOutput = convertNodeToString(n);
             System.out.print(curOutput);
             fileOutputStream.write(curOutput.getBytes());
         }
-            //fileOutputStream.write(("-------------------------END OF TEST------------------------\n").getBytes());
-//        }
+
         
         //write rewrite query into output file
         Optimized q_opt = new Optimized();
@@ -111,7 +108,7 @@ public class XQueryOpt {
         return "";
     }
     
-    public static ArrayList<Node> evalRewrite(String rewrittenInput){
+    public static ArrayList<Node> evalRewritten (String rewrittenInput){
         try {
             CharStream input = CharStreams.fromString(rewrittenInput);
             XQueryLexer lexer = new XQueryLexer(input);
@@ -127,7 +124,7 @@ public class XQueryOpt {
 
         } catch (Exception e) {
             e.printStackTrace();
-            System.err.println("Error in xquery.evalRewrite: " + e.getMessage());
+            System.err.println("Error：" + e.getMessage());
         }
         return null;
   }
