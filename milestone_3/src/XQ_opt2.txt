@@ -11,8 +11,8 @@ for $b1 in doc("book.xml")//book,
    $a5 in $b5/author,
    $b6 in doc("book.xml")//book,
    $a6 in $b6/author
-where $aj eq "W." and
-     $a1 eq $a2 and $a2 eq $a3 and
+where $aj = "W." and
+     $a1 = $a2 and $a2 = $a3 and
      $a3 eq $a6 and $a3 eq $a5 and $a3 eq $a4
 return <triplet> {$b1, $b2, $b3, $b4, $b5, $b6} </triplet>
 

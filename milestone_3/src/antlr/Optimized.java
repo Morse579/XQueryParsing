@@ -89,15 +89,16 @@ public class Optimized {
             //print where
             System.out.println("print where");
             String temp = "";
+            int count1 = 0;
             for(int j = 0;j < cond.length;j++) {
-                int count1 = 0;
+                System.out.println("cond length: " + cond.length);
                 if(relaWhere[j][1] == -1 && curSet.contains(cond[j][0])) {
                     if(count1 == 0){
                         count1++;
                         output += indent.repeat(count) + "where " + cond[j][0] + " eq " + cond[j][1] +"\n";
                         temp += "where " + cond[j][0] + " eq " + cond[j][1] +"\n";
                     }else {
-                        output += " and  " + cond[j][0] + " eq " + cond[j][1] + "\n";
+                        output += indent.repeat(count) + " and  " + cond[j][0] + " eq " + cond[j][1] + "\n";
                         temp += " and  " + cond[j][0] + " eq " + cond[j][1] + "\n";
                     }
                 }
@@ -110,7 +111,7 @@ public class Optimized {
             //print return
             System.out.println("print return of For and Where");
             tuples = "<tuple> {"+tuples+"} </tuple>,";
-            System.out.println("working on tuples:");
+            System.out.println("working on tuples:" + tuples);
             System.out.println(tuples);
             output += indent.repeat(count) + "return " + tuples + "\n";
 
