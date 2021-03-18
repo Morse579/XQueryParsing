@@ -1,4 +1,4 @@
-// Generated from XQuery.g4 by ANTLR 4.9.1
+// Generated from XQuery.g4 by ANTLR 4.9.2
 
 	package antlr;
 

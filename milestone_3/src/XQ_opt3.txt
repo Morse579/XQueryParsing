@@ -1,22 +1,13 @@
-for $b1 in doc("book.xml")//book,
-$aj in $b1/author/first/text(),
-$a1 in $b1/author,
-$af1 in $a1/first/text(),
-$al1 in $a1/last/text(),
-$ax1 in $b1/author,
+for $a in doc("j_caesar.xml")//ACT,
+$sp in $a//SPEAKER ,
+$sptxt in $sp/text(),
+$at in $a/TITLE/text(),
+$atsc in $sp/text(),
+$sc in doc("j_caesar.xml")//SCENE,
+$scsp in $sc//SPEAKER
+where $at = "ACT I" and $sptxt = "FLAVIUS" and $atsc eq "Second Commoner" and $scsp = $sp
+return <tuple> {$at} </tuple>
 
-$b2 in doc("book.xml")//book,
-$a21 in $b2/author,
-$af21 in $a21/first/text(),
-$al21 in $a21/last/text(),
-$a22 in $b2/author,
-$af22 in $a22/first/text(),
-$al22 in $a22/last/text(),
 
-$b3 in doc("book.xml")//book,
-$a3 in $b3/author,
-$af3 in $a3/first/text(),
-$al3 in $a3/last/text()
-where $aj eq "W." and $a1 = $ax1 and $af1 eq $af21 and $al1 eq $al21 and $af22 eq $af3 and $al22 eq $al3
-return <triplet> {$b1, $b2, $b3} </triplet>
+
 

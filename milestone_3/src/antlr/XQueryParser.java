@@ -1,4 +1,4 @@
-// Generated from XQuery.g4 by ANTLR 4.9.1
+// Generated from XQuery.g4 by ANTLR 4.9.2
 
 	package antlr;
 
@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class XQueryParser extends Parser {
-	static { RuntimeMetaData.checkVersion("4.9.1", RuntimeMetaData.VERSION); }
+	static { RuntimeMetaData.checkVersion("4.9.2", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
 	protected static final PredictionContextCache _sharedContextCache =
@@ -1371,11 +1371,11 @@ public class XQueryParser extends Parser {
 						_localctx = new XqConcatContext(new XqContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_xq);
 						setState(152);
-						if (!(precpred(_ctx, 7))) throw new FailedPredicateException(this, "precpred(_ctx, 7)");
+						if (!(precpred(_ctx, 5))) throw new FailedPredicateException(this, "precpred(_ctx, 5)");
 						setState(153);
 						match(T__13);
 						setState(154);
-						xq(8);
+						xq(6);
 						}
 						break;
 					case 2:
@@ -1383,7 +1383,7 @@ public class XQueryParser extends Parser {
 						_localctx = new XqDescendContext(new XqContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_xq);
 						setState(155);
-						if (!(precpred(_ctx, 6))) throw new FailedPredicateException(this, "precpred(_ctx, 6)");
+						if (!(precpred(_ctx, 7))) throw new FailedPredicateException(this, "precpred(_ctx, 7)");
 						setState(156);
 						match(T__2);
 						setState(157);
@@ -1395,7 +1395,7 @@ public class XQueryParser extends Parser {
 						_localctx = new XqFromCurrContext(new XqContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_xq);
 						setState(158);
-						if (!(precpred(_ctx, 5))) throw new FailedPredicateException(this, "precpred(_ctx, 5)");
+						if (!(precpred(_ctx, 6))) throw new FailedPredicateException(this, "precpred(_ctx, 6)");
 						setState(159);
 						match(T__3);
 						setState(160);
@@ -2418,11 +2418,11 @@ public class XQueryParser extends Parser {
 	private boolean xq_sempred(XqContext _localctx, int predIndex) {
 		switch (predIndex) {
 		case 6:
-			return precpred(_ctx, 7);
-		case 7:
-			return precpred(_ctx, 6);
-		case 8:
 			return precpred(_ctx, 5);
+		case 7:
+			return precpred(_ctx, 7);
+		case 8:
+			return precpred(_ctx, 6);
 		}
 		return true;
 	}
@@ -2489,9 +2489,9 @@ public class XQueryParser extends Parser {
 		"\u0095\u0096\5\f\7\2\u0096\u0097\5\b\5\3\u0097\u0099\3\2\2\2\u0098x\3"+
 		"\2\2\2\u0098z\3\2\2\2\u0098{\3\2\2\2\u0098|\3\2\2\2\u0098\u0080\3\2\2"+
 		"\2\u0098\u008b\3\2\2\2\u0098\u0094\3\2\2\2\u0098\u0095\3\2\2\2\u0099\u00a5"+
-		"\3\2\2\2\u009a\u009b\f\t\2\2\u009b\u009c\7\20\2\2\u009c\u00a4\5\b\5\n"+
-		"\u009d\u009e\f\b\2\2\u009e\u009f\7\5\2\2\u009f\u00a4\5\4\3\2\u00a0\u00a1"+
-		"\f\7\2\2\u00a1\u00a2\7\6\2\2\u00a2\u00a4\5\4\3\2\u00a3\u009a\3\2\2\2\u00a3"+
+		"\3\2\2\2\u009a\u009b\f\7\2\2\u009b\u009c\7\20\2\2\u009c\u00a4\5\b\5\b"+
+		"\u009d\u009e\f\t\2\2\u009e\u009f\7\5\2\2\u009f\u00a4\5\4\3\2\u00a0\u00a1"+
+		"\f\b\2\2\u00a1\u00a2\7\6\2\2\u00a2\u00a4\5\4\3\2\u00a3\u009a\3\2\2\2\u00a3"+
 		"\u009d\3\2\2\2\u00a3\u00a0\3\2\2\2\u00a4\u00a7\3\2\2\2\u00a5\u00a3\3\2"+
 		"\2\2\u00a5\u00a6\3\2\2\2\u00a6\t\3\2\2\2\u00a7\u00a5\3\2\2\2\u00a8\u00a9"+
 		"\7\35\2\2\u00a9\u00aa\5\30\r\2\u00aa\u00ab\7\36\2\2\u00ab\u00b3\5\b\5"+

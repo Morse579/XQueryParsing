@@ -45,9 +45,9 @@ xq
     | StringConstant                                    # XqStrConst
     | ap                                                # XqAp
     | '(' xq ')'                                        # XqParenthesis
-    | xq ',' xq                                         # XqConcat
     | xq '/' rp                                         # XqDescend
     | xq '//' rp                                        # XqFromCurr
+    | xq ',' xq                                         # XqConcat
     | '<' tagName '>' '{' xq '}' '</' tagName '>'       # XqNew
     | forClause? letClause? whereClause? returnClause   # XqFLWR
     | joinClause                                        # XqJoin

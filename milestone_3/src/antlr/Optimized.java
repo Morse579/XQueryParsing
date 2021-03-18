@@ -79,7 +79,7 @@ public class Optimized {
                     if(tuples.equals("")) {
                         tuples = tuples + " <" + key.substring(1) + "> " + " {" + key + "} " + " </" + key.substring(1) + ">";
                     }else {
-                        System.out.println("in tuples else");
+//                        System.out.println("in tuples else");
                         tuples = tuples + ", <" + key.substring(1) + "> " + " {" + key + "} " + " </" + key.substring(1) + ">";
                     }
                 }
@@ -87,11 +87,11 @@ public class Optimized {
             output += "\n";
 
             //print where
-            System.out.println("print where");
+//            System.out.println("print where");
             String temp = "";
             int count1 = 0;
             for(int j = 0;j < cond.length;j++) {
-                System.out.println("cond length: " + cond.length);
+//                System.out.println("cond length: " + cond.length);
                 if(relaWhere[j][1] == -1 && curSet.contains(cond[j][0])) {
                     if(count1 == 0){
                         count1++;
@@ -103,16 +103,16 @@ public class Optimized {
                     }
                 }
             }
-            System.out.println("where adds:");
-            System.out.println(temp);
+//            System.out.println("where adds:");
+//            System.out.println(temp);
 
 
 
             //print return
-            System.out.println("print return of For and Where");
+//            System.out.println("print return of For and Where");
             tuples = "<tuple> {"+tuples+"} </tuple>,";
-            System.out.println("working on tuples:" + tuples);
-            System.out.println(tuples);
+//            System.out.println("working on tuples:" + tuples);
+//            System.out.println(tuples);
             output += indent.repeat(count) + "return " + tuples + "\n";
 
 
@@ -209,14 +209,14 @@ public class Optimized {
         int numConds = allConds.length;
         int[][] varGroup = new int[numConds][2]; //each entry represents a group a variable belongs to
         String[][] eqVars = new String[numConds][2]; //variables before and after "eq"
-        System.out.println("allConds.length: " + allConds.length);
+//        System.out.println("allConds.length: " + allConds.length);
 
         for (int i = 0; i < allConds.length; i++) {
             String workingCond = allConds[i];
-            System.out.println("working on condition: \n" + workingCond);
+//            System.out.println("working on condition: \n" + workingCond);
             String[] vars = new String[2];
             if (workingCond.contains("eq") || workingCond.contains("=")) {
-                System.out.println("condition contains eq or =");
+//                System.out.println("condition contains eq or =");
                 vars = workingCond.split("eq|=");
             }
 
@@ -240,7 +240,7 @@ public class Optimized {
             eqVars[i] = vars;
 
         }
-        System.out.println("eqVars.size(): " + eqVars.length);
+//        System.out.println("eqVars.size(): " + eqVars.length);
         //start to print the "join" heading:
         //if there are n groups, group into n-1 tuple:
         //e.g. 3 groups ==> tuple(tuple(group1,group2),group3)
@@ -254,7 +254,7 @@ public class Optimized {
 
 
         //------return components in each for group------
-        System.out.println("working on return in rewrite");
+//        System.out.println("working on return in rewrite");
         // convert the return statement in original form to return statements in final form
         //System.out.println("Enter return part!");
 
@@ -307,20 +307,20 @@ public class Optimized {
         // a/price }</price-review>,<price>{$tuple
         // b/price}</price>}</book-with-prices>
         for (int i = 1; i < returnParts.length; i++) {
-            System.out.println("working on return part: \n" + returnParts[i] );
+//            System.out.println("working on return part: \n" + returnParts[i] );
             String[] cur1 = returnParts[i].split(",", 2);
             String[] cur2 = returnParts[i].split("}", 2);
             String[] cur3 = returnParts[i].split("/", 2);
             String[] working = cur1;
 
             if (working.length > 1) {
-                System.out.println("case 1 or 2:");
+//                System.out.println("case 1 or 2:");
                 //two cases:
                 //case1: tb,<price-review>{$tuple    -->    tb/*,  <price-review>{$tuple
                 //case2: a/price }</price-review>,<price>{$tuple   -->  a/price }</price-review>    <price>{$tuple
                 if (returnParts[i].contains("}")) {
                     //case2:
-                    System.out.println("case 2:");
+//                    System.out.println("case 2:");
                     working = cur2;
                     //working =   a    price }</price-review>,<price>{$tuple
                 }
@@ -330,7 +330,7 @@ public class Optimized {
                 //1: a/TITLE/text()}</act>
                 //2: b3} </triplet>
 
-                System.out.println("case 3:");
+//                System.out.println("case 3:");
 //                String[] temp_chek_slash = cur3[1].split("/");
                 if(cur3[1].split("/").length > 2){
                     //there are more "/" after the key
