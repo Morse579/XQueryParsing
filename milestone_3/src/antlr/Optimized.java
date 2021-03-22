@@ -327,7 +327,8 @@ public class Optimized {
                     //working =   a    price }</price-review>,<price>{$tuple
                 }
                 working[0] += "/*,";
-            } else {
+            }
+            else {
                 //two cases of being the last component:
                 //1: a/TITLE/text()}</act>
                 //2: b3} </triplet>

@@ -458,6 +458,7 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 				ans.add(n);
 			}
 		}
+		//System.out.println("XqConcat");
 		return ans;
 	}
 
@@ -482,7 +483,7 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 	//HELPER FUNCTIONS
 
 	public Node makeNode(String tagName, List<Node> list){
-//		System.out.println("call makeNode");
+		//System.out.println("call makeNode");
 
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder builder = null;
@@ -499,6 +500,7 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 			Node newNode = doc.importNode(node, true);
 			newElem.appendChild(newNode);
 		}
+		//System.out.println("END makeNode");
 		return newElem;
 	}
 	
@@ -522,7 +524,7 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 	public ArrayList<Node> visitXqNew(XQueryParser.XqNewContext ctx) {
 
 		//create a new node such as <result></result>
-//		System.out.println("call XqNew");
+		//System.out.println("call XqNew");
 		ArrayList<Node> res = new ArrayList<>();
 		ArrayList<Node> xqRes = visit(ctx.xq());
 		//System.out.println("ctx.tagName(0).getText(): " + ctx.tagName(0).getText());
@@ -530,8 +532,9 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 		if(xqRes.size() == 0){
 			xqRes = new ArrayList<Node>();
 		}
+		//System.out.println("TagName: "+ctx.tagName(0).getText());
 		res.add(makeNode(ctx.tagName(0).getText(), xqRes));
-
+		//System.out.println("ENd XqNew");
 		return res;
 	}
 
@@ -539,25 +542,26 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 
 	private void helperFLWR(XQueryParser.XqFLWRContext ctx, int counter, ArrayList<Node> res){
 		//handle for loop via recursion
+		//System.out.println("enter helper");
 		if (ctx.forClause()!= null && counter != ctx.forClause().var().size()){
 
 			String var = ctx.forClause().var(counter).getText();
 //			System.out.println("var:" + var);
 			ArrayList<Node> nodes = visit(ctx.forClause().xq(counter));
-//			System.out.println("nodes number: " + nodes.size());
+			//System.out.println("nodes number: " + nodes.size());
 			for (Node n : nodes){
 				ArrayList<Node> node_list = new ArrayList<>();
 				node_list.add(n);
 				xqMap.remove(var);
 				xqMap.put(var, node_list);
-//				System.out.println("recurrsion and call helperFLWR again");
+				//System.out.println("recurrsion and call helperFLWR again");
 				helperFLWR(ctx, counter + 1, res);
 
 			}
 		}
 		else {
 			//case: it's the last for loop
-//			System.out.println("in helperFLWR, else, final recursion");
+			//System.out.println("in helperFLWR, else, final recursion");
 			HashMap<String, ArrayList<Node>> original = new HashMap<>(xqMap);
 			if (ctx.letClause() != null) {
 				//System.out.println("there is a letClause");
@@ -567,6 +571,7 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 			if (ctx.whereClause() != null && visit(ctx.whereClause()).size() == 0) {
 				//if no node satisfy where cond, return
 				//no need to undergo return clause
+				//System.out.println("where is a letClause");
 				return;
 			}
 //			System.out.println("call visit returnClause in helperFLWR");
@@ -576,6 +581,7 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 			}
 			//reset
 			xqMap = original;
+			//System.out.println("END helper");
 
 		}
 
@@ -586,12 +592,14 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 	@Override
 	public ArrayList<Node> visitXqFLWR(XQueryParser.XqFLWRContext ctx) {
 
-//		System.out.println("call visitXqFLWR");
+		//System.out.println("call visitXqFLWR");
 		XQueryParser.XqFLWRContext original_ctx = ctx;
+		//System.out.println("END rewrite process 1");
 		ArrayList<Node> res = new ArrayList<>();
+		//System.out.println("END rewrite process 2");
 
 		if(needRewrite) {
-//			System.out.println("need to be rewritten, proceed to rewrite process");
+			//System.out.println("need to be rewritten, proceed to rewrite process");
 			HashMap<String, ArrayList<Node>> original = new HashMap<>(xqMap);
 			xqStack.push(original);
 			Optimized q_rewrite = new Optimized();
@@ -621,20 +629,23 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 				//System.out.println(1);
 				//ArrayList<Node> res = new ArrayList<>();
 
-				//System.out.println("REWRITE:\n" + re);
 				res = XQueryOpt.evalRewritten(re);
+				//System.out.println("REWRITE:\n" + re);
 			}
+			//System.out.println("END rewrite process");
 		}
 		else {
-//			System.out.println("no need to rewrite! / has been rewritten!");
-//			System.out.println("forClause size: " + ctx.forClause().var().size());
-//			if(ctx.forClause().var().size() == 2) {
-//				System.out.println("var0: \n"+ ctx.forClause().var(0).getText() + "\n" + "xq0:\n" + ctx.forClause().xq(0).getText());
-//				System.out.println("var1: \n"+ ctx.forClause().var(1).getText() + "\n" + "xq1:\n" + ctx.forClause().xq(1).getText());
-//			}
-//			System.out.println("call helperFLWR for rewritten str");
+			//System.out.println("no need to rewrite! / has been rewritten!");
+			//System.out.println("forClause size: " + ctx.forClause().var().size());
+			//if(ctx.forClause().var().size() == 2) {
+			//	System.out.println("var0: \n"+ ctx.forClause().var(0).getText() + "\n" + "xq0:\n" + ctx.forClause().xq(0).getText());
+			//	System.out.println("var1: \n"+ ctx.forClause().var(1).getText() + "\n" + "xq1:\n" + ctx.forClause().xq(1).getText());
+			//}
+			//System.out.println("call helperFLWR for rewritten str");
+			//System.out.println("END rewrite process 3"+ res.size());
 			helperFLWR(ctx,0,res);
 		}
+		//System.out.println("END visitXqFLWR");
 
 		return res;
 
@@ -679,9 +690,10 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 
 	@Override
 	public ArrayList<Node> visitReturnClause(XQueryParser.ReturnClauseContext ctx) {
-//		System.out.println("call visitReturnClause");
-//		System.out.println("return clause ctx: ");
-//		System.out.println(ctx.getText());
+		//System.out.println("call visitReturnClause");
+		//System.out.println("return clause ctx: ");
+		//System.out.println(ctx.getText());
+		//System.out.println(ctx.xq().getText());
 		return visit(ctx.xq());
 	}
 
@@ -818,7 +830,7 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 
 	@Override
 	public ArrayList<Node> visitJoinClause(XQueryParser.JoinClauseContext ctx) {
-//		System.out.println("call visitJoinClause");
+		//System.out.println("call visitJoinClause");
 //		System.out.println("xq0:\n" + ctx.xq(0).getText());
 //		System.out.println("xq1:\n" + ctx.xq(1).getText());
 
@@ -856,11 +868,12 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 //		Map<String, ArrayList<Node>> hashJoinMap0 = formMap(res0_arr, res0);
 //		ArrayList<Node> result = hashJoin(hashJoinMap0, res0_arr, res1_arr, res0, res1);
 		currentNodes = result;
-//		System.out.println("# of nodes resulting from joinClause: " + currentNodes.size());
+		//System.out.println("# of nodes resulting from joinClause: " + currentNodes.size());
 		return result;
 	}
 
 	public ArrayList<Node> newJoin (ArrayList<Node> res0, ArrayList<Node> res1, String [] tags0, String [] tags1){
+		//System.out.println("ENTER NEWJOIN");
 		ArrayList<Node> result = new ArrayList<>();
 
 		for(int i = 0; i< tags0.length; i++){
@@ -907,15 +920,15 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 						//join tuple0 and tuple1
 //						System.out.println("satisfy all conditions");
 //						System.out.println("i: " + i);
-//						System.out.println("tags0.length: " + tags0.length);
+						//System.out.println("tags0.length: " + tags0.length);
 						ArrayList<Node> temp = new ArrayList<>();
 						temp.addAll(children0);
 						temp.addAll(children1);
 						Node tempNode = makeNode("tuple",temp);
-
+						//System.out.println("end TUPLE");
 //						//!!Check output node
-//						System.out.println("print the node that's added to result");
-//						System.out.println(tempNode.getNodeName());
+						//System.out.println("print the node that's added to result");
+						//System.out.println(tempNode.getNodeName());
 //						ArrayList<Node> tempNodez_children = getChildren(tempNode);
 //						for(int z = 0; z < tempNodez_children.size(); z++){
 //							System.out.println("  " + tempNodez_children.get(z).getNodeName());
@@ -944,7 +957,7 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 			}
 
 		}
-
+		//System.out.println("END NEWJOIN");
 		return result;
 	}
 
