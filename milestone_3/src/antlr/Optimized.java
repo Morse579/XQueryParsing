@@ -1,6 +1,8 @@
 package antlr;
 
 import java.io.File;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.*;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.ParseTree;
@@ -275,86 +277,13 @@ public class Optimized {
         //<price-review>{ $tuple/a/*/price }</price-review>,
         //<price>{ $tuple/b/*/price }</price> }</book-with-prices>
         String originalReturn = returnClause_ctx.xq().getText();
-        //System.out.println("Original return:" + originalReturn);
-        String[] returnParts = originalReturn.split("\\$");
-        // result after split:
-        // <book-with-prices>{
-        // tb,<price-review>{
-        // a/price }</price-review>,<price>{
-        // b/price}</price>}</book-with-prices>
-
-
-        //there are three total forms of elements in returnParts:
-        //b1,
-        //        //<something>{ b2 }</something>,
-        //        //b3} </triplet>
-        for (int i = 0; i < returnParts.length - 1; i++) {
-            returnParts[i] += "$tuple/";
-        }
-
-        //Print all returnParts:
-        /*
-        for (int i = 0; i < returnParts.length; i++) {
-            System.out.println(returnParts[i]);
-        }
-        */
-
-
-        String returnRefrom = "return " + returnParts[0];
-
-        // results of the for loop above:
-        // <book-with-prices>{$tuple
-        // loop the parts below:
-        // tb,<price-review>{$tuple
-        // a/price }</price-review>,<price>{$tuple
-        // b/price}</price>}</book-with-prices>
-        for (int i = 1; i < returnParts.length; i++) {
-//            System.out.println("working on return part: \n" + returnParts[i] );
-            String[] cur1 = returnParts[i].split(",", 2);
-            String[] cur2 = returnParts[i].split("}", 2);
-            String[] cur3 = returnParts[i].split("/", 2);
-            String[] working = cur1;
-
-            if (working.length > 1) {
-//                System.out.println("case 1 or 2:");
-                //two cases:
-                //case1: tb,<price-review>{$tuple    -->    tb/*,  <price-review>{$tuple
-                //case2: a/price }</price-review>,<price>{$tuple   -->  a/price }</price-review>    <price>{$tuple
-                if (returnParts[i].contains("}")) {
-                    //case2:
-//                    System.out.println("case 2:");
-                    working = cur2;
-                    //working =   a    price }</price-review>,<price>{$tuple
-                }
-                working[0] += "/*,";
-            }
-            else {
-                //two cases of being the last component:
-                //1: a/TITLE/text()}</act>
-                //2: b3} </triplet>
-
-//                System.out.println("case 3:");
-//                String[] temp_chek_slash = cur3[1].split("/");
-                if(cur3[1].split("/").length > 2){
-                    //there are more "/" after the key
-                    //sub case 1:
-                    working = cur3;
-                    working[0] += "/*/";
-                }
-                else{
-                    working = cur2;
-                    working[0] += "/*}";
-                }
-
-            }
-
-            returnRefrom += working[0] + working[1];
-
-        }
-        returnRefrom += "\n";
-        result += returnRefrom;
+        String returnReform = originalReturn.replaceAll("(\\$[a-zA-Z0-9]*)", "$1/*");
+        returnReform = returnReform.replaceAll("\\$", "\\$tuple/");
+        returnReform += "\n";
+        returnReform = "return " +returnReform;
+        result += returnReform;
+        
         System.out.println(result);
-
         return result;
     }
 

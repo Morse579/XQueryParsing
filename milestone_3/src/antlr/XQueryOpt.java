@@ -57,7 +57,7 @@ public class XQueryOpt {
         ParseTree tree = parser.xq();
         MyXQueryVisitor visitor_opt = new MyXQueryVisitor();
         ArrayList<Node> output_l  = (ArrayList<Node>) visitor_opt.visit(tree);
-//        System.out.println("outputsize: " + output_l.size());
+        System.out.println("outputsize: " + output_l.size());
             //idx++;
 
             /*output the result to terminal while testing
