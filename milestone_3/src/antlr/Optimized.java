@@ -1,6 +1,8 @@
 package antlr;
 
 import java.io.File;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.*;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.ParseTree;
@@ -275,6 +277,7 @@ public class Optimized {
         //<price-review>{ $tuple/a/*/price }</price-review>,
         //<price>{ $tuple/b/*/price }</price> }</book-with-prices>
         String originalReturn = returnClause_ctx.xq().getText();
+<<<<<<< HEAD
         //System.out.println("Original return:" + originalReturn);
         String[] returnParts = originalReturn.split("\\$");
         // result after split:
@@ -355,8 +358,15 @@ public class Optimized {
         }
         returnRefrom += "\n";
         result += returnRefrom;
+=======
+        String returnReform = originalReturn.replaceAll("(\\$[a-zA-Z0-9]*)", "$1/*");
+        returnReform = returnReform.replaceAll("\\$", "\\$tuple/");
+        returnReform += "\n";
+        returnReform = "return " +returnReform;
+        result += returnReform;
+        
+>>>>>>> 2fab6c36debcb4f90b4fcb3e5eb7fb7c4c5881d2
         System.out.println(result);
-
         return result;
     }
 
