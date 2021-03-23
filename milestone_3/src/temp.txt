@@ -1,0 +1,4954 @@
+forClause size: 12
+for $tuple in join (
+for $q1 in doc("j_caesar.xml")//ACT,
+             $sa in $q1//SCENE,
+             $spa in $sa//SPEAKER,
+             $spb in $sa//SPEAKER/text(),
+             $spea in $sa//SPEECH,
+             $spec in $sa//SPEECH
+             where $spb eq "FLAVIUS"
+             return <tuple> { <q1>  {$q1}  </q1>, <sa>  {$sa}  </sa>, <spa>  {$spa}  </spa>, <spb>  {$spb}  </spb>, <spea>  {$spea}  </spea>, <spec>  {$spec}  </spec>} </tuple>,
+for $q2 in doc("j_caesar.xml")//ACT,
+             $sb in $q2//SCENE,
+             $spc in $sb//SPEAKER,
+             $spd in $sb//SPEAKER/text(),
+             $speb in $sb//SPEECH,
+             $sped in $sb//SPEECH
+             where $spd eq "FLAVIUS"
+             return <tuple> { <q2>  {$q2}  </q2>, <sb>  {$sb}  </sb>, <spc>  {$spc}  </spc>, <spd>  {$spd}  </spd>, <speb>  {$speb}  </speb>, <sped>  {$sped}  </sped>} </tuple>,
+             [sa,spa,spec,spea], [sb,spc,speb,sped] )
+return <result>{<title>{$tuple/sa/*/TITLE/text()}</title>,<speaker>{$tuple/spa/*/*}</speaker>}</result>
+
+forClause size: 1
+forClause size: 6
+forClause size: 6
+TEST
+tuple
+q1
+
+		ACT I
+		
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+	
+sa
+
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+spa
+FLAVIUS
+spb
+FLAVIUS
+spea
+
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+spec
+
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+tuple
+q1
+
+		ACT I
+		
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+	
+sa
+
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+spa
+FLAVIUS
+spb
+FLAVIUS
+spea
+
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+spec
+
+				First Commoner
+				Why, sir, a carpenter.
+			
+tuple
+q1
+
+		ACT I
+		
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+	
+sa
+
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+spa
+FLAVIUS
+spb
+FLAVIUS
+spea
+
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+spec
+
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+tuple
+q1
+
+		ACT I
+		
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+	
+sa
+
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+spa
+FLAVIUS
+spb
+FLAVIUS
+spea
+
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+spec
+
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+tuple
+q1
+
+		ACT I
+		
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+	
+sa
+
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+spa
+FLAVIUS
+spb
+FLAVIUS
+spea
+
+				First Commoner
+				Why, sir, a carpenter.
+			
+spec
+
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+tuple
+q1
+
+		ACT I
+		
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+	
+sa
+
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+spa
+FLAVIUS
+spb
+FLAVIUS
+spea
+
+				First Commoner
+				Why, sir, a carpenter.
+			
+spec
+
+				First Commoner
+				Why, sir, a carpenter.
+			
+tuple
+q1
+
+		ACT I
+		
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+	
+sa
+
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+spa
+FLAVIUS
+spb
+FLAVIUS
+spea
+
+				First Commoner
+				Why, sir, a carpenter.
+			
+spec
+
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+tuple
+q1
+
+		ACT I
+		
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+	
+sa
+
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+spa
+FLAVIUS
+spb
+FLAVIUS
+spea
+
+				First Commoner
+				Why, sir, a carpenter.
+			
+spec
+
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+tuple
+q1
+
+		ACT I
+		
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+	
+sa
+
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+spa
+FLAVIUS
+spb
+FLAVIUS
+spea
+
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+spec
+
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+tuple
+q1
+
+		ACT I
+		
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+	
+sa
+
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+spa
+FLAVIUS
+spb
+FLAVIUS
+spea
+
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+spec
+
+				First Commoner
+				Why, sir, a carpenter.
+			
+tuple
+q1
+
+		ACT I
+		
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+	
+sa
+
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+spa
+FLAVIUS
+spb
+FLAVIUS
+spea
+
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+spec
+
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+tuple
+q1
+
+		ACT I
+		
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+	
+sa
+
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+spa
+FLAVIUS
+spb
+FLAVIUS
+spea
+
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+spec
+
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+tuple
+q1
+
+		ACT I
+		
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+	
+sa
+
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+spa
+FLAVIUS
+spb
+FLAVIUS
+spea
+
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+spec
+
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+tuple
+q1
+
+		ACT I
+		
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+	
+sa
+
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+spa
+FLAVIUS
+spb
+FLAVIUS
+spea
+
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+spec
+
+				First Commoner
+				Why, sir, a carpenter.
+			
+tuple
+q1
+
+		ACT I
+		
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+	
+sa
+
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+spa
+FLAVIUS
+spb
+FLAVIUS
+spea
+
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+spec
+
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+tuple
+q1
+
+		ACT I
+		
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+	
+sa
+
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+spa
+FLAVIUS
+spb
+FLAVIUS
+spea
+
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+spec
+
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+tuple
+q1
+
+		ACT I
+		
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+	
+sa
+
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+spa
+First Commoner
+spb
+FLAVIUS
+spea
+
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+spec
+
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+tuple
+q1
+
+		ACT I
+		
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+	
+sa
+
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+spa
+First Commoner
+spb
+FLAVIUS
+spea
+
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+spec
+
+				First Commoner
+				Why, sir, a carpenter.
+			
+tuple
+q1
+
+		ACT I
+		
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+	
+sa
+
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+spa
+First Commoner
+spb
+FLAVIUS
+spea
+
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+spec
+
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+tuple
+q1
+
+		ACT I
+		
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+	
+sa
+
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+spa
+First Commoner
+spb
+FLAVIUS
+spea
+
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+spec
+
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+tuple
+q1
+
+		ACT I
+		
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+	
+sa
+
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+spa
+First Commoner
+spb
+FLAVIUS
+spea
+
+				First Commoner
+				Why, sir, a carpenter.
+			
+spec
+
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+tuple
+q1
+
+		ACT I
+		
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+	
+sa
+
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+spa
+First Commoner
+spb
+FLAVIUS
+spea
+
+				First Commoner
+				Why, sir, a carpenter.
+			
+spec
+
+				First Commoner
+				Why, sir, a carpenter.
+			
+tuple
+q1
+
+		ACT I
+		
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+	
+sa
+
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+spa
+First Commoner
+spb
+FLAVIUS
+spea
+
+				First Commoner
+				Why, sir, a carpenter.
+			
+spec
+
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+tuple
+q1
+
+		ACT I
+		
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+	
+sa
+
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+spa
+First Commoner
+spb
+FLAVIUS
+spea
+
+				First Commoner
+				Why, sir, a carpenter.
+			
+spec
+
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+tuple
+q1
+
+		ACT I
+		
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+	
+sa
+
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+spa
+First Commoner
+spb
+FLAVIUS
+spea
+
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+spec
+
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+tuple
+q1
+
+		ACT I
+		
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+	
+sa
+
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+spa
+First Commoner
+spb
+FLAVIUS
+spea
+
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+spec
+
+				First Commoner
+				Why, sir, a carpenter.
+			
+tuple
+q1
+
+		ACT I
+		
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+	
+sa
+
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+spa
+First Commoner
+spb
+FLAVIUS
+spea
+
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+spec
+
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+tuple
+q1
+
+		ACT I
+		
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+	
+sa
+
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+spa
+First Commoner
+spb
+FLAVIUS
+spea
+
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+spec
+
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+tuple
+q1
+
+		ACT I
+		
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+	
+sa
+
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+spa
+First Commoner
+spb
+FLAVIUS
+spea
+
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+spec
+
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+tuple
+q1
+
+		ACT I
+		
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+	
+sa
+
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+spa
+First Commoner
+spb
+FLAVIUS
+spea
+
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+spec
+
+				First Commoner
+				Why, sir, a carpenter.
+			
+tuple
+q1
+
+		ACT I
+		
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+	
+sa
+
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+spa
+First Commoner
+spb
+FLAVIUS
+spea
+
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+spec
+
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+tuple
+q1
+
+		ACT I
+		
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+	
+sa
+
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+spa
+First Commoner
+spb
+FLAVIUS
+spea
+
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+spec
+
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+tuple
+q1
+
+		ACT I
+		
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+	
+sa
+
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+spa
+MARULLUS
+spb
+FLAVIUS
+spea
+
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+spec
+
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+tuple
+q1
+
+		ACT I
+		
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+	
+sa
+
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+spa
+MARULLUS
+spb
+FLAVIUS
+spea
+
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+spec
+
+				First Commoner
+				Why, sir, a carpenter.
+			
+tuple
+q1
+
+		ACT I
+		
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+	
+sa
+
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+spa
+MARULLUS
+spb
+FLAVIUS
+spea
+
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+spec
+
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+tuple
+q1
+
+		ACT I
+		
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+	
+sa
+
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+spa
+MARULLUS
+spb
+FLAVIUS
+spea
+
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+spec
+
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+tuple
+q1
+
+		ACT I
+		
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+	
+sa
+
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+spa
+MARULLUS
+spb
+FLAVIUS
+spea
+
+				First Commoner
+				Why, sir, a carpenter.
+			
+spec
+
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+tuple
+q1
+
+		ACT I
+		
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+	
+sa
+
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+spa
+MARULLUS
+spb
+FLAVIUS
+spea
+
+				First Commoner
+				Why, sir, a carpenter.
+			
+spec
+
+				First Commoner
+				Why, sir, a carpenter.
+			
+tuple
+q1
+
+		ACT I
+		
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+	
+sa
+
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+spa
+MARULLUS
+spb
+FLAVIUS
+spea
+
+				First Commoner
+				Why, sir, a carpenter.
+			
+spec
+
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+tuple
+q1
+
+		ACT I
+		
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+	
+sa
+
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+spa
+MARULLUS
+spb
+FLAVIUS
+spea
+
+				First Commoner
+				Why, sir, a carpenter.
+			
+spec
+
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+tuple
+q1
+
+		ACT I
+		
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+	
+sa
+
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+spa
+MARULLUS
+spb
+FLAVIUS
+spea
+
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+spec
+
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+tuple
+q1
+
+		ACT I
+		
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+	
+sa
+
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+spa
+MARULLUS
+spb
+FLAVIUS
+spea
+
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+spec
+
+				First Commoner
+				Why, sir, a carpenter.
+			
+tuple
+q1
+
+		ACT I
+		
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+	
+sa
+
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+spa
+MARULLUS
+spb
+FLAVIUS
+spea
+
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+spec
+
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+tuple
+q1
+
+		ACT I
+		
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+	
+sa
+
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+spa
+MARULLUS
+spb
+FLAVIUS
+spea
+
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+spec
+
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+tuple
+q1
+
+		ACT I
+		
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+	
+sa
+
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+spa
+MARULLUS
+spb
+FLAVIUS
+spea
+
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+spec
+
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+tuple
+q1
+
+		ACT I
+		
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+	
+sa
+
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+spa
+MARULLUS
+spb
+FLAVIUS
+spea
+
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+spec
+
+				First Commoner
+				Why, sir, a carpenter.
+			
+tuple
+q1
+
+		ACT I
+		
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+	
+sa
+
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+spa
+MARULLUS
+spb
+FLAVIUS
+spea
+
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+spec
+
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+tuple
+q1
+
+		ACT I
+		
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+	
+sa
+
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+spa
+MARULLUS
+spb
+FLAVIUS
+spea
+
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+spec
+
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+tuple
+q1
+
+		ACT I
+		
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+	
+sa
+
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+spa
+MARULLUS
+spb
+FLAVIUS
+spea
+
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+spec
+
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+tuple
+q1
+
+		ACT I
+		
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+	
+sa
+
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+spa
+MARULLUS
+spb
+FLAVIUS
+spea
+
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+spec
+
+				First Commoner
+				Why, sir, a carpenter.
+			
+tuple
+q1
+
+		ACT I
+		
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+	
+sa
+
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+spa
+MARULLUS
+spb
+FLAVIUS
+spea
+
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+spec
+
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+tuple
+q1
+
+		ACT I
+		
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+	
+sa
+
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+spa
+MARULLUS
+spb
+FLAVIUS
+spea
+
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+spec
+
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+tuple
+q1
+
+		ACT I
+		
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+	
+sa
+
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+spa
+MARULLUS
+spb
+FLAVIUS
+spea
+
+				First Commoner
+				Why, sir, a carpenter.
+			
+spec
+
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+tuple
+q1
+
+		ACT I
+		
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+	
+sa
+
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+spa
+MARULLUS
+spb
+FLAVIUS
+spea
+
+				First Commoner
+				Why, sir, a carpenter.
+			
+spec
+
+				First Commoner
+				Why, sir, a carpenter.
+			
+tuple
+q1
+
+		ACT I
+		
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+	
+sa
+
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+spa
+MARULLUS
+spb
+FLAVIUS
+spea
+
+				First Commoner
+				Why, sir, a carpenter.
+			
+spec
+
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+tuple
+q1
+
+		ACT I
+		
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+	
+sa
+
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+spa
+MARULLUS
+spb
+FLAVIUS
+spea
+
+				First Commoner
+				Why, sir, a carpenter.
+			
+spec
+
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+tuple
+q1
+
+		ACT I
+		
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+	
+sa
+
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+spa
+MARULLUS
+spb
+FLAVIUS
+spea
+
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+spec
+
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+tuple
+q1
+
+		ACT I
+		
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+	
+sa
+
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+spa
+MARULLUS
+spb
+FLAVIUS
+spea
+
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+spec
+
+				First Commoner
+				Why, sir, a carpenter.
+			
+tuple
+q1
+
+		ACT I
+		
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+	
+sa
+
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+spa
+MARULLUS
+spb
+FLAVIUS
+spea
+
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+spec
+
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+tuple
+q1
+
+		ACT I
+		
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+	
+sa
+
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+spa
+MARULLUS
+spb
+FLAVIUS
+spea
+
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+spec
+
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+tuple
+q1
+
+		ACT I
+		
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+	
+sa
+
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+spa
+MARULLUS
+spb
+FLAVIUS
+spea
+
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+spec
+
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+tuple
+q1
+
+		ACT I
+		
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+	
+sa
+
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+spa
+MARULLUS
+spb
+FLAVIUS
+spea
+
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+spec
+
+				First Commoner
+				Why, sir, a carpenter.
+			
+tuple
+q1
+
+		ACT I
+		
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+	
+sa
+
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+spa
+MARULLUS
+spb
+FLAVIUS
+spea
+
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+spec
+
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+tuple
+q1
+
+		ACT I
+		
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+	
+sa
+
+			SCENE I. Rome. A street.
+			Enter FLAVIUS, MARULLUS, and certain Commoners
+			
+				FLAVIUS
+				Hence! home, you idle creatures get you home:
+				Is this a holiday? what! know you not,
+				Being mechanical, you ought not walk
+				Upon a labouring day without the sign
+				Of your profession? Speak, what trade art thou?
+			
+			
+				First Commoner
+				Why, sir, a carpenter.
+			
+			
+				MARULLUS
+				Where is thy leather apron and thy rule?
+				What dost thou with thy best apparel on?
+				You, sir, what trade are you?
+			
+			
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+			Exeunt
+		
+spa
+MARULLUS
+spb
+FLAVIUS
+spea
+
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+spec
+
+				MARULLUS
+				But what trade art thou? answer me directly.
+			
+outputsize: 96

@@ -57,7 +57,7 @@ public class XQueryOpt {
         ParseTree tree = parser.xq();
         MyXQueryVisitor visitor_opt = new MyXQueryVisitor();
         ArrayList<Node> output_l  = (ArrayList<Node>) visitor_opt.visit(tree);
-        System.out.println("outputsize: " + output_l.size());
+//        System.out.println("outputsize: " + output_l.size());
             //idx++;
 
             /*output the result to terminal while testing
@@ -78,7 +78,7 @@ public class XQueryOpt {
         for (Node n : output_l) {
 //            System.out.println("HERE");
             String curOutput = convertNodeToString(n);
-//            System.out.print(curOutput);
+            System.out.print(curOutput);
             fileOutputStream.write(curOutput.getBytes());
         }
 
