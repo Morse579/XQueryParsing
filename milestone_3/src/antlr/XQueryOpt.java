@@ -78,7 +78,7 @@ public class XQueryOpt {
         for (Node n : output_l) {
 //            System.out.println("HERE");
             String curOutput = convertNodeToString(n);
-            System.out.print(curOutput);
+//            System.out.print(curOutput);
             fileOutputStream.write(curOutput.getBytes());
         }
 

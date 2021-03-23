@@ -319,14 +319,16 @@ public class Optimized {
 //                System.out.println("case 1 or 2:");
                 //two cases:
                 //case1: tb,<price-review>{$tuple    -->    tb/*,  <price-review>{$tuple
-                //case2: a/price }</price-review>,<price>{$tuple   -->  a/price }</price-review>    <price>{$tuple
-                if (returnParts[i].contains("}")) {
+                //case2.1: a/price }</price-review>,<price>{$tuple   -->  a/price }</price-review>    <price>{$tuple
+                //case2.2: a/*}</speaker> }</result> need to be converted to a/*/*}</speaker> }</result>
+                if (returnParts[i].contains("/")) {
                     //case2:
 //                    System.out.println("case 2:");
-                    working = cur2;
+                    working = cur3;
                     //working =   a    price }</price-review>,<price>{$tuple
+                    working[0] += "/*/";
                 }
-                working[0] += "/*,";
+
             }
             else {
                 //two cases of being the last component:
