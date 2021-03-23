@@ -277,7 +277,7 @@ public class Optimized {
         //<price-review>{ $tuple/a/*/price }</price-review>,
         //<price>{ $tuple/b/*/price }</price> }</book-with-prices>
         String originalReturn = returnClause_ctx.xq().getText();
-<<<<<<< HEAD
+//<<<<<<< HEAD
         //System.out.println("Original return:" + originalReturn);
         String[] returnParts = originalReturn.split("\\$");
         // result after split:
@@ -318,54 +318,37 @@ public class Optimized {
             String[] cur3 = returnParts[i].split("/", 2);
             String[] working = cur1;
 
-            if (working.length > 1) {
-//                System.out.println("case 1 or 2:");
-                //two cases:
-                //case1: tb,<price-review>{$tuple    -->    tb/*,  <price-review>{$tuple
-                //case2.1: a/price }</price-review>,<price>{$tuple   -->  a/price }</price-review>    <price>{$tuple
-                //case2.2: a/*}</speaker> }</result> need to be converted to a/*/*}</speaker> }</result>
-                if (returnParts[i].contains("/")) {
-                    //case2:
-//                    System.out.println("case 2:");
+
+//            System.out.println("case 1 or 2:");
+            //two cases:
+            //case1: tb,<price-review>{$tuple    -->    tb/*,  <price-review>{$tuple
+            //case2.1: a/price }</price-review>,<price>{$tuple   -->  a/price }</price-review>    <price>{$tuple
+            //case2.2: a/*}</speaker> }</result> need to be converted to a/*/*}</speaker> }</result>
+            //case2.3: a}</result>
+            if (returnParts[i].contains("/")) {
+                String tmp = returnParts[i];
+                if(tmp.split("/").length == 2){
+                    //case 2.3
+                    working = cur2;
+                    //working =   a    price }</price-review>,<price>{$tuple
+                    working[0] += "/*}";
+                }
+                else {
+                    //case2.1 && 2.2:
                     working = cur3;
                     //working =   a    price }</price-review>,<price>{$tuple
                     working[0] += "/*/";
                 }
-
             }
-            else {
-                //two cases of being the last component:
-                //1: a/TITLE/text()}</act>
-                //2: b3} </triplet>
 
-//                System.out.println("case 3:");
-//                String[] temp_chek_slash = cur3[1].split("/");
-                if(cur3[1].split("/").length > 2){
-                    //there are more "/" after the key
-                    //sub case 1:
-                    working = cur3;
-                    working[0] += "/*/";
-                }
-                else{
-                    working = cur2;
-                    working[0] += "/*}";
-                }
 
-            }
+
 
             returnRefrom += working[0] + working[1];
 
         }
         returnRefrom += "\n";
         result += returnRefrom;
-=======
-        String returnReform = originalReturn.replaceAll("(\\$[a-zA-Z0-9]*)", "$1/*");
-        returnReform = returnReform.replaceAll("\\$", "\\$tuple/");
-        returnReform += "\n";
-        returnReform = "return " +returnReform;
-        result += returnReform;
-        
->>>>>>> 2fab6c36debcb4f90b4fcb3e5eb7fb7c4c5881d2
         System.out.println(result);
         return result;
     }

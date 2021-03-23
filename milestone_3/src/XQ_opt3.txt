@@ -1,1 +1,15 @@
-for $q2 in doc("j_caesar.xml")//ACT,$sbin$q2//SCENE,$spcin$sb//SPEAKER,$spdin$sb//SPEAKER/text(),$spebin$sb//SPEECH,$spedin$sb//SPEECHwhere$spdeq"FLAVIUS"return<tuple>{<q2>{$q2}</q2>,<sb>{$sb}</sb>,<spc>{$spc}</spc>,<spd>{$spd}</spd>,<speb>{$speb}</speb>,<sped>{$sped}</sped>}</tuple>
+for $q2 in doc("j_caesar.xml")//ACT,
+$sb in $q2//SCENE,
+$spc in $sb//SPEAKER,
+$spd in $sb//SPEAKER/text(),
+$speb in $sb//SPEECH,
+$sped in $sb//SPEECH
+where $spd eq "FLAVIUS"
+return<tuple>{
+<q2>{$q2}</q2>,
+<sb>{$sb}</sb>,
+<spc>{$spc}</spc>,
+<spd>{$spd}</spd>,
+<speb>{$speb}</speb>,
+<sped>{$sped}</sped>
+}</tuple>

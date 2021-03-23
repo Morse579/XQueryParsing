@@ -483,7 +483,7 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 	//HELPER FUNCTIONS
 
 	public Node makeNode(String tagName, List<Node> list){
-		//System.out.println("call makeNode");
+//		System.out.println("call makeNode");
 
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder builder = null;
@@ -495,12 +495,12 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 		Document doc = builder.newDocument();
 
 		Node newElem = doc.createElement(tagName);
-		//System.out.println("list size: " + list.size());
+//		System.out.println("list size: " + list.size());
 		for (Node node : list) {
 			Node newNode = doc.importNode(node, true);
 			newElem.appendChild(newNode);
 		}
-		//System.out.println("END makeNode");
+//		System.out.println("END makeNode");
 		return newElem;
 	}
 	
@@ -546,9 +546,9 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 		if (ctx.forClause()!= null && counter != ctx.forClause().var().size()){
 
 			String var = ctx.forClause().var(counter).getText();
-			System.out.println("var:" + var);
+//			System.out.println("var:" + var);
 			ArrayList<Node> nodes = visit(ctx.forClause().xq(counter));
-			System.out.println("nodes number: " + nodes.size());
+//			System.out.println("nodes number: " + nodes.size());
 			for (Node n : nodes){
 				ArrayList<Node> node_list = new ArrayList<>();
 				node_list.add(n);
@@ -592,7 +592,7 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 	@Override
 	public ArrayList<Node> visitXqFLWR(XQueryParser.XqFLWRContext ctx) {
 
-		System.out.println("call visitXqFLWR");
+//		System.out.println("call visitXqFLWR");
 		XQueryParser.XqFLWRContext original_ctx = ctx;
 		//System.out.println("END rewrite process 1");
 		ArrayList<Node> res = new ArrayList<>();
@@ -617,7 +617,7 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 			if (re == "") {
 				needRewrite = false;
 
-				System.out.println("RE = EMPTY! no need to rewrite! / has been rewritten!");
+//				System.out.println("RE = EMPTY! no need to rewrite! / has been rewritten!");
 				ctx = original_ctx;
 //				System.out.println("forClause size: " + ctx.forClause().var().size());
 //				if(ctx.forClause().var().size() == 2) {
@@ -630,13 +630,13 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 				//ArrayList<Node> res = new ArrayList<>();
 
 				res = XQueryOpt.evalRewritten(re);
-				//System.out.println("REWRITE:\n" + re);
+
 			}
 			//System.out.println("END rewrite process");
 		}
 		else {
-			System.out.println("no need to rewrite! / has been rewritten!");
-			System.out.println("forClause size: " + ctx.forClause().var().size());
+//			System.out.println("no need to rewrite! / has been rewritten!");
+//			System.out.println("forClause size: " + ctx.forClause().var().size());
 			//if(ctx.forClause().var().size() == 2) {
 			//	System.out.println("var0: \n"+ ctx.forClause().var(0).getText() + "\n" + "xq0:\n" + ctx.forClause().xq(0).getText());
 			//	System.out.println("var1: \n"+ ctx.forClause().var(1).getText() + "\n" + "xq1:\n" + ctx.forClause().xq(1).getText());
@@ -830,15 +830,15 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 
 	@Override
 	public ArrayList<Node> visitJoinClause(XQueryParser.JoinClauseContext ctx) {
-		System.out.println("call visitJoinClause");
-		System.out.println("xq0:\n" + ctx.xq(0).getText());
-		System.out.println("xq1:\n" + ctx.xq(1).getText());
+//		System.out.println("call visitJoinClause");
+//		System.out.println("xq0:\n" + ctx.xq(0).getText());
+//		System.out.println("xq1:\n" + ctx.xq(1).getText());
 
 		ArrayList<Node> res0 = visit(ctx.xq(0));
 		ArrayList<Node> res1 = visit(ctx.xq(1));
 		//should return size 1 and size 1 because the returned values should be two tuples
-		System.out.println("visit first xq results in # nodes: " + res0.size());
-		System.out.println("visit second xq results in # nodes: " + res1.size());
+//		System.out.println("visit first xq results in # nodes: " + res0.size());
+//		System.out.println("visit second xq results in # nodes: " + res1.size());
 
 		//test
 		/*
@@ -864,7 +864,7 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 			res1_arr[i] = ctx.attNames(1).tagName(i).getText();
 		}
 
-		ArrayList<Node> result = newJoin(res0, res1, res0_arr, res1_arr);
+		ArrayList<Node> result = innerJoin(res0, res1, res0_arr, res1_arr);
 //		Map<String, ArrayList<Node>> hashJoinMap0 = formMap(res0_arr, res0);
 //		ArrayList<Node> result = hashJoin(hashJoinMap0, res0_arr, res1_arr, res0, res1);
 		currentNodes = result;
@@ -872,98 +872,162 @@ public class MyXQueryVisitor extends XQueryBaseVisitor<ArrayList<Node>> {
 		return result;
 	}
 
-	public ArrayList<Node> newJoin (ArrayList<Node> res0, ArrayList<Node> res1, String [] tags0, String [] tags1){
-		System.out.println("ENTER NEWJOIN");
+//	public ArrayList<Node> newJoin (ArrayList<Node> res0, ArrayList<Node> res1, String [] tags0, String [] tags1){
+//		System.out.println("ENTER NEWJOIN");
+//		ArrayList<Node> result = new ArrayList<>();
+//
+//		for(int i = 0; i< tags0.length; i++){
+//			String target0 = tags0[i];
+//			String target1 = tags1[i];
+//			System.out.println("target0: "+target0);
+//			System.out.println("target1: "+target1);
+//			Node targetNode0 = null;
+//			Node targetNode1 = null;
+//			ArrayList<Node> evalRes0 = new ArrayList<Node>();
+//			ArrayList<Node> evalRes1 = new ArrayList<Node>();
+//
+//			for(int t0 = 0; t0 < res0.size(); t0++){
+//				Node tuple0 = res0.get(t0);
+//				ArrayList<Node> children0 = getChildren(tuple0);
+//				for(Node c0 : children0) {
+////					System.out.println("child0 node name: " + c0.getNodeName());
+//					if (c0.getNodeName().compareTo(target0) == 0) {
+////						System.out.println("FOUND");
+//						//we need to compare this target node with the other target node
+//						targetNode0 = c0;
+//						break;
+//					}
+//				}
+//
+//				String content0  = targetNode0.getTextContent();
+//
+//				for(int t1 = 0; t1 < res1.size(); t1++){
+//					Node tuple1 = res1.get(t1);
+//					ArrayList<Node> children1 = getChildren(tuple1);
+//					for(Node c1 : children1) {
+////						System.out.println("child1 node name: " + c1.getNodeName());
+//						if (c1.getNodeName().compareTo(target1) == 0) {
+//							//we need to compare this target node with the other target node
+//							targetNode1 = c1;
+//							break;
+//						}
+//					}
+//
+//					String content1 = targetNode1.getTextContent();
+////					System.out.println("comparison result: " + content0.compareTo(content1));
+//					if(content0.compareTo(content1) == 0 && i == tags0.length - 1){
+//
+//						//join tuple0 and tuple1
+////						System.out.println("satisfy all conditions");
+////						System.out.println("i: " + i);
+//						//System.out.println("tags0.length: " + tags0.length);
+//						ArrayList<Node> temp = new ArrayList<>();
+//						temp.addAll(children0);
+//						temp.addAll(children1);
+//						Node tempNode = null;
+//						if(temp.size() != 0)
+//							tempNode = makeNode("tuple",temp);
+//						//System.out.println("end TUPLE");
+////						//!!Check output node
+//						//System.out.println("print the node that's added to result");
+//						//System.out.println(tempNode.getNodeName());
+////						ArrayList<Node> tempNodez_children = getChildren(tempNode);
+////						for(int z = 0; z < tempNodez_children.size(); z++){
+////							System.out.println("  " + tempNodez_children.get(z).getNodeName());
+////						}
+//						if(tempNode != null)
+//							result.add(tempNode);
+//					}
+//					else if(content0.compareTo(content1) == 0 && i + 1 < tags0.length){
+////						System.out.println("haven't check all conditions yet");
+//						//tuple 0 and tuple1 temporarily satisfy the condition
+//						evalRes0.add(tuple0);
+//						evalRes1.add(tuple1);
+////						break;
+//					}
+//					else{
+////						//break out of the loop of checking tuple1 because tuples fail to pass the filter
+////						//continue to check if next tuple in res1 can be join with the tuple in res0
+////
+//						break;
+//					}
+//
+//				}
+//
+//			}
+//			if(i + 1 != tags0.length - 1){
+//				res0 = evalRes0;
+//				res1 = evalRes1;
+//				System.out.println("# of tuples0 that satisfies condition i: " + res0.size());
+//				System.out.println("# of tuples1 that satisfies condition i: " + res1.size());
+//				System.out.println("check next condition");
+//			}
+//
+//
+//
+//		}
+//		//System.out.println("END NEWJOIN");
+//		return result;
+//	}
+
+	private ArrayList<Node> merge(ArrayList<Node> leftList, Node right){
 		ArrayList<Node> result = new ArrayList<>();
+		for (Node left: leftList){
+			ArrayList<Node> tmp = getChildren(left);
+			tmp.addAll(getChildren(right));
+			result.add(makeNode("tuple", tmp));
+		}
+		return result;
+	}
 
-		for(int i = 0; i< tags0.length; i++){
-			String target0 = tags0[i];
-			String target1 = tags1[i];
-			System.out.println("target0: "+target0);
-			System.out.println("target1: "+target1);
-			Node targetNode0 = null;
-			Node targetNode1 = null;
-			ArrayList<Node> evalRes0 = new ArrayList<Node>();
-			ArrayList<Node> evalRes1 = new ArrayList<Node>();
-
-			for(int t0 = 0; t0 < res0.size(); t0++){
-				Node tuple0 = res0.get(t0);
-				ArrayList<Node> children0 = getChildren(tuple0);
-				for(Node c0 : children0) {
-//					System.out.println("child0 node name: " + c0.getNodeName());
-					if (c0.getNodeName().compareTo(target0) == 0) {
-//						System.out.println("FOUND");
-						//we need to compare this target node with the other target node
-						targetNode0 = c0;
+	public ArrayList<Node> innerJoin (ArrayList<Node> res0, ArrayList<Node> res1, String [] tags0, String [] tags1){
+		//use inner join, only store data that satisfy the key
+		//first map node text content into node
+		HashMap<String, ArrayList<Node>> map0 = new HashMap<>();
+		for (Node tuple: res0){
+			ArrayList<Node> children = getChildren(tuple);
+			String key0 = "";//key == all text content of the nodes in filter
+			for (String target0: tags0) {
+				for (Node child: children){
+					if (target0.equals(child.getNodeName())) {
+						//key += child.getFirstChild().getTextContent();
+						key0 += child.getTextContent();
 						break;
 					}
 				}
-
-				String content0  = targetNode0.getTextContent();
-
-				for(int t1 = 0; t1 < res1.size(); t1++){
-					Node tuple1 = res1.get(t1);
-					ArrayList<Node> children1 = getChildren(tuple1);
-					for(Node c1 : children1) {
-//						System.out.println("child1 node name: " + c1.getNodeName());
-						if (c1.getNodeName().compareTo(target1) == 0) {
-							//we need to compare this target node with the other target node
-							targetNode1 = c1;
-							break;
-						}
-					}
-
-					String content1 = targetNode1.getTextContent();
-//					System.out.println("comparison result: " + content0.compareTo(content1));
-					if(content0.compareTo(content1) == 0 && i == tags0.length - 1){
-
-						//join tuple0 and tuple1
-//						System.out.println("satisfy all conditions");
-//						System.out.println("i: " + i);
-						//System.out.println("tags0.length: " + tags0.length);
-						ArrayList<Node> temp = new ArrayList<>();
-						temp.addAll(children0);
-						temp.addAll(children1);
-						Node tempNode = makeNode("tuple",temp);
-						//System.out.println("end TUPLE");
-//						//!!Check output node
-						//System.out.println("print the node that's added to result");
-						//System.out.println(tempNode.getNodeName());
-//						ArrayList<Node> tempNodez_children = getChildren(tempNode);
-//						for(int z = 0; z < tempNodez_children.size(); z++){
-//							System.out.println("  " + tempNodez_children.get(z).getNodeName());
-//						}
-
-						result.add(tempNode);
-					}
-					else if(content0.compareTo(content1) == 0 && i + 1 < tags0.length){
-//						System.out.println("haven't check all conditions yet");
-						//tuple 0 and tuple1 temporarily satisfy the condition
-						evalRes0.add(tuple0);
-						evalRes1.add(tuple1);
-//						break;
-					}
-//					else{
-//						//break out of the loop of checking tuple1 because tuples fail to pass the filter
-//						//continue to check if next tuple in res1 can be join with the tuple in res0
-//
-//						continue;
-//					}
-
-				}
-
 			}
-			if(i + 1 != tags0.length - 1){
-				res0 = evalRes0;
-				res1 = evalRes1;
-				System.out.println("# of tuples0 that satisfies condition i: " + res0.size());
-				System.out.println("# of tuples1 that satisfies condition i: " + res1.size());
-				System.out.println("check next condition");
+			if (map0.containsKey(key0)) {
+				ArrayList<Node> oldVals = map0.get(key0);
+				oldVals.add(tuple);
+				map0.replace(key0, oldVals);
 			}
-
+			else{
+				ArrayList<Node> tuple0 = new ArrayList<>();
+				tuple0.add(tuple);
+				map0.put(key0, tuple0);
+			}
 		}
-		//System.out.println("END NEWJOIN");
+
+		ArrayList<Node> result = new ArrayList<>();
+		for (Node tuple: res1){
+			ArrayList<Node> children = getChildren(tuple);
+			String key1 = "";
+			for (String target1: tags1) {
+				for (Node child: children){
+					if (target1.equals(child.getNodeName())) {
+						//key += child.getFirstChild().getTextContent();
+						key1 += child.getTextContent();
+					}
+				}
+			}
+			if (map0.containsKey(key1)) {
+				//these two tuples' target nodes have the same text content
+				ArrayList<Node> merged = merge(map0.get(key1), tuple);
+				result.addAll(merged);
+			}
+		}
 		return result;
+
 	}
 
 

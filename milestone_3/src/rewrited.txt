@@ -1,5 +1,4 @@
 for $tuple in join (
-<<<<<<< HEAD
 for $q1 in doc("j_caesar.xml")//ACT,
              $sa in $q1//SCENE,
              $spa in $sa//SPEAKER,
@@ -18,14 +17,3 @@ for $q2 in doc("j_caesar.xml")//ACT,
              return <tuple> { <q2>  {$q2}  </q2>, <sb>  {$sb}  </sb>, <spc>  {$spc}  </spc>, <spd>  {$spd}  </spd>, <speb>  {$speb}  </speb>, <sped>  {$sped}  </sped>} </tuple>,
              [sa,spa,spec,spea], [sb,spc,speb,sped] )
 return <result>{<title>{$tuple/sa/*/TITLE/text()}</title>,<speaker>{$tuple/spa/*/*}</speaker>}</result>
-=======
-for $s in doc("j_caesar.xml")//SPEAKER,
-             $stxt in $s/text()
-             where $stxt eq "CAESAR"
-             return <tuple> { <s>  {$s}  </s>, <stxt>  {$stxt}  </stxt>} </tuple>,
-for $a in doc("j_caesar.xml")//ACT,
-             $sp in $a//SPEAKER
-             return <tuple> { <a>  {$a}  </a>, <sp>  {$sp}  </sp>} </tuple>,
-             [s], [sp] )
-return <act>{$tuple/a/*/TITLE/text()}</act>
->>>>>>> 2fab6c36debcb4f90b4fcb3e5eb7fb7c4c5881d2
